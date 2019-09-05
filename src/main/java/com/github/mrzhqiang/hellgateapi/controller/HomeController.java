@@ -1,6 +1,8 @@
 package com.github.mrzhqiang.hellgateapi.controller;
 
+import com.github.mrzhqiang.hellgateapi.model.Account;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -9,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-  @RequestMapping("/")
-  public String index() {
-    return "Hello World";
+  @RequestMapping(method = RequestMethod.POST, value = "/api/register")
+  public Account index() {
+    Account account = new Account();
+    account.setUsername("admin");
+    account.setPassword("123456");
+    return account;
   }
 }
