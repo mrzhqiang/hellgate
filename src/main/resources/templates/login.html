@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>登陆</title>
+</head>
+<body>
+<div th:if="${param.error}">
+  无效的用户名或密码
+</div>
+<div th:if="${param.logout}">
+  你已经登出账号
+</div>
+<form method="post" th:action="@{/login}">
+  <div><label>用户名：<input name="username" type="text"></label></div>
+  <div><label>密码：<input name="password" type="password"></label></div>
+  <div><input type="submit" value="登陆"></div>
+</form>
+</body>
+</html>

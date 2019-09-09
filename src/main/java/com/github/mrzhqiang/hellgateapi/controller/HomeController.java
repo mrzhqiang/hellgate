@@ -11,11 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-  @RequestMapping(method = RequestMethod.POST, value = "/api/register")
+  @RequestMapping("/")
   public Account index() {
     Account account = new Account();
     account.setUsername("admin");
     account.setPassword("123456");
     return account;
+  }
+
+  @RequestMapping(value = "/api/register", method = RequestMethod.POST)
+  public String register() {
+    return "ok";
   }
 }
