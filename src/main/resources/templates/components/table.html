@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div class="table-responsive" th:fragment="data(head,body)">
+    <table class="table table-bordered table-hover" id="dataTable">
+        <!--/*@thymesVar id="head" type=""*/-->
+        <thead th:insert="${head}"></thead>
+        <!--/*@thymesVar id="body" type=""*/-->
+        <tbody th:insert="${body}"></tbody>
+    </table>
+</div>
+
+</html>

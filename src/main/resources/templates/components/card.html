@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div class="card mb-3 w-100" th:fragment="content(header,body)">
+    <!--/*@thymesVar id="header" type=""*/-->
+    <div class="card-header" th:replace="${header}"></div>
+    <!--/*@thymesVar id="body" type=""*/-->
+    <div class="card-body" th:replace="${body}"></div>
+</div>
+
+</html>

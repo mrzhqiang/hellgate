@@ -1,21 +1,48 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
->
-<head>
-  <meta charset="UTF-8">
-  <title>登陆</title>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="components/header::bootstrap(~{::title},~{::link})">
+    <title>登录</title>
+    <link th:href="@{css/signin.css}" rel="stylesheet">
 </head>
-<body>
-<div th:if="${param.error}">
-  无效的用户名或密码
+
+<body class="text-center">
+<div class="container">
+    <div class="card card-login mx-auto mt-4">
+        <div class="card-header h3">中央服务管理系统</div>
+        <div class="card-body">
+            <p class="mt-1 mb-1 text-center text-danger" th:if="${param.error}">无效的账号或密码，请重试！</p>
+            <p class="mt-1 mb-1 text-center text-info" th:if="${param.logout}">您已退出登录！</p>
+            <form class="form-signin" method="post" th:action="@{/login}">
+                <!--<img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+                <!--<h1 class="h4 mb-3 font-weight-normal">请登录：</h1>-->
+                <label for="inputUsername" class="sr-only">账号</label>
+                <input type="text" id="inputUsername" name="username" class="form-control" placeholder="账号" required
+                       autofocus>
+                <br>
+                <label for="inputPassword" class="sr-only">密码</label>
+                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码"
+                       required>
+                <!--<div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>-->
+                <br>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+                <p class="copyright mt-5 mb-3 text-muted text-center">
+                    粤ICP备00000000号-1<br>
+                    Copyright &copy; 2020 - 2020<br>
+                    深圳小楼信息技术有限公司 版权所有<br>
+                </p>
+            </form>
+        </div>
+    </div>
 </div>
-<div th:if="${param.logout}">
-  你已经登出账号
-</div>
-<form method="post" th:action="@{/login}">
-  <div><label>用户名：<input name="username" type="text"></label></div>
-  <div><label>密码：<input name="password" type="password"></label></div>
-  <div><input type="submit" value="登陆"></div>
-</form>
+
+<script th:src="@{/webjars/popper.js/1.16.0/dist/popper.min.js}" type="module"></script>
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.1.3/dist/js/bootstrap.bundle.min.js}"></script>
 </body>
+
 </html>

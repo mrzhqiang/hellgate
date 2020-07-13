@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<ul class="sidebar navbar-nav" th:fragment="admin(index)">
+    <!--/*@thymesVar id="index" type=""*/-->
+    <li class="nav-item" th:class="${index} == 1 ? 'nav-item active' : 'nav-item'">
+        <a class="nav-link" href="#" th:href="@{/apps}">
+            <i class="fas fa-fw fa-mobile-alt"></i>
+            <span>应用</span>
+        </a>
+    </li>
+    <li class="nav-item" th:class="${index} == 2 ? 'nav-item active' : 'nav-item'">
+        <a class="nav-link" href="#" th:href="@{/domains}">
+            <i class="fas fa-fw fa-address-card"></i>
+            <span>域名</span>
+        </a>
+    </li>
+</ul>
+
+</html>

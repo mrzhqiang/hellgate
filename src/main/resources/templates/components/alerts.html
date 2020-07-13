@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div class="alert alert-info alert-dismissible fade show mt-3 mb-3" role="alert" th:fragment="info()"
+     th:if="${alertMessage} != null">
+    <!--/*@thymesVar id="alertMessage" type=""*/-->
+    <strong th:text="${alertMessage}">提示信息</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="alert alert-success alert-dismissible fade show mt-3 mb-3" role="alert" th:fragment="success()"
+     th:if="${alertMessage} != null">
+    <!--/*@thymesVar id="alertMessage" type=""*/-->
+    <strong th:text="${alertMessage}">成功信息</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="alert alert-warning alert-dismissible fade show mt-3 mb-3" role="alert" th:fragment="warning()"
+     th:if="${alertMessage} != null">
+    <!--/*@thymesVar id="alertMessage" type=""*/-->
+    <strong th:text="${alertMessage}">警告信息</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="alert alert-danger alert-dismissible fade show mt-3 mb-3" role="alert" th:fragment="danger()"
+     th:if="${alertMessage} != null">
+    <!--/*@thymesVar id="alertMessage" type=""*/-->
+    <strong th:text="${alertMessage}">危险信息</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+</html>

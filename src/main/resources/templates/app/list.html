@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="layout::admin(~{::#wrapper})">
+<div id="wrapper">
+    <!--/*@thymesVar id="index" type=""*/-->
+    <div th:replace="components/sidebar::admin(1)"></div>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin" th:href="@{/admin}">主页</a></li>
+                <li class="breadcrumb-item active">应用</li>
+            </ol>
+            <!--/*@thymesVar id="alertMessage" type=""*/-->
+            <div th:replace="components/alerts::success"></div>
+            <div th:replace="components/card::content(~{::#card-header},~{::#card-body})">
+                <div class="card-header" id="card-header">
+                    <i class="fas fa-fw fa-mobile-alt"></i>
+                    应用列表
+                </div>
+                <div class="card-body" id="card-body">
+                    <a class="btn btn-primary mb-3" href="#" th:href="@{/app}">创建应用</a>
+                    <div th:replace="components/table::data(~{::#table-head},~{::#table-body})">
+                        <tr id="table-head">
+                            <th scope="col">序号</th>
+                            <th scope="col">名称</th>
+                            <th scope="col">配置</th>
+                            <th scope="col">创建时间</th>
+                            <th scope="col">更新时间</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                        <!--/*@thymesVar id="domains" type="com.xiaolou.center.model.AppConfigModel"*/-->
+                        <tr id="table-body" th:each="app : ${apps}">
+                            <th scope="row">
+                                [[${app.id}]]
+                                <span class="badge badge-pill badge-success" th:if="${app.newest}">新</span>
+                            </th>
+                            <td th:text="${app.name}"></td>
+                            <td>
+                                <a class="btn btn-outline-info" data-toggle="collapse" href="#collapseConfig"
+                                   th:href="|#collapseConfig${app.id}|"
+                                   role="button" aria-expanded="false" aria-controls="collapseConfig">
+                                    查看详情
+                                </a>
+                                <div class="collapse" id="collapseConfig" th:id="|collapseConfig${app.id}|">
+                                    <div class="card card-body" th:utext="${app.config}"></div>
+                                </div>
+                            </td>
+                            <td th:text="${app.created}"></td>
+                            <td th:text="${app.updated}"></td>
+                            <td>
+                                <a class="btn btn-outline-info btn-sm" href="#"
+                                   th:href="@{|/app/${app.id}|}">编辑</a>
+                                <button type="button" class="btn btn-outline-danger btn-sm"
+                                        data-toggle="modal" data-target="#deleteModal"
+                                        th:data-uri="@{|/app/${app.id}|}"
+                                        th:data-name="${app.name}">删除
+                                </button>
+                            </td>
+                        </tr>
+                    </div>
+                </div>
+            </div>
+            <footer th:replace="components/footer::copyRight"></footer>
+        </div>
+    </div>
+    <div th:replace="components/modal::delete"></div>
+</div>
+</html>

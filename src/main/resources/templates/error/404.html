@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="layout::admin(~{::#wrapper})">
+<div id="wrapper">
+    <!--/*@thymesVar id="index" type=""*/-->
+    <div th:replace="components/sidebar::admin(0)"></div>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <h3>请求的资源未找到...</h3>
+            <p class="text-danger">[[${status}]] - [[${error}]]</p>
+            <p>请确认：[[${message}]]</p>
+            <p class="lead">
+                您可以：
+                <a href="javascript:history.back()">返回上一页</a>
+                ，或者
+                <a href="#" th:href="@{/}">回到主页</a>。</p>
+            <footer th:replace="components/footer::copyRight"></footer>
+        </div>
+    </div>
+</div>
+</html>

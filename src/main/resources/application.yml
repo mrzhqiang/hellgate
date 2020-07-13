@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: dev # prod dev
+
+
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true

@@ -11,13 +11,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
-  @Override public KeyGenerator keyGenerator() {
-    return (target, method, params) -> {
-      StringBuilder builder = new StringBuilder("hg:cache:");
-      for (Object param : params) {
-        builder.append(param.toString()).append(":");
-      }
-      return builder.toString();
-    };
-  }
+    @Override
+    public KeyGenerator keyGenerator() {
+        return (target, method, params) -> {
+            StringBuilder builder = new StringBuilder("hg:cache:");
+            for (Object param : params) {
+                builder.append(param.toString()).append(":");
+            }
+            return builder.toString();
+        };
+    }
 }
