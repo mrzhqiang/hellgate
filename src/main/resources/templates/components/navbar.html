@@ -1,15 +1,15 @@
-<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<nav class="navbar navbar-expand navbar-dark bg-dark static-top" th:fragment="admin">
-    <a class="navbar-brand mr-1" th:href="@{/admin}">中央服务管理系统</a>
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+<nav class="navbar navbar-expand navbar-dark bg-dark static-top" th:fragment="main">
+    <a class="navbar-brand mr-1" th:href="@{/}">工作流演示项目</a>
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle">
         <!--fas fa see: https://fontawesome.com-->
         <i class="fas fa-bars"></i>
     </button>
     <form method="post" action="#" th:action="@{/search}"
           class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <div class="input-group">
+            <!-- todo type from admin(type_value) can be group by xxx -->
             <input type="hidden" name="type" value="0">
             <input type="text" name="keyword" placeholder="输入关键字搜索" class="form-control" aria-label="Search"
                    aria-describedby="basic-addon2">
@@ -20,6 +20,7 @@
             </div>
         </div>
     </form>
+
     <ul class="navbar-nav ml-auto ml-md-0">
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -34,6 +35,7 @@
             </div>
         </li>
     </ul>
+
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

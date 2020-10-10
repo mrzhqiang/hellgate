@@ -1,0 +1,11 @@
+website:
+  author: "深圳市法本信息技术有限公司"
+  favicon: "/image/favicon.ico"
+  title: "积分商城后台"
+  copy-right:  粤ICP备xxxxxxxx号 Copyright &copy; 2020 - 2020 ${website.author} 版权所有
+  remember-me: true
+  ignore-path:
+    - /webjars/**
+    - /css/**
+    - /js/**
+    - /image/**

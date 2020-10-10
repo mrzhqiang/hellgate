@@ -1,0 +1,16 @@
+spring:
+  kaptcha:
+    enabled: true
+    config:
+      kaptcha:
+        border: "no"
+        image:
+          width: "150"
+          height: "40"
+        textproducer:
+          font:
+            color: "black"
+            size: "30"
+          char:
+            space: "5"
+    parameter: "kaptcha"

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="layout::admin(~{::#wrapper})">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="layout::main(~{::#wrapper})">
 <div id="wrapper">
-    <div th:replace="components/sidebar::admin(1)"></div>
+    <div th:replace="components/sidebar::main(1)"></div>
     <div id="content-wrapper">
         <div class="container-fluid">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/admin" th:href="@{/}">主页</a></li>
+                <li class="breadcrumb-item"><a href="/" th:href="@{/}">主页</a></li>
                 <li class="breadcrumb-item active">审核认证</li>
             </ol>
             <!--/*@thymesVar id="alertMessage" type=""*/-->
-            <div th:replace="components/alerts::success"></div>
+            <div th:replace="components/alert::success"></div>
             <div th:replace="components/card::content(~{::#card-header},~{::#card-body})">
                 <div class="card-header" id="card-header">
                     <i class="fas fa-fw fa-mobile-alt"></i>

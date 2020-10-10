@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="layout::home(~{::#wrapper})">
+<div id="wrapper">
+    <!--/*@thymesVar id="index" type=""*/-->
+    <div id="content-wrapper">
+        <div class="container">
+            <div th:replace="components/card::content(~{::#card-header},~{::#card-body})">
+                <div class="card-header" id="card-header">
+                    <i class="fas fa-fw fa-mobile-alt"></i>
+                    填写个人认证表单
+                </div>
+                <div class="card-body" id="card-body">
+                    <div th:replace="components/alerts::danger"></div>
+                    <form action="#" th:action="@{/person/authentication}" th:object="${identityForm}" method="post">
+                        <input type="hidden" name="userId" th:value="${#httpServletRequest.remoteUser}">
+                        <div class="form-row">
+                            <div class="col-md-2 mb-3">
+                                <label for="inputRealName">真实姓名</label>
+                                <input type="text" class="form-control" id="inputRealName"
+                                       th:field="*{realName}"
+                                       th:class="${#fields.hasErrors('realName')}?'form-control is-invalid':'form-control'"
+                                       aria-describedby="realNameHelp" required autofocus>
+                                <small id="realNameHelp" class="form-text text-muted">注意：填写的真实姓名必须和身份证上保持一致。</small>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('realName')}"
+                                     th:errors="*{realName}">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="inputIdentity">身份证号码</label>
+                                <input type="text" class="form-control" id="inputIdentity"
+                                       th:field="*{identity}"
+                                       th:class="${#fields.hasErrors('identity')}?'form-control is-invalid':'form-control'"
+                                       aria-describedby="identityHelp" required>
+                                <small id="identityHelp" class="form-text text-muted">注意：填写的身份证号码必须和身份证上保持一致。</small>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('identity')}"
+                                     th:errors="*{identity}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-sm-6 mb-3">
+                                <button type="submit" class="btn btn-primary mr-2">创建</button>
+                                <a href="javascript:history.back()" th:href="@{/}" class="btn btn-secondary">取消</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

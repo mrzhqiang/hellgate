@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="components/header::login(~{::title})">
+<head th:replace="components/header::login(title)">
     <!--/*@thymesVar id="website" type="com.github.mrzhqiang.mall.website.WebsiteProperties"*/-->
-    <title th:text="|登录 - ${website.title}|"></title>
+    <title th:replace="|首次启用 - ${website.title}|"></title>
 </head>
 
 <body>
 <div class="container">
     <div class="card card-login mx-auto mt-4">
-        <div class="card-header text-center h3">[[${website.primaryTitle}]]</div>
+        <div class="card-header text-center h3">创建管理员</div>
         <div class="card-body">
-            <p class="alert alert-danger text-center my-1 py-1" th:if="${param.error}">[[${message}]]</p>
-            <p class="alert alert-success text-center my-1 py-1" th:if="${param.logout}">您已退出登录！</p>
-            <form class="form-login" method="post" th:action="@{/login}">
+            <p class="alert-danger text-center my-1" th:if="${param.error}">[[${message}]]</p>
+            <form class="form-login" method="post" th:action="@{/admin}">
                 <label for="inputUsername" class="sr-only">账号</label>
                 <input id="inputUsername" class="form-control mb-3" type="text"
                        name="username" placeholder="账号" required autofocus>
@@ -33,10 +32,10 @@
                              onclick="this.src=this.getAttribute('data-path')+'?d='+new Date()*1">
                     </div>
                 </div>
-                <!--/*@thymesVar id="website" type="com.github.mrzhqiang.mall.website.WebsiteProperties"*/-->
-                <div class="form-check checkbox mb-3" th:if="${website!=null && website.rememberMe}">
+                <!--/*@thymesVar id="account" type="com.github.mrzhqiang.mall.admin.AdminProperties"*/-->
+                <div class="form-check checkbox mb-3" th:if="${account.rememberMe}">
                     <input id="rememberMe" type="checkbox" class="form-check-input" value="remember-me">
-                    <label class="form-check-label user-select-none" for="rememberMe">记住密码</label>
+                    <label class="form-check-label" for="rememberMe">记住密码</label>
                 </div>
                 <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">登录</button>
             </form>

@@ -1,29 +1,54 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="layout::home(~{::#wrapper})">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 
-<div id="wrapper">
-    <div th:replace="components/sidebar::admin(0)"></div>
-    <div id="content-wrapper">
-        <div class="container-fluid">
-            <div th:replace="components/alerts::success"></div>
-            <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-3">
-                    <div class="card text-white bg-secondary o-hidden h-100">
-                        <div class="card-body">
-                            <div class="card-body-icon">
-                                <i class="fas fa-fw fa-mobile-alt"></i>
-                            </div>
-                            <div class="mr-5" th:text="管理员"></div>
-                        </div>
-                        <a class="card-footer text-white clearfix small z-1" th:href="@{/admin}">
-                            <span class="float-left">进入管理后台</span>
-                            <span class="float-right"><i class="fas fa-angle-right"></i></span>
-                        </a>
+<head th:replace="components/header::main(~{::title},~{::link})">
+    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.mall.website.WebsiteProperties"*/-->
+    <title th:replace="|首页 - ${website.title}|"></title>
+    <link th:href="@{/css/dataTables.bootstrap4.css}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+<div class="container">
+    <div class="card card-login mx-auto mt-4">
+        <div class="card-header h3">积分兑换系统管理后台</div>
+        <div class="card-body">
+            <p class="mt-1 mb-1 text-center alert-danger" th:if="${param.error}">[[${message}]]</p>
+            <p class="mt-1 mb-1 text-center alert-success" th:if="${param.logout}">您已退出登录！</p>
+            <form class="form-login" method="post" th:action="@{/login}">
+                <label for="inputUsername" class="sr-only">账号</label>
+                <input id="inputUsername" class="form-control" type="text"
+                       name="username" placeholder="账号" required autofocus>
+                <br>
+                <label for="inputPassword" class="sr-only">密码</label>
+                <input id="inputPassword" class="form-control"
+                       type="password" name="password" placeholder="密码" required>
+                <div class="row">
+                    <!-- todo check kaptcha code enable -->
+                    <div class="col-6">
+                        <label for="inputVerifyCode" class="sr-only">验证码</label>
+                        <input id="inputVerifyCode" class="form-control"
+                               type="text" name="kaptcha" placeholder="请输入验证码" required>
+                    </div>
+                    <div class="col-6">
+                        <img alt="单击图片刷新！" class="pointer w-100 h-100" th:src="@{/kaptcha}"
+                             onclick="this.src='/kaptcha?d='+new Date()*1" src="#">
                     </div>
                 </div>
-            </div>
+                <!--<div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>-->
+                <br>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+            </form>
         </div>
     </div>
 </div>
+
+<script th:src="@{/webjars/popper.js/1.16.0/dist/popper.min.js}" type="module"></script>
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.1.3/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
 
 </html>

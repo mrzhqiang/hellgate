@@ -1,14 +1,29 @@
+server:
+  port: 8888
+
+logging:
+  level:
+    ROOT: INFO
+    web: INFO
+    # See http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints
+    org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration: INFO
+    # always log high-level information about application startup
+    com.github.mrzhqiang.mall.spring.boot: DEBUG
+
+debug: true
+
 spring:
-  profiles:
-    active: dev # prod dev
-
-
-  data:
-    redis:
-      repositories:
-        enabled: false
+  thymeleaf:
+    cache: false
 
   mvc:
     hiddenmethod:
       filter:
         enabled: true
+
+  profiles:
+    include:
+      - admin
+      - db
+      - kaptcha
+      - website
