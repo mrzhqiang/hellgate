@@ -1,5 +1,7 @@
-package com.github.mrzhqiang.hellgate.account;
+package com.github.mrzhqiang.hellgate.config;
 
+import com.github.mrzhqiang.hellgate.account.AccountService;
+import com.github.mrzhqiang.hellgate.account.Accounts;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;

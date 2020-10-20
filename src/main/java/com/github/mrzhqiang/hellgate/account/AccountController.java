@@ -3,16 +3,14 @@ package com.github.mrzhqiang.hellgate.account;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/login")
-public class LoginController {
+public class AccountController {
 
-    @GetMapping
-    public String index(Model model, HttpSession session) {
+    @GetMapping("/login")
+    public String login(Model model, HttpSession session) {
         if (Authentications.logged()) {
             return "redirect:/";
         }

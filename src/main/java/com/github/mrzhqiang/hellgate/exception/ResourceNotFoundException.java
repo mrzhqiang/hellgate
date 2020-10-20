@@ -1,4 +1,4 @@
-package com.github.mrzhqiang.hellgate.common;
+package com.github.mrzhqiang.hellgate.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     private static final long serialVersionUID = -3530787478941887904L;

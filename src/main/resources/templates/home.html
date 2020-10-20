@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="components/header::simple(~{::title},~{::link})">
+    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
+    <title th:text="${website.title}"></title>
+    <link th:href="@{/css/home.css}" rel="stylesheet">
+</head>
+
+<body>
+<div class="home-title-layout">
+    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
+    <span class="home-title-content">[[${website.title}]]</span>
+</div>
+<a href="#" th:href="@{/login}" class="home-login">登陆游戏</a>
+<div class="home-tips-layout">
+    <span class="home-tips-content">抵制不良游戏，拒绝盗版游戏。注意自我保护，谨防受骗上当。适度游戏益脑，沉迷游戏伤身。合理安排时间，享受健康生活。</span>
+    <footer th:replace="components/footer::copyRight"></footer>
+</div>
+<div class="backstretch home-background">
+    <img src="#" th:src="@{/image/dyzm.jpg}" class="home-background-image" alt="轮播背景图片">
+</div>
+
+<script th:src="@{/webjars/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/js/jquery.backstretch.min.js}"></script>
+<script th:src="@{/js/home.js}"></script>
+</body>
+
+</html>

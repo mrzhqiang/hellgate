@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="components/header::login(title)">
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.mall.website.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
     <title th:replace="|首次启用 - ${website.title}|"></title>
 </head>
 
@@ -32,7 +32,7 @@
                              onclick="this.src=this.getAttribute('data-path')+'?d='+new Date()*1">
                     </div>
                 </div>
-                <!--/*@thymesVar id="account" type="com.github.mrzhqiang.mall.admin.AdminProperties"*/-->
+                <!--/*@thymesVar id="account" type="com.github.mrzhqiang.hellgate.admin.AdminProperties"*/-->
                 <div class="form-check checkbox mb-3" th:if="${account.rememberMe}">
                     <input id="rememberMe" type="checkbox" class="form-check-input" value="remember-me">
                     <label class="form-check-label" for="rememberMe">记住密码</label>

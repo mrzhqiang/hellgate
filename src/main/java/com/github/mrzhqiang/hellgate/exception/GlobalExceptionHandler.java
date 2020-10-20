@@ -1,5 +1,7 @@
-package com.github.mrzhqiang.hellgate.common;
+package com.github.mrzhqiang.hellgate.exception;
 
+import com.github.mrzhqiang.hellgate.common.ErrorData;
+import com.github.mrzhqiang.hellgate.common.ErrorDatas;
 import com.google.common.base.VerifyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

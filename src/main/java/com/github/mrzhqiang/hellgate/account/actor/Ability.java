@@ -1,14 +1,16 @@
-package com.github.mrzhqiang.hellgate.account;
+package com.github.mrzhqiang.hellgate.account.actor;
 
 import com.github.mrzhqiang.hellgate.common.BaseIdEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
+@Table(name = "ability")
 public class Ability extends BaseIdEntity {
     /**
      * 等级。
@@ -17,13 +19,14 @@ public class Ability extends BaseIdEntity {
     /**
      * 当前经验值。
      */
-    private Long experience;
+    private Long exp;
+    private Long maxExp;
     /**
      * 知识。
      */
     private Long knowledge;
-    private Integer currentHP;
-    private Integer currentMP;
+    private Integer hp;
+    private Integer mp;
     private Integer maxHP;
     private Integer maxMP;
 }

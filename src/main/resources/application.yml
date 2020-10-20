@@ -8,7 +8,7 @@ logging:
     # See http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints
     org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration: INFO
     # always log high-level information about application startup
-    com.github.mrzhqiang.mall.spring.boot: DEBUG
+    com.github.mrzhqiang.hellgate: DEBUG
 
 debug: true
 

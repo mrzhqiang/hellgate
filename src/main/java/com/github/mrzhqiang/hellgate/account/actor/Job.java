@@ -1,4 +1,4 @@
-package com.github.mrzhqiang.hellgate.account;
+package com.github.mrzhqiang.hellgate.account.actor;
 
 import com.github.mrzhqiang.hellgate.common.BaseIdEntity;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class Job extends BaseIdEntity {
     private Integer type;
 
     /**
-     * 职业已学习的技能。
+     * 职业可学习技能。
      */
     @OneToMany(cascade = CascadeType.ALL)
     private List<Magic> magics;

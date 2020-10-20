@@ -1,4 +1,4 @@
-package com.github.mrzhqiang.hellgate.account;
+package com.github.mrzhqiang.hellgate.account.actor;
 
 import com.github.mrzhqiang.hellgate.common.BaseIdEntity;
 import lombok.Data;
@@ -6,7 +6,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -20,6 +22,8 @@ public class Actor extends BaseIdEntity {
      */
     @OneToOne
     private Job job;
+    @OneToMany
+    private Set<ActorMagic> magics;
     /**
      * 能力、属性。
      */

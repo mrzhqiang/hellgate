@@ -24,13 +24,19 @@ public class AdminInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        log.debug("command line runner run: {}", Arrays.toString(args));
+        if (log.isDebugEnabled()) {
+            log.debug("command line runner run: {}", Arrays.toString(args));
+        }
         String username = adminProperties.getUsername();
         if (accountService.find(username).isPresent()) {
-            log.info("admin account is present.");
+            if (log.isDebugEnabled()) {
+                log.debug("admin account is present.");
+            }
             return;
         }
         Account account = accountService.create(username, adminProperties.getPassword());
-        log.info("init admin account: {}", account);
+        if (log.isDebugEnabled()) {
+            log.debug("init admin account: {}", account);
+        }
     }
 }

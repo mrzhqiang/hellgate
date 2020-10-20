@@ -67,7 +67,8 @@ public class SecurityConfig {
         protected void configure(HttpSecurity http) throws Exception {
             http.addFilterBefore(getAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                     .userDetailsService(userDetailsService)
-                    .authorizeRequests().antMatchers(kaptchaProperties.getPath()).permitAll()
+                    .authorizeRequests()
+                    .antMatchers("/", "/index", kaptchaProperties.getPath()).permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .formLogin().loginPage("/login").permitAll()
