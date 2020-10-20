@@ -11,34 +11,29 @@
     <div class="card card-login mx-auto mt-4">
         <div class="card-header text-center h3">[[${website.title}]]</div>
         <div class="card-body">
+            <div th:replace="components/alert::success"></div>
             <p class="alert alert-danger text-center my-1 py-1" th:if="${param.error}">[[${message}]]</p>
             <p class="alert alert-success text-center my-1 py-1" th:if="${param.logout}">您已退出登录！</p>
-            <form class="form-login" method="post" th:action="@{/login}">
+            <form class="form-login" method="post" th:action="@{/login}" th:object="${accountForm}">
                 <label for="inputUsername" class="sr-only">账号</label>
-                <input id="inputUsername" class="form-control mb-3" type="text"
+                <input id="inputUsername" class="form-control my-3" type="text" maxlength="15"
+                       th:value="*{username}"
+                       th:class="${#fields.hasErrors('username')}?'form-control my-3 is-invalid':'form-control my-3'"
                        name="username" placeholder="账号" required autofocus>
                 <label for="inputPassword" class="sr-only">密码</label>
-                <input id="inputPassword" class="form-control mb-3"
-                       type="password" name="password" placeholder="密码" required>
-                <!--/*@thymesVar id="kaptcha" type="com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties"*/-->
-                <div class="row mb-3" th:if="${kaptcha!=null && kaptcha.enabled}">
-                    <div class="col-6">
-                        <label for="inputVerifyCode" class="sr-only">验证码</label>
-                        <input id="inputVerifyCode" class="form-control" type="text" name="kaptcha"
-                               th:name="${kaptcha.parameter}" placeholder="请输入验证码" required>
-                    </div>
-                    <div class="col-6">
-                        <img alt="单击图片刷新！" class="pointer w-100 h-100"
-                             th:src="@{${kaptcha.path}}" src="#" th:data-path="${kaptcha.path}"
-                             onclick="this.src=this.getAttribute('data-path')+'?d='+new Date()*1">
-                    </div>
-                </div>
+                <input id="inputPassword" class="form-control" type="password" maxlength="15"
+                       th:value="*{password}"
+                       th:class="${#fields.hasErrors('password')}?'form-control my-3 is-invalid':'form-control my-3'"
+                       name="password" placeholder="密码" required>
                 <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
-                <div class="form-check checkbox mb-3" th:if="${website!=null && website.rememberMe}">
+                <div class="form-check checkbox my-3" th:if="${website!=null && website.rememberMe}">
                     <input id="rememberMe" type="checkbox" class="form-check-input" value="remember-me">
                     <label class="form-check-label user-select-none" for="rememberMe">记住密码</label>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">登录</button>
+                <button class="btn btn-lg btn-primary btn-block my-4" type="submit">登录</button>
+                新用户请<a th:href="@{/register}">点此注册</a>
+                <br>
+                <a th:href="@{/}">返回首页</a>
             </form>
         </div>
     </div>

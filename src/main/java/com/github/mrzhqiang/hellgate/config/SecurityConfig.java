@@ -13,9 +13,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.boot.autoconfigure.security.SecurityProperties.BASIC_AUTH_ORDER;
@@ -65,13 +65,15 @@ public class SecurityConfig {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.addFilterBefore(getAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            http.addFilterAfter(getAuthenticationFilter(), AnonymousAuthenticationFilter.class)
                     .userDetailsService(userDetailsService)
                     .authorizeRequests()
-                    .antMatchers("/", "/index", kaptchaProperties.getPath()).permitAll()
+                    .antMatchers(kaptchaProperties.getPath()).permitAll()
+                    .antMatchers(websiteProperties.getPublicPath()).permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .formLogin().loginPage("/login").permitAll()
+                    .defaultSuccessUrl("/servers")
                     .and()
                     .logout().permitAll();
             if (websiteProperties.getRememberMe()) {
@@ -81,8 +83,8 @@ public class SecurityConfig {
 
         private AuthenticationFilter getAuthenticationFilter() throws Exception {
             AuthenticationFilter filter = new AuthenticationFilter(authenticationManager(), converter);
-            filter.setRequestMatcher(new AntPathRequestMatcher("/login", HttpMethod.POST.name()));
-            filter.setFailureHandler(new SimpleUrlAuthenticationFailureHandler("/login?error"));
+            filter.setRequestMatcher(new AntPathRequestMatcher("/register", HttpMethod.POST.name()));
+            filter.setFailureHandler(new SimpleUrlAuthenticationFailureHandler("/register?error"));
             return filter;
         }
     }

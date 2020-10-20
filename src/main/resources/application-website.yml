@@ -10,3 +10,8 @@ website:
     - /js/**
     - /image/**
     - /fontawesome/**
+  public-path:
+    - /
+    - /index
+    - /register
+    - /register-help

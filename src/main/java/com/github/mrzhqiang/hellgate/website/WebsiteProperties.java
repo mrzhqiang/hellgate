@@ -15,4 +15,5 @@ public class WebsiteProperties {
     private String copyRight;
     private Boolean rememberMe;
     private String[] ignorePath;
+    private String[] publicPath;
 }

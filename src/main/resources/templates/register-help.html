@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="components/header::simple(~{::title},_)">
+    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
+    <title th:text="|注册帮助 - ${website.title}|"></title>
+</head>
+
+<body>
+<br>
+    注册帮助：
+<br>
+    欢迎您注册兰达尔社区。如果您在注册过程中遇到问题，请参阅本帮助。
+<p>
+    ① 请您先设定一个您喜欢的用户名，填写在【注册页面】的输入框中。这个用户名可以是数字、字母，不要使用符号，位数要在 4 位到 15 位之间。<br>
+    ② 在填写用户名之后，请设定一个密码，这个密码不要过于简单，以免被别人猜到。密码要在 6 到 15 位之间，可以是数字或者字母，不要使用汉字和符号。<br>
+    ③ 如果在注册时遇到无法注册的问题，请根据提示来修改您的设定。可能是您的账号或者密码的位数不对，也可能是您的账号已被别人使用，您都需要进行修改。<br>
+</p>
+    <a th:href="@{/register}">返回注册页面</a><br>
+    <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
+    <a href="javascript:location.reload();">刷新</a><br>
+</body>
+</html>

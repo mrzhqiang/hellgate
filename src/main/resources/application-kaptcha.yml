@@ -13,4 +13,5 @@ spring:
             size: "30"
           char:
             space: "5"
+            length: 4
     parameter: "kaptcha"
