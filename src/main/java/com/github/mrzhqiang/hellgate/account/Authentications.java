@@ -4,7 +4,6 @@ import com.github.mrzhqiang.hellgate.common.Constant;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.ui.Model;
 
@@ -41,12 +40,12 @@ public enum Authentications {
     }
 
     @NonNull
-    public static Optional<User> ofUser() {
+    public static Optional<String> ofUsername() {
         return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
                 .filter(Authentication::isAuthenticated)
                 .filter(Authentications::isUser)
                 .map(Authentication::getPrincipal)
-                .map(User.class::cast);
+                .map(String.class::cast);
     }
 
     public static void checkMessage(Model model, HttpSession session) {

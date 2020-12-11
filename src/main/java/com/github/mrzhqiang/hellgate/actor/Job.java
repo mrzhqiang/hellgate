@@ -1,4 +1,4 @@
-package com.github.mrzhqiang.hellgate.account.actor;
+package com.github.mrzhqiang.hellgate.actor;
 
 import com.github.mrzhqiang.hellgate.common.BaseIdEntity;
 import lombok.Data;

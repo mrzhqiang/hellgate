@@ -32,18 +32,10 @@ public class Account extends BaseIdEntity implements UserDetails {
     private Boolean enabled = true;
 
     /**
-     * 上次登录的游戏服务。
-     * <p>
-     * 冗余字段，省却遍历操作。
-     */
-    @OneToOne(cascade = CascadeType.ALL)
-    private UserServer lastTimeServer;
-
-    /**
      * 创建过角色的游戏服务列表。
      */
     @OneToMany(cascade = CascadeType.ALL)
-    private List<UserServer> servers;
+    private List<Script> scripts;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -67,6 +59,6 @@ public class Account extends BaseIdEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return servers == null ? Collections.emptyList() : servers;
+        return scripts == null ? Collections.emptyList() : scripts;
     }
 }

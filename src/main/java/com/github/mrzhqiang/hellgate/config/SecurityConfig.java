@@ -73,7 +73,7 @@ public class SecurityConfig {
                     .anyRequest().authenticated()
                     .and()
                     .formLogin().loginPage("/login").permitAll()
-                    .defaultSuccessUrl("/servers")
+                    .defaultSuccessUrl(websiteProperties.getDefaultSuccessUrl())
                     .and()
                     .logout().permitAll();
             if (websiteProperties.getRememberMe()) {

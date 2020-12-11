@@ -1,4 +1,4 @@
-package com.github.mrzhqiang.hellgate.account.server;
+package com.github.mrzhqiang.hellgate.stage;
 
 import com.github.mrzhqiang.hellgate.common.BaseIdEntity;
 import lombok.Data;
@@ -7,15 +7,17 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+/**
+ * 舞台。
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class Server extends BaseIdEntity {
+public class Stage extends BaseIdEntity {
 
     @Column(unique = true, nullable = false)
     private String name;
-    @Column(nullable = false)
-    private String link;
+    private String label;
     /**
      * 推荐指数：1 -- 100，default 1
      */

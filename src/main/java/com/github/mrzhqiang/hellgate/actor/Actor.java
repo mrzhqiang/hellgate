@@ -1,4 +1,4 @@
-package com.github.mrzhqiang.hellgate.account.actor;
+package com.github.mrzhqiang.hellgate.actor;
 
 import com.github.mrzhqiang.hellgate.common.BaseIdEntity;
 import lombok.Data;
@@ -10,6 +10,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.Set;
 
+/**
+ * 演员。
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity

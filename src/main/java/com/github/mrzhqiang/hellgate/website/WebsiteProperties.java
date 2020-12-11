@@ -16,4 +16,5 @@ public class WebsiteProperties {
     private Boolean rememberMe;
     private String[] ignorePath;
     private String[] publicPath;
+    private String defaultSuccessUrl;
 }
