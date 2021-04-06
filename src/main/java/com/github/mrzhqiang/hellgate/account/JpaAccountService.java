@@ -21,10 +21,10 @@ public class JpaAccountService implements AccountService {
     }
 
     @Override
-    public Account register(AccountForm form) {
+    public Account register(String username, String password) {
         Account account = new Account();
-        account.setUsername(form.getUsername());
-        account.setPassword(passwordEncoder.encode(form.getPassword()));
+        account.setUsername(username);
+        account.setPassword(passwordEncoder.encode(password));
         accountRepository.save(account);
         if (log.isDebugEnabled()) {
             log.debug("create account: {}", account);

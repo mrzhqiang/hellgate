@@ -7,6 +7,6 @@ public interface AccountService {
 
     Optional<Account> find(String username);
 
-    Account register(@Valid AccountForm form);
+    Account register(String username, String password);
 
 }

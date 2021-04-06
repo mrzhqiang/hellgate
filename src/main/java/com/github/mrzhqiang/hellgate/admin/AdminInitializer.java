@@ -35,10 +35,7 @@ public class AdminInitializer implements CommandLineRunner {
             }
             return;
         }
-        AccountForm form = new AccountForm();
-        form.setUsername(username);
-        form.setPassword(adminProperties.getPassword());
-        Account account = accountService.register(form);
+        Account account = accountService.register(username, adminProperties.getPassword());
         if (log.isDebugEnabled()) {
             log.debug("init admin account: {}", account);
         }

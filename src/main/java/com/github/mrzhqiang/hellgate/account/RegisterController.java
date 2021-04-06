@@ -35,12 +35,13 @@ public class RegisterController {
             return "register";
         }
 
-        if (accountService.find(form.getUsername()).isPresent()) {
+        String username = form.getUsername();
+        if (accountService.find(username).isPresent()) {
             result.reject("register.failed");
             return "register";
         }
 
-        accountService.register(form);
+        accountService.register(username, form.getPassword());
         attributes.addFlashAttribute("alert", accessor.getMessage("register.successful"));
         return "redirect:/login";
     }

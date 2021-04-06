@@ -1,5 +1,6 @@
-package com.github.mrzhqiang.hellgate.account;
+package com.github.mrzhqiang.hellgate.config;
 
+import com.github.mrzhqiang.hellgate.account.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

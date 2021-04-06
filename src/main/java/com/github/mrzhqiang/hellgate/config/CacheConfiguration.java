@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableCaching
-public class CacheConfig extends CachingConfigurerSupport {
+public class CacheConfiguration extends CachingConfigurerSupport {
 
     @Override
     public KeyGenerator keyGenerator() {

@@ -22,7 +22,7 @@ import static org.springframework.boot.autoconfigure.security.SecurityProperties
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig {
+public class SecurityConfiguration {
 
     @Configuration
     @Order(BASIC_AUTH_ORDER - 10)
