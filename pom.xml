@@ -83,6 +83,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.mrzhqiang.kaptcha</groupId>
             <artifactId>kaptcha-spring-boot-starter</artifactId>
             <version>${kaptcha-spring-boot-starter.version}</version>

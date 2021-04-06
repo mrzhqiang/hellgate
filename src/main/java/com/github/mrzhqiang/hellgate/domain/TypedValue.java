@@ -1,19 +1,23 @@
-package com.github.mrzhqiang.hellgate.common;
+package com.github.mrzhqiang.hellgate.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class TypedValue extends BaseIdEntity {
+public class TypedValue extends SoftDeleteEntity {
 
     public static final int TYPE_FIXED_NUMBER = 1;
     public static final int TYPE_FACTOR_NUMBER = 2;
     public static final int TYPE_FIXED_PERCENTAGE = 3;
     public static final int TYPE_FACTOR_PERCENTAGE = 4;
+
+    @Id
+    private String name;
 
     /**
      * 类型：

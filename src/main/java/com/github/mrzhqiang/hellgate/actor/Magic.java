@@ -1,18 +1,20 @@
 package com.github.mrzhqiang.hellgate.actor;
 
-import com.github.mrzhqiang.hellgate.common.BaseIdEntity;
-import com.github.mrzhqiang.hellgate.common.TypedValue;
+import com.github.mrzhqiang.hellgate.domain.AuditableEntity;
+import com.github.mrzhqiang.hellgate.domain.TypedValue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.Duration;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class Magic extends BaseIdEntity {
+public class Magic extends AuditableEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     /**
      * 技能名称
      */

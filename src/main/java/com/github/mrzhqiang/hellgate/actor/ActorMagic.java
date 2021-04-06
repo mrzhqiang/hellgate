@@ -1,18 +1,19 @@
 package com.github.mrzhqiang.hellgate.actor;
 
-import com.github.mrzhqiang.hellgate.common.BaseIdEntity;
+import com.github.mrzhqiang.hellgate.domain.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class ActorMagic extends BaseIdEntity {
+public class ActorMagic extends AuditableEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @OneToOne(cascade = CascadeType.ALL)
     private Magic magic;
     private Integer level;

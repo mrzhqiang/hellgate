@@ -1,6 +1,7 @@
 package com.github.mrzhqiang.hellgate.admin;
 
 import com.github.mrzhqiang.hellgate.account.Account;
+import com.github.mrzhqiang.hellgate.account.AccountForm;
 import com.github.mrzhqiang.hellgate.account.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -34,7 +35,10 @@ public class AdminInitializer implements CommandLineRunner {
             }
             return;
         }
-        Account account = accountService.create(username, adminProperties.getPassword());
+        AccountForm form = new AccountForm();
+        form.setUsername(username);
+        form.setPassword(adminProperties.getPassword());
+        Account account = accountService.register(form);
         if (log.isDebugEnabled()) {
             log.debug("init admin account: {}", account);
         }

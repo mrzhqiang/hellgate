@@ -2,8 +2,9 @@ package com.github.mrzhqiang.hellgate.stage;
 
 import com.github.mrzhqiang.hellgate.account.Account;
 import com.github.mrzhqiang.hellgate.account.AccountService;
-import com.github.mrzhqiang.hellgate.account.Authentications;
-import com.github.mrzhqiang.hellgate.account.Script;
+import com.github.mrzhqiang.hellgate.script.Script;
+import com.github.mrzhqiang.hellgate.util.HttpSessions;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class StageController {
 
     @GetMapping
     public String index(Model model) {
-        List<Script> scripts = Authentications.ofUsername()
+        List<Script> scripts = HttpSessions.ofUsername()
                 .flatMap(accountService::find)
                 .map(Account::getScripts)
                 .orElse(Collections.emptyList());

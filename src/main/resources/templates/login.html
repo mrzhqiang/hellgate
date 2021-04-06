@@ -12,7 +12,8 @@
         <div class="card-header text-center h3">[[${website.title}]]</div>
         <div class="card-body">
             <div th:replace="components/alert::success"></div>
-            <p class="alert alert-danger text-center my-1 py-1" th:if="${param.error}">[[${message}]]</p>
+            <p class="alert alert-danger text-center my-1 py-1"
+               th:if="${param.error} and ${!#strings.isEmpty(message)}">[[${message}]]</p>
             <p class="alert alert-success text-center my-1 py-1" th:if="${param.logout}">您已退出登录！</p>
             <form class="form-login" method="post" th:action="@{/login}" th:object="${accountForm}">
                 <label for="inputUsername" class="sr-only">账号</label>

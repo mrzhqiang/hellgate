@@ -1,11 +1,11 @@
 package com.github.mrzhqiang.hellgate.stage;
 
-import com.github.mrzhqiang.hellgate.common.BaseIdEntity;
+import com.github.mrzhqiang.hellgate.domain.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * 舞台。
@@ -13,9 +13,9 @@ import javax.persistence.Entity;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class Stage extends BaseIdEntity {
+public class Stage extends AuditableEntity {
 
-    @Column(unique = true, nullable = false)
+    @Id
     private String name;
     private String label;
     /**

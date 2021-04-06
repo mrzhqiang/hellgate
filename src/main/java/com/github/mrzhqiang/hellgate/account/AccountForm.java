@@ -7,9 +7,6 @@ import javax.validation.constraints.Size;
 
 @Data
 public class AccountForm {
-    public static final String NAME = "accountForm";
-    public static final String FIELD_USERNAME = "username";
-    public static final String FIELD_PASSWORD = "password";
 
     @NotBlank
     @Size(min = 4, max = 15)
@@ -17,4 +14,5 @@ public class AccountForm {
     @NotBlank
     @Size(min = 6, max = 15)
     private String password;
+
 }

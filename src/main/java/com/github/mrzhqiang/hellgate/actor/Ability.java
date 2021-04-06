@@ -1,17 +1,20 @@
 package com.github.mrzhqiang.hellgate.actor;
 
-import com.github.mrzhqiang.hellgate.common.BaseIdEntity;
+import com.github.mrzhqiang.hellgate.domain.AuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "ability")
-public class Ability extends BaseIdEntity {
+public class Ability extends AuditableEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     /**
      * 等级。
      */
