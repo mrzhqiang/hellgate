@@ -1,4 +1,4 @@
-package com.github.mrzhqiang.hellgate.actor;
+package com.github.mrzhqiang.hellgate.script;
 
 import com.github.mrzhqiang.hellgate.domain.AuditableEntity;
 import lombok.Data;
@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "ability")
 public class Ability extends AuditableEntity {
 
     @Id

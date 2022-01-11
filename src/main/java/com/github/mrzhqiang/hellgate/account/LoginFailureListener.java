@@ -7,29 +7,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
-import java.time.Duration;
-import java.time.Instant;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class LoginFailureListener implements ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
 
-    private final AccountRepository repository;
-    // todo login failure configuration
+    private final AccountService accountService;
 
     @Override
     public void onApplicationEvent(@Nonnull AuthenticationFailureBadCredentialsEvent event) {
         Authentication authentication = event.getAuthentication();
-        repository.findByUsername(authentication.getName())
-                .filter(Account::isAccountNonLocked)
-                .ifPresent(account -> {
-                    int failedCount = account.getFailedCount();
-                    if (failedCount > 5) {
-                        account.setLocked(Instant.now().plus(Duration.ofMinutes(5)));
-                    } else {
-                        account.setFailedCount(failedCount + 1);
-                    }
-                    repository.save(account);
-                });
+        accountService.handleLoginFailed(authentication);
     }
+
 }

@@ -1,6 +1,7 @@
-package com.github.mrzhqiang.hellgate.actor;
+package com.github.mrzhqiang.hellgate.script;
 
 import com.github.mrzhqiang.hellgate.domain.AuditableEntity;
+import com.github.mrzhqiang.hellgate.stage.Magic;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,7 +15,8 @@ public class ActorMagic extends AuditableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(optional = false)
+    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Magic magic;
     private Integer level;
     private Integer skilled;

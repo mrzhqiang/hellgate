@@ -1,5 +1,6 @@
 package com.github.mrzhqiang.hellgate.domain;
 
+import com.github.mrzhqiang.hellgate.account.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedBy;
@@ -19,11 +20,11 @@ import java.time.Instant;
 public abstract class AuditableEntity extends SoftDeleteEntity {
 
     @CreatedBy
-    private String createdBy;
+    private User createdBy;
     @CreatedDate
     private Instant createdDate;
     @LastModifiedBy
-    private String lastModifiedBy;
+    private User lastModifiedBy;
     @LastModifiedDate
     private Instant lastModifiedDate;
 

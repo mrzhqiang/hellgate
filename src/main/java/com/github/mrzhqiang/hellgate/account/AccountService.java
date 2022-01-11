@@ -1,12 +1,18 @@
 package com.github.mrzhqiang.hellgate.account;
 
-import javax.validation.Valid;
-import java.util.Optional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public interface AccountService {
+public interface AccountService extends UserDetailsService {
 
-    Optional<Account> find(String username);
+    @Override
+    User loadUserByUsername(String username) throws UsernameNotFoundException;
 
-    Account register(String username, String password);
+    boolean register(AccountForm form);
+
+    void handleLoginFailed(Authentication authentication);
+
+    void handleLoginSuccessful(Authentication authentication);
 
 }

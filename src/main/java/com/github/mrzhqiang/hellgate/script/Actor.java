@@ -1,38 +1,33 @@
-package com.github.mrzhqiang.hellgate.actor;
+package com.github.mrzhqiang.hellgate.script;
 
 import com.github.mrzhqiang.hellgate.domain.AuditableEntity;
+import com.github.mrzhqiang.hellgate.stage.Role;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Set;
 
-/**
- * 演员。
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class Actor extends AuditableEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(length = 20)
     private String name;
-    /**
-     * 职业。
-     */
-    @OneToOne
+
+    @ManyToOne(optional = false)
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Job job;
+    private Role role;
 
     @OneToMany
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Set<ActorMagic> magics;
 
-    /**
-     * 能力、属性。
-     */
-    @OneToOne
+    @OneToOne(optional = false)
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Ability ability;
 }

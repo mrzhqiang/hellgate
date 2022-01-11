@@ -23,7 +23,6 @@ spring:
 
   profiles:
     include:
-      - admin
       - db
       - kaptcha
       - website

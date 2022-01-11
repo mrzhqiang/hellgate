@@ -12,20 +12,20 @@
         <div class="card-header text-center h3">[[${website.title}]]</div>
         <div class="card-body">
             <div th:replace="components/alert::success"></div>
+            <!--suppress ThymeleafVariablesResolveInspection -->
             <p class="alert alert-danger text-center my-1 py-1"
                th:if="${param.error} and ${!#strings.isEmpty(message)}">[[${message}]]</p>
             <p class="alert alert-success text-center my-1 py-1" th:if="${param.logout}">您已退出登录！</p>
+            <!--/*@thymesVar id="accountForm" type="com.github.mrzhqiang.hellgate.account.AccountForm"*/-->
             <form class="form-login" method="post" th:action="@{/login}" th:object="${accountForm}">
                 <label for="inputUsername" class="sr-only">账号</label>
                 <input id="inputUsername" class="form-control my-3" type="text" maxlength="15"
-                       th:value="*{username}"
-                       th:class="${#fields.hasErrors('username')}?'form-control my-3 is-invalid':'form-control my-3'"
-                       name="username" placeholder="账号" required autofocus>
+                       th:value="*{username}" name="username" placeholder="账号"
+                       th:errorclass="is-invalid" required autofocus>
                 <label for="inputPassword" class="sr-only">密码</label>
-                <input id="inputPassword" class="form-control" type="password" maxlength="15"
-                       th:value="*{password}"
-                       th:class="${#fields.hasErrors('password')}?'form-control my-3 is-invalid':'form-control my-3'"
-                       name="password" placeholder="密码" required>
+                <input id="inputPassword" class="form-control my-3" type="password" maxlength="15"
+                       th:value="*{password}" name="password" placeholder="密码"
+                       th:errorclass="is-invalid" required>
                 <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
                 <div class="form-check checkbox my-3" th:if="${website!=null && website.rememberMe}">
                     <input id="rememberMe" type="checkbox" class="form-check-input" value="remember-me">

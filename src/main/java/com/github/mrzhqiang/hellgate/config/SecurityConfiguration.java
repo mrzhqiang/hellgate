@@ -1,28 +1,55 @@
 package com.github.mrzhqiang.hellgate.config;
 
-
+import com.github.mrzhqiang.hellgate.account.User;
+import com.github.mrzhqiang.hellgate.util.Authentications;
 import com.github.mrzhqiang.hellgate.website.WebsiteProperties;
 import com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaAuthenticationConverter;
 import com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import static org.springframework.boot.autoconfigure.security.SecurityProperties.BASIC_AUTH_ORDER;
 
 @EnableWebSecurity
+@EnableJpaAuditing
+@EnableRedisHttpSession
 @Configuration
-public class SecurityConfiguration {
+public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+
+    @Bean
+    public MessageSourceAccessor accessor(MessageSource messageSource) {
+        return new MessageSourceAccessor(messageSource);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    public AuditorAware<User> sessionAuditor() {
+        return Authentications::currentUser;
+    }
 
     @Configuration
     @Order(BASIC_AUTH_ORDER - 10)

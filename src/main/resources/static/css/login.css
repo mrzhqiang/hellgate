@@ -36,12 +36,12 @@ body {
     z-index: 2;
 }
 
-.form-login input[type="text"] {
+.form-login input[name="username"] {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
 
-.form-login input[type="password"] {
+.form-login input[name="password"] {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }

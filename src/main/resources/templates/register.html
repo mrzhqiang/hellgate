@@ -11,20 +11,21 @@
     <div class="card card-login mx-auto my-4">
         <div class="card-header text-center h3">[[${website.title}]]</div>
         <div class="card-body">
-            <p class="alert alert-danger text-center my-1 py-1" th:if="${param.error}">[[${message}]]</p>
+            <!--suppress ThymeleafVariablesResolveInspection -->
+            <p class="alert alert-danger text-center my-1 py-1"
+               th:if="${param.error} and ${!#strings.isEmpty(message)}">[[${message}]]</p>
+            <!--/*@thymesVar id="accountForm" type="com.github.mrzhqiang.hellgate.account.AccountForm"*/-->
             <form class="form-login" method="post" th:action="@{/register}" th:object="${accountForm}">
                 <label for="inputUsername" class="sr-only">账号</label>
                 <input id="inputUsername" class="form-control" type="text" maxlength="15"
-                       th:value="*{username}"
-                       th:class="${#fields.hasErrors('username')}?'form-control my-2 is-invalid':'form-control my-2'"
-                       name="username" placeholder="账号" aria-describedby="usernameHelpBlock" required autofocus>
+                       th:value="*{username}" name="username" placeholder="账号"
+                       th:errorclass="is-invalid" aria-describedby="usernameHelpBlock" required autofocus>
                 <small id="usernameHelpBlock" class="form-text text-muted">4-15 位长度的字母和数字</small>
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
                 <label for="inputPassword" class="sr-only">密码</label>
-                <input id="inputPassword" class="form-control" type="password" maxlength="15"
-                       th:value="*{password}"
-                       th:class="${#fields.hasErrors('password')}?'form-control my-2 is-invalid':'form-control my-2'"
-                       name="password" placeholder="密码" aria-describedby="passwordHelpBlock" required>
+                <input id="inputPassword" class="form-control my-2" type="password" maxlength="15"
+                       th:value="*{password}" name="password" placeholder="密码"
+                       th:errorclass="is-invalid" aria-describedby="passwordHelpBlock" required>
                 <small id="passwordHelpBlock" class="form-text text-muted">6-15 位长度的字母和数字</small>
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                 <!--/*@thymesVar id="kaptcha" type="com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties"*/-->

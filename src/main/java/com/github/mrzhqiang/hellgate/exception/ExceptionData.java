@@ -1,4 +1,4 @@
-package com.github.mrzhqiang.hellgate.common;
+package com.github.mrzhqiang.hellgate.exception;
 
 import com.google.common.base.Preconditions;
 import lombok.Data;

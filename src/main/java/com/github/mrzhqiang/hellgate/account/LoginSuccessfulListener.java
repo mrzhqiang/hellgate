@@ -8,22 +8,16 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class LoginSuccessfulListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
-    private final AccountRepository repository;
+    private final AccountService accountService;
 
     @Override
     public void onApplicationEvent(@Nonnull AuthenticationSuccessEvent event) {
         Authentication authentication = event.getAuthentication();
-        repository.findByUsername(authentication.getName())
-                .filter(it -> !it.isAccountNonLocked())
-                .ifPresent(account -> {
-                    account.setLocked(null);
-                    account.setFailedCount(0);
-                    repository.save(account);
-                });
-
+        accountService.handleLoginSuccessful(authentication);
     }
+
 }

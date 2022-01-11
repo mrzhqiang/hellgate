@@ -29,6 +29,7 @@
 }
 
 .home-tips-layout {
+    width: 100%;
     text-align: center;
     position: fixed;
     bottom: 0;
@@ -70,6 +71,7 @@ footer.sticky-footer {
     text-align: center;
     display: block;
     color: #FFF;
+    margin: 1rem 0;
 }
 
 footer.sticky-footer .copyright {

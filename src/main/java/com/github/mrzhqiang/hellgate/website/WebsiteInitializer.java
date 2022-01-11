@@ -1,6 +1,5 @@
 package com.github.mrzhqiang.hellgate.website;
 
-import com.github.mrzhqiang.hellgate.common.Constant;
 import com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +11,9 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @ConditionalOnClass(ThymeleafViewResolver.class)
 @Configuration
 public class WebsiteInitializer implements CommandLineRunner {
+
+    private static final String WEBSITE_KEY = "website";
+    private static final String KAPTCHA_KEY = "kaptcha";
 
     private final WebsiteProperties websiteProperties;
     private final KaptchaProperties kaptchaProperties;
@@ -27,8 +29,8 @@ public class WebsiteInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         log.info("add website properties to thymeleaf view resolver static variable.");
-        resolver.addStaticVariable(Constant.WEBSITE_KEY, websiteProperties);
+        resolver.addStaticVariable(WEBSITE_KEY, websiteProperties);
         log.info("add kaptcha properties to thymeleaf view resolver static variable.");
-        resolver.addStaticVariable(Constant.KAPTCHA_KEY, kaptchaProperties);
+        resolver.addStaticVariable(KAPTCHA_KEY, kaptchaProperties);
     }
 }

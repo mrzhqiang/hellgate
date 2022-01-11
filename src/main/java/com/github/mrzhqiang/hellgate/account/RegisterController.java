@@ -1,6 +1,6 @@
 package com.github.mrzhqiang.hellgate.account;
 
-import com.github.mrzhqiang.hellgate.util.HttpSessions;
+import com.github.mrzhqiang.hellgate.util.Authentications;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
@@ -15,17 +15,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/register")
-@RequiredArgsConstructor
 public class RegisterController {
 
     private final AccountService accountService;
     private final MessageSourceAccessor accessor;
 
     @GetMapping
-    public String index(@ModelAttribute AccountForm form, Model model, HttpSession session) {
-        HttpSessions.handleException(session, model);
+    public String index(@ModelAttribute AccountForm form, HttpSession session, Model model) {
+        Authentications.handleException(session, model);
         return "register";
     }
 
@@ -35,13 +35,11 @@ public class RegisterController {
             return "register";
         }
 
-        String username = form.getUsername();
-        if (accountService.find(username).isPresent()) {
+        if (!accountService.register(form)) {
             result.reject("register.failed");
             return "register";
         }
 
-        accountService.register(username, form.getPassword());
         attributes.addFlashAttribute("alert", accessor.getMessage("register.successful"));
         return "redirect:/login";
     }

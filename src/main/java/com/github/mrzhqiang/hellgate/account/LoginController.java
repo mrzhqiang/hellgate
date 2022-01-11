@@ -1,6 +1,6 @@
 package com.github.mrzhqiang.hellgate.account;
 
-import com.github.mrzhqiang.hellgate.util.HttpSessions;
+import com.github.mrzhqiang.hellgate.util.Authentications;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     @GetMapping
-    public String index(@ModelAttribute AccountForm form,  Model model, HttpSession session) {
-        HttpSessions.handleException(session, model);
+    public String index(@ModelAttribute AccountForm form, Model model, HttpSession session) {
+        Authentications.handleException(session, model);
         return "login";
     }
 
