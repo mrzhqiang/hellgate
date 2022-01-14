@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="layout::main(~{::#wrapper})">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:replace="layout::admin(~{::#wrapper})">
 <div id="wrapper">
+    <div th:replace="components/sidebar::admin('')"></div>
     <div id="content-wrapper">
         <div class="container-fluid">
             <h3>您的权限不够访问此页面...</h3>

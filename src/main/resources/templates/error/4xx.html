@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="layout::main(~{::#wrapper})">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:replace="layout::admin(~{::#wrapper})">
 <div id="wrapper">
+    <div th:replace="components/sidebar::admin('')"></div>
     <div id="content-wrapper">
         <div class="container-fluid">
-            <h3>抱歉！无法理解您的操作...</h3>
+            <h3>抱歉！您的操作出现了问题...</h3>
             <p class="text-danger">[[${status}]] - [[${error}]]</p>
             <p class="text-info">Timestamp - [[${timestamp}]]</p>
             <p>请参考：[[${message}]]</p>

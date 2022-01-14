@@ -1,6 +1,6 @@
 package com.github.mrzhqiang.hellgate.stage;
 
-import com.github.mrzhqiang.hellgate.domain.AuditableEntity;
+import com.github.mrzhqiang.hellgate.common.domain.BaseAuditableEntity;
 import com.github.mrzhqiang.hellgate.script.Script;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,11 +12,12 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class Stage extends AuditableEntity {
+public class Stage extends BaseAuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String label;
     private boolean active = true;
@@ -36,5 +37,4 @@ public class Stage extends AuditableEntity {
     @OneToMany
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<Script> actives;
-
 }

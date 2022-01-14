@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="layout::main(~{::#wrapper})">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:replace="layout::admin(~{::#wrapper})">
 <div id="wrapper">
+    <div th:replace="components/sidebar::admin('')"></div>
     <div id="content-wrapper">
         <div class="container-fluid">
-            <h3>糟糕！出现意料之外的异常...</h3>
+            <h3>糟糕！出现意料之外的错误...</h3>
             <p class="text-danger">[[${status}]] - [[${error}]]</p>
             <p>请报告：[[${message}]]</p>
             <p class="lead">

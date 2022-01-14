@@ -1,10 +1,26 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<div class="card mt-3 mb-3 w-100" th:fragment="content(header,body)">
-    <!--/*@thymesVar id="header" type=""*/-->
-    <div class="card-header" th:replace="${header}"></div>
-    <!--/*@thymesVar id="body" type=""*/-->
-    <div class="card-body" th:replace="${body}"></div>
+<!--
+卡片布局
+使用方式：
+<div th:replace="components/card::content(~{::header}, ~{::body})"></div>
+更好的方式：
+将 card 布局添加到 live template 中，比 fragment 方式更舒服。
+模板内容：
+<div class="card mx-3 w-100">
+    <div class="card-header">
+        <i class="fas fa-fw $CARD_TITLE_ICON$"></i>
+        $CARD_TITLE$
+    </div>
+    <div class="card-body">
+        $CARD_CONTENT$
+    </div>
+</div>
+-->
+
+<div class="card mx-3 w-100" th:fragment="content(header,body)">
+    <div th:replace="${header}"></div>
+    <div th:replace="${body}"></div>
 </div>
 
 </html>

@@ -1,6 +1,6 @@
 package com.github.mrzhqiang.hellgate.stage;
 
-import com.github.mrzhqiang.hellgate.domain.SoftDeleteEntity;
+import com.github.mrzhqiang.hellgate.common.domain.BaseSoftDeleteEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,30 +11,30 @@ import java.math.BigDecimal;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class TypedValue extends SoftDeleteEntity {
+public class TypedValue extends BaseSoftDeleteEntity {
 
     /**
      * 固定值。
-     * <p>
-     * return value
+     *
+     * <p>return value
      */
     public static final int TYPE_FIXED_NUMBER = 1;
     /**
      * 因数。
-     * <p>
-     * return var * (1 + value)
+     *
+     * <p>return var * (1 + value)
      */
     public static final int TYPE_FACTOR_NUMBER = 2;
     /**
      * 固定百分比。
-     * <p>
-     * return (value / 100)
+     *
+     * <p>return (value / 100)
      */
     public static final int TYPE_FIXED_PERCENTAGE = 3;
     /**
      * 因数百分比。
-     * <p>
-     * return var * (1 + value / 100)
+     *
+     * <p>return var * (1 + value / 100)
      */
     public static final int TYPE_FACTOR_PERCENTAGE = 4;
 
@@ -43,6 +43,7 @@ public class TypedValue extends SoftDeleteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
 
     @Column(nullable = false)

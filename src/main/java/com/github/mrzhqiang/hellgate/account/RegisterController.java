@@ -1,8 +1,6 @@
 package com.github.mrzhqiang.hellgate.account;
 
-import com.github.mrzhqiang.hellgate.util.Authentications;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.support.MessageSourceAccessor;
+import com.github.mrzhqiang.hellgate.common.Sessions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,22 +13,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-@RequiredArgsConstructor
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
 
     private final AccountService accountService;
-    private final MessageSourceAccessor accessor;
+
+    public RegisterController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @GetMapping
-    public String index(@ModelAttribute AccountForm form, HttpSession session, Model model) {
-        Authentications.handleException(session, model);
+    public String index(HttpSession session, Model model, @ModelAttribute AccountForm form) {
+        Sessions.httpException(session, model);
         return "register";
     }
 
     @PostMapping
-    public String index(@Valid @ModelAttribute AccountForm form, BindingResult result, RedirectAttributes attributes) {
+    public String register(@Valid @ModelAttribute AccountForm form,
+                           BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             return "register";
         }
@@ -40,7 +41,7 @@ public class RegisterController {
             return "register";
         }
 
-        attributes.addFlashAttribute("alert", accessor.getMessage("register.successful"));
+        attributes.addFlashAttribute("alert", "message.register.successful");
         return "redirect:/login";
     }
 

@@ -1,6 +1,6 @@
 package com.github.mrzhqiang.hellgate.stage;
 
-import com.github.mrzhqiang.hellgate.domain.AuditableEntity;
+import com.github.mrzhqiang.hellgate.common.domain.BaseAuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,7 +10,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class Role extends AuditableEntity {
+public class Role extends BaseAuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +22,4 @@ public class Role extends AuditableEntity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Set<Magic> magics;
-
 }

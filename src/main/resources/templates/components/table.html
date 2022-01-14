@@ -1,5 +1,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<!--
+使用方法：
+<div th:replace="components/table::data(~{::#table-head},~{::#table-body})">
+    <tr id="table-head">
+        <th scope="col">#</th>
+        <th scope="col">名称</th>
+        <th scope="col">操作</th>
+    </tr>
+    <tr id="table-body" th:each="item : ${items}">
+        <th scope="row">[[${items.id}]]</th>
+        <td th:text="${item.name}"></td>
+        <td>
+            <a class="btn btn-outline-info btn-sm" href="#"
+               th:href="@{|/path/to/${auth.id}/editor|}">编辑</a>
+            <button type="button" class="btn btn-outline-danger btn-sm"
+                    data-toggle="modal" data-target="#deleteModal"
+                    th:data-uri="@{|/path/to/${item.id}|}"
+                    th:data-name="${item.name}">删除
+            </button>
+        </td>
+    </tr>
+</div>
+-->
+
 <div class="table-responsive" th:fragment="data(head,body)">
     <table class="table table-bordered table-hover" id="dataTable">
         <!--/*@thymesVar id="head" type=""*/-->

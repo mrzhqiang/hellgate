@@ -1,18 +1,11 @@
 package com.github.mrzhqiang.hellgate.config;
 
-import com.github.mrzhqiang.hellgate.account.User;
-import com.github.mrzhqiang.hellgate.util.Authentications;
-import com.github.mrzhqiang.hellgate.website.WebsiteProperties;
 import com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaAuthenticationConverter;
 import com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,41 +19,37 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import static org.springframework.boot.autoconfigure.security.SecurityProperties.BASIC_AUTH_ORDER;
 
+/**
+ * 安全配置。
+ */
 @EnableWebSecurity
-@EnableJpaAuditing
-@EnableRedisHttpSession
 @Configuration
 public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
-    @Bean
-    public MessageSourceAccessor accessor(MessageSource messageSource) {
-        return new MessageSourceAccessor(messageSource);
-    }
-
+    /**
+     * 密码编码器。
+     *
+     * @return 编码器实例。
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean
-    public AuditorAware<User> sessionAuditor() {
-        return Authentications::currentUser;
-    }
-
+    /**
+     * API 安全适配器。
+     */
     @Configuration
     @Order(BASIC_AUTH_ORDER - 10)
     static class ApiSecurityAdapter extends WebSecurityConfigurerAdapter {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.requestMatchers()
-                    .antMatchers("/api/**")
-                    .and()
-                    .authorizeRequests().anyRequest().authenticated()
+            http.requestMatchers().antMatchers("/api/**")
+                    .and().authorizeRequests().anyRequest().authenticated()
                     .and().httpBasic()
                     .and().csrf().disable();
 
@@ -68,6 +57,9 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         }
     }
 
+    /**
+     * 网站安全适配器。
+     */
     @EnableConfigurationProperties(WebsiteProperties.class)
     @Configuration
     static class WebsiteSecurityAdapter extends WebSecurityConfigurerAdapter {
@@ -77,8 +69,10 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         private final KaptchaAuthenticationConverter converter;
         private final UserDetailsService userDetailsService;
 
-        public WebsiteSecurityAdapter(WebsiteProperties websiteProperties, KaptchaProperties kaptchaProperties,
-                                      KaptchaAuthenticationConverter converter, UserDetailsService userDetailsService) {
+        public WebsiteSecurityAdapter(WebsiteProperties websiteProperties,
+                                      KaptchaProperties kaptchaProperties,
+                                      KaptchaAuthenticationConverter converter,
+                                      UserDetailsService userDetailsService) {
             this.websiteProperties = websiteProperties;
             this.kaptchaProperties = kaptchaProperties;
             this.converter = converter;
@@ -98,11 +92,9 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
                     .antMatchers(kaptchaProperties.getPath()).permitAll()
                     .antMatchers(websiteProperties.getPublicPath()).permitAll()
                     .anyRequest().authenticated()
-                    .and()
-                    .formLogin().loginPage("/login").permitAll()
+                    .and().formLogin().loginPage("/login").permitAll()
                     .defaultSuccessUrl(websiteProperties.getDefaultSuccessUrl())
-                    .and()
-                    .logout().permitAll();
+                    .and().logout().permitAll();
             if (websiteProperties.getRememberMe()) {
                 http.rememberMe();
             }

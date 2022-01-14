@@ -1,22 +1,21 @@
 package com.github.mrzhqiang.hellgate.stage;
 
-import com.github.mrzhqiang.hellgate.domain.AuditableEntity;
+import com.github.mrzhqiang.hellgate.common.domain.BaseAuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.Duration;
 
 /**
  * 魔法、技能。
- * <p>
- * 只有扮演这个角色，才可能获得相关技能。
+ *
+ * <p>只有扮演这个角色，才可能获得相关技能。
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class Magic extends AuditableEntity {
+public class Magic extends BaseAuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,23 +31,23 @@ public class Magic extends AuditableEntity {
     private String icon;
     /**
      * 技能类型。
-     * <p>
-     * 决定技能是否可以主动释放，或是否持续生效，等等。
+     *
+     * <p>决定技能是否可以主动释放，或是否持续生效，等等。
      */
     @Enumerated
     private Type type;
     /**
      * 技能延迟。
-     * <p>
-     * 释放后多久开始生效。
+     *
+     * <p>释放后多久开始生效。
      */
     private Integer delay;
     /**
-     * 技能间隔。
-     * <p>
-     * 释放一次后，多久（回合）才可以继续释放。
+     * 冷却时间。
+     *
+     * <p>释放一次后，多久（回合）才可以继续释放。
      */
-    private Integer interval;
+    private Integer coolDown;
     /**
      * 攻击距离：0，自身；1 单体；1+ 群体及目标数量。
      */
@@ -65,6 +64,7 @@ public class Magic extends AuditableEntity {
      * 消耗
      */
     private BigDecimal consume;
+
     private BigDecimal maxConsume;
     private BigDecimal power;
     private BigDecimal maxPower;

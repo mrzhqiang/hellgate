@@ -1,6 +1,6 @@
 package com.github.mrzhqiang.hellgate.script;
 
-import com.github.mrzhqiang.hellgate.account.User;
+import com.github.mrzhqiang.hellgate.account.Account;
 import lombok.Data;
 
 import javax.persistence.Embeddable;
@@ -14,7 +14,7 @@ public class ScriptHolder {
     private Instant instant;
     // 地点
     // 人物
-    private User user;
+    private Account account;
     // 事件
 
 }

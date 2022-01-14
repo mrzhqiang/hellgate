@@ -26,6 +26,10 @@ spring:
       - db
       - kaptcha
       - website
+      - hellgate
   messages:
     basename: i18n.messages
     fallback-to-system-locale: false
+
+  session:
+    timeout: 15m

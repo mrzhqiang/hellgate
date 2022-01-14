@@ -1,90 +1,47 @@
 <!-- https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#template-layout -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<!-- 简单模板 -->
+<!--
+简单的页眉
+使用方式：
+<div th:replace="components/header::simple~{::title},~{::link})">
+    <title th:text="${website.title}"></title>
+    <link th:href="@{/css/home.css}" rel="stylesheet">
+</head>
+-->
+
 <head th:fragment="simple(title,links)">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
-    <meta name="author" th:content="${website.author}" th:if="${!#strings.isEmpty(website.author)}">
+    <meta name="author" th:content="${website.author}" th:unless="${#strings.isEmpty(website.author)}">
 
     <!--/*@thymesVar id="title" type=""*/-->
     <title th:replace="${title}"></title>
 
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
     <link rel="shortcut icon" th:href="@{${website.favicon}}">
+
     <!--/* Per-page placeholder for additional links */-->
     <!--/*@thymesVar id="links" type=""*/-->
     <!--suppress HtmlUnknownTag -->
     <th:block th:replace="${links}"/>
 </head>
 
-<!-- 登录模板 -->
 <head th:fragment="login(title)">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
-    <meta name="author" th:content="${website.author}" th:if="${!#strings.isEmpty(website.author)}">
+    <meta name="author" th:content="${website.author}" th:unless="${#strings.isEmpty(website.author)}">
 
-    <!--/*@thymesVar id="title" type=""*/-->
-    <title th:replace="${title}"></title>
+    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
+    <title th:text="|${title} - ${website.title}|"></title>
 
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
     <link rel="shortcut icon" th:href="@{${website.favicon}}">
-    <!-- Core styles and scripts -->
-    <link th:href="@{/webjars/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/login.css}" rel="stylesheet">
 </head>
 
-<!-- 主要模板 -->
-<head th:fragment="main(title,links)">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
-    <meta name="author" th:content="${website.author}" th:if="${!#strings.isEmpty(website.author)}">
-
-    <!--/*@thymesVar id="title" type=""*/-->
-    <title th:replace="${title}"></title>
-
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
-    <link rel="shortcut icon" th:href="@{${website.favicon}}">
-    <!-- Core styles and scripts -->
-    <link th:href="@{/webjars/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet" type="text/css">
-    <link th:href="@{/css/dataTables.bootstrap4.css}" rel="stylesheet">
-    <!--/* Per-page placeholder for additional links */-->
-    <!--/*@thymesVar id="links" type=""*/-->
-    <!--suppress HtmlUnknownTag -->
-    <th:block th:replace="${links}"/>
-    <!-- main style -->
-    <link th:href="@{/css/main.css}" rel="stylesheet">
-</head>
-
-<!-- 管理模板 -->
-<head th:fragment="admin(title,links)">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
-    <meta name="author" th:content="${website.author}" th:if="${!#strings.isEmpty(website.author)}">
-
-    <!--/*@thymesVar id="title" type=""*/-->
-    <title th:replace="${title}"></title>
-
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.website.WebsiteProperties"*/-->
-    <link rel="shortcut icon" th:href="@{${website.favicon}}">
-    <!-- Core styles and scripts -->
-    <link th:href="@{/webjars/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
-    <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet" type="text/css">
-    <link th:href="@{/css/dataTables.bootstrap4.css}" rel="stylesheet">
-    <link th:href="@{/css/sb-admin.css}" rel="stylesheet">
-
-    <!--/* Per-page placeholder for additional links */-->
-    <!--/*@thymesVar id="links" type=""*/-->
-    <!--suppress HtmlUnknownTag -->
-    <th:block th:replace="${links}"/>
-</head>
 </html>

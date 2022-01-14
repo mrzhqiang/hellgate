@@ -1,0 +1,7 @@
+hellgate:
+  # 第一次登录失败距离现在的区间时长，当触发登录失败处理时，如果位于区间时长内，则累加失败次数；否则重置失败次数统计
+  first-failed-duration: 1h
+  # 最大登录失败次数
+  max-login-failed: 5
+  # 触发最大登录失败次数时，账户锁定的持续时长
+  locked-duration: 5m

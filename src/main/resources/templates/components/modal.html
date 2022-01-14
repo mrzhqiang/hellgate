@@ -1,5 +1,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<!--
+使用方法：
+<div th:replace="components/modal::dialog"></div>
+一般来说，复杂的对话框通常复制这里的代码，进行自定义。
+-->
+
 <div class="modal fade" id="dialogModal" tabindex="-1" role="dialog" aria-labelledby="dialogModalTitle"
      aria-hidden="true" th:fragment="dialog">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -19,6 +25,14 @@
     </div>
 </div>
 
+<!--
+需要搭配使用：
+<button type="button" class="btn btn-outline-danger btn-sm"
+        data-toggle="modal" data-target="#deleteModal"
+        th:data-uri="@{|/person/authentication/${auth.id}|}"
+        th:data-name="${auth.userId}">删除
+</button>
+-->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle"
      aria-hidden="true" th:fragment="delete">
     <div class="modal-dialog modal-dialog-centered" role="document">

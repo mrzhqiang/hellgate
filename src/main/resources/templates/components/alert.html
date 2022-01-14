@@ -1,41 +1,54 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <!--
-这里是警告提示框的片段。
-通过 <div th:replace="components/alert::info"></div> 方式使用相应的提示框。
-在组件层面，不必进行如 #messages.msg(key) 的国际化操作，应将此操作转移到实际页面。
+警告提示片段
+使用方式：
+<div th:replace="components/alert::info"></div>
+小技巧：
+可以使用 Code >> save as live template 保存到 IDEA 模板，设置 th-alert-info 语法，提升效率。
+注意事项：
+以 message. 开头的 alert 字符串，表示采用 i18n 国际化语言。
 -->
 
-<div class="alert alert-info alert-dismissible fade show mt-3 mb-3" role="alert" th:fragment="info()"
-     th:if="${!#strings.isEmpty(alert)}">
+<div class="alert alert-info alert-dismissible fade show mx-3" role="alert"
+     th:fragment="info" th:unless="${#strings.isEmpty(alert)}"
+     th:width="msg = ${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}">
     <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
-    <strong th:text="${alert}">提示信息</strong>
+    <!--/*@thymesVar id="msg" type="java.lang.String"*/-->
+    <strong th:text="${msg}">信息提示</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
-<div class="alert alert-success alert-dismissible fade show mt-3 mb-3" role="alert" th:fragment="success()"
-     th:if="${!#strings.isEmpty(alert)}">
+<div class="alert alert-success alert-dismissible fade show mx-3" role="alert"
+     th:fragment="success" th:unless="${#strings.isEmpty(alert)}"
+     th:width="msg = ${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}">
     <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
-    <strong th:text="${alert}">成功信息</strong>
+    <!--/*@thymesVar id="msg" type="java.lang.String"*/-->
+    <strong th:text="${msg}">成功提示</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
-<div class="alert alert-warning alert-dismissible fade show mt-3 mb-3" role="alert" th:fragment="warning()"
-     th:if="${!#strings.isEmpty(alert)}">
+<div class="alert alert-warning alert-dismissible fade show mx-3" role="alert"
+     th:fragment="warning" th:unless="${#strings.isEmpty(alert)}"
+     th:width="msg = ${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}">
     <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
-    <strong th:text="${alert}">警告信息</strong>
+    <!--/*@thymesVar id="msg" type="java.lang.String"*/-->
+    <strong th:text="${msg}">警告提示</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
-<div class="alert alert-danger alert-dismissible fade show mt-3 mb-3" role="alert" th:fragment="danger()"
-     th:if="${!#strings.isEmpty(alert)}">
+<div class="alert alert-danger alert-dismissible fade show mx-3" role="alert"
+     th:fragment="danger" th:unless="${#strings.isEmpty(alert)}"
+     th:width="msg = ${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}">
     <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
-    <strong th:text="${alert}">错误信息</strong>
+    <!--/*@thymesVar id="msg" type="java.lang.String"*/-->
+    <strong th:text="${msg}">错误提示</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
