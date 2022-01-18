@@ -13,6 +13,8 @@ logging:
 debug: true
 
 spring:
+  codec:
+    log-request-details: ${debug}
   thymeleaf:
     cache: false
 
@@ -23,10 +25,10 @@ spring:
 
   profiles:
     include:
+      - account
       - db
       - kaptcha
       - website
-      - hellgate
   messages:
     basename: i18n.messages
     fallback-to-system-locale: false

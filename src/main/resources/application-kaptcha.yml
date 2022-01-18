@@ -1,6 +1,7 @@
 spring:
   kaptcha:
-    enabled: true
+    # 开发环境下屏蔽，线上建议打开
+    enabled: false
     config:
       kaptcha:
         border: "no"

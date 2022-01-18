@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <!--
-警告提示片段
+警告提示
 使用方式：
 <div th:replace="components/alert::info"></div>
 小技巧：
@@ -10,45 +10,44 @@
 以 message. 开头的 alert 字符串，表示采用 i18n 国际化语言。
 -->
 
+<!--suppress ThymeleafMessagesResolveInspection -->
 <div class="alert alert-info alert-dismissible fade show mx-3" role="alert"
-     th:fragment="info" th:unless="${#strings.isEmpty(alert)}"
-     th:width="msg = ${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}">
+     th:fragment="info" th:unless="${#strings.isEmpty(alert)}">
     <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
     <!--/*@thymesVar id="msg" type="java.lang.String"*/-->
-    <strong th:text="${msg}">信息提示</strong>
+    <strong th:text="${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}"></strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
 <div class="alert alert-success alert-dismissible fade show mx-3" role="alert"
-     th:fragment="success" th:unless="${#strings.isEmpty(alert)}"
-     th:width="msg = ${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}">
+     th:fragment="success" th:unless="${#strings.isEmpty(alert)}">
     <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
     <!--/*@thymesVar id="msg" type="java.lang.String"*/-->
-    <strong th:text="${msg}">成功提示</strong>
+    <strong th:text="${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}"></strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
+<!--suppress ThymeleafMessagesResolveInspection -->
 <div class="alert alert-warning alert-dismissible fade show mx-3" role="alert"
-     th:fragment="warning" th:unless="${#strings.isEmpty(alert)}"
-     th:width="msg = ${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}">
+     th:fragment="warning" th:unless="${#strings.isEmpty(alert)}">
     <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
     <!--/*@thymesVar id="msg" type="java.lang.String"*/-->
-    <strong th:text="${msg}">警告提示</strong>
+    <strong th:text="${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}"></strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
+<!--suppress ThymeleafMessagesResolveInspection -->
 <div class="alert alert-danger alert-dismissible fade show mx-3" role="alert"
-     th:fragment="danger" th:unless="${#strings.isEmpty(alert)}"
-     th:width="msg = ${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}">
+     th:fragment="danger" th:unless="${#strings.isEmpty(alert)}">
     <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
     <!--/*@thymesVar id="msg" type="java.lang.String"*/-->
-    <strong th:text="${msg}">错误提示</strong>
+    <strong th:text="${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}"></strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>

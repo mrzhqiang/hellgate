@@ -1,5 +1,6 @@
 package com.github.mrzhqiang.hellgate.common.exception;
 
+import com.github.mrzhqiang.hellgate.common.Views;
 import com.google.common.base.VerifyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -51,12 +52,7 @@ public class GlobalExceptionHandler {
 
     private Object resolveException(Exception exception, HttpServletRequest request, HttpStatus httpStatus) {
         if (checkHtmlRequest(request)) {
-            ModelAndView view = new ModelAndView("error/" + httpStatus.value());
-            view.addObject("status", httpStatus.value());
-            view.addObject("error", httpStatus.getReasonPhrase());
-            view.addObject("message", exception.getMessage());
-            view.addObject("timestamp", LocalDateTime.now().format(ISO_LOCAL_DATE_TIME));
-            return view;
+            return Views.ofException(httpStatus, exception);
         }
 
         ExceptionData data = ExceptionData.of(httpStatus, exception, request);
@@ -64,8 +60,9 @@ public class GlobalExceptionHandler {
     }
 
     private boolean checkHtmlRequest(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader(HttpHeaders.ACCEPT))
-                .orElse("")
-                .contains(MediaType.TEXT_HTML_VALUE);
+        return Optional.ofNullable(request)
+                .map(it -> it.getHeader(HttpHeaders.ACCEPT))
+                .filter(it -> it.contains(MediaType.TEXT_HTML_VALUE))
+                .isPresent();
     }
 }

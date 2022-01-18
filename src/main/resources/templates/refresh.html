@@ -3,13 +3,13 @@
 
 <head th:replace="components/header::simple(~{::title},_)">
     <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
-    <title th:text="|刷新 - ${website.title}|"></title>
+    <title th:text="|#{page.refresh.label} - ${website.title}|"></title>
 </head>
 
 <body>
 <br>
-    请不要点击过快！
-    <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
-    <a href="javascript:location.reload();">刷新</a><br>
+<p th:text="#{page.refresh.tips}"></p>
+<span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
+<a href="javascript:location.reload();" th:text="#{page.refresh.label}"></a><br>
 </body>
 </html>

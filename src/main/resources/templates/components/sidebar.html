@@ -11,7 +11,7 @@
     <li class="nav-item" th:classappend="${#strings.equals('user', page)} ? 'active'">
         <a class="nav-link" href="#" th:href="@{/users}">
             <i class="fas fa-fw fa-user-alt"></i>
-            <span>用户管理</span>
+            <span th:text="#{components.sidebar.user.manage}"></span>
         </a>
     </li>
 </ul>

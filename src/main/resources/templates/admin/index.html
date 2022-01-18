@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:replace="layout::main(~{::#wrapper})">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:replace="layout::admin(#{page.admin.title}, ~{::#wrapper})">
 <div id="wrapper">
-    <div th:replace="components/sidebar::main('admin')"></div>
+    <div th:replace="components/sidebar::admin('admin')"></div>
     <div id="content-wrapper">
         <div class="container-fluid">
             <ol class="breadcrumb">

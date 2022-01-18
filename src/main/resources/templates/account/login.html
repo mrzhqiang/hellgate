@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="components/header::login(#{page.login.title})">
+    <title></title>
+</head>
+
+<body>
+<div class="container">
+    <div class="card card-login mx-auto mt-4">
+        <div class="card-header text-center h3">[[${website.title}]]</div>
+        <div class="card-body">
+            <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
+            <div th:replace="components/alert::success"></div>
+            <!--suppress ThymeleafVariablesResolveInspection -->
+            <p class="alert alert-danger text-center my-1 py-1"
+               th:if="${param.error} and ${!#strings.isEmpty(message)}">[[${message}]]</p>
+            <p class="alert alert-success text-center my-1 py-1"
+               th:if="${param.logout}" th:text="#{page.login.alert.logout}"></p>
+            <!--/*@thymesVar id="accountForm" type="com.github.mrzhqiang.hellgate.controller.account.AccountForm"*/-->
+            <form class="form-login" method="post" th:action="@{/login}" th:object="${accountForm}">
+                <label for="inputUsername" class="sr-only" th:text="#{page.login.input.username}"></label>
+                <input id="inputUsername" class="form-control my-3" type="text" maxlength="15"
+                       th:value="*{username}" name="username" th:placeholder="#{page.login.input.username}"
+                       th:errorclass="is-invalid" required autofocus>
+                <label for="inputPassword" class="sr-only" th:text="#{page.login.input.password}"></label>
+                <input id="inputPassword" class="form-control my-3" type="password" maxlength="15"
+                       th:value="*{password}" name="password" th:placeholder="#{page.login.input.password}"
+                       th:errorclass="is-invalid" required>
+                <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
+                <div class="form-check checkbox my-3" th:if="${website!=null && website.rememberMe}">
+                    <input id="rememberMe" type="checkbox" class="form-check-input" value="remember-me">
+                    <label class="form-check-label user-select-none" for="rememberMe"
+                           th:text="#{page.login.input.remember}"></label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block my-4" type="submit" th:text="#{page.login.submit}"></button>
+                <span th:text="#{page.login.new-user}"></span>
+                <a th:href="@{/register}" th:text="#{page.login.click.register}"></a>
+                <br>
+                <a th:href="@{/}" th:text="#{page.login.back}"></a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.slim.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+
+</html>

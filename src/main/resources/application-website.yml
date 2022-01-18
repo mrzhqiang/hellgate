@@ -15,4 +15,6 @@ website:
     - /index
     - /register
     - /register/help
+    - /error
+    - /error/**
   default-success-url: /stage

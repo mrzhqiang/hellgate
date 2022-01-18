@@ -8,17 +8,16 @@
 <body>
 <div class="home-title-layout">
     <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
-    <span class="home-title-content">[[${website.title}]]</span>
+    <span class="home-title-content" th:text="${website.title}"></span>
 </div>
-<a href="#" th:href="@{/login}" class="home-login">登陆游戏</a>
+<a href="#" th:href="@{/login}" class="home-login" th:text="#{page.home.game.login}"></a>
 <div class="home-tips-layout">
-    <span class="home-tips-content">
-        抵制不良游戏，拒绝盗版游戏。注意自我保护，谨防受骗上当。适度游戏益脑，沉迷游戏伤身。合理安排时间，享受健康生活。
-    </span>
+    <span class="home-tips-content"
+          th:text="#{page.home.game.tips}"></span>
     <footer th:replace="components/footer::copyRight"></footer>
 </div>
 <div class="backstretch home-background">
-    <img src="#" th:src="@{/image/dyzm.jpg}" class="home-background-image" alt="轮播背景图片">
+    <img src="#" th:src="@{/image/dyzm.jpg}" class="home-background-image" alt="" th:alt="#{page.home.backstretch}">
 </div>
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
