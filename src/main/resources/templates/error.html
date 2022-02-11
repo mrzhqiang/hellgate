@@ -10,7 +10,7 @@
             <p th:text="|#{page.error.message.prefix}${message}|"></p>
             <p class="lead" th:text="#{page.error.message.lead.label}"></p>
             <a href="javascript:history.back()" th:text="#{page.error.message.lead.back}"></a>
-            <p th:text="#{page.error.message.lead.or}"></p>
+            <p th:text="#{page.error.message.lead.else}"></p>
             <a href="#" th:href="@{/}" th:text="#{page.error.message.lead.back.home}"></a>
             <footer th:replace="components/footer::copyRight"></footer>
         </div>
