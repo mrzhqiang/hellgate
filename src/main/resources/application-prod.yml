@@ -1,0 +1,30 @@
+server:
+  port: 80
+
+logging:
+  level:
+    ROOT: INFO
+    web: INFO
+
+spring:
+  thymeleaf:
+    cache: false
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+  profiles:
+    include:
+      - account
+      - db
+      - kaptcha
+      - third
+      - website
+  messages:
+    basename: i18n.messages
+    fallback-to-system-locale: false
+
+  session:
+    timeout: 15m

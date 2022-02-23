@@ -18,3 +18,11 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    # username:
+    # password:
+    connect-timeout: 10s

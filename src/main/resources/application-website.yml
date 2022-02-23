@@ -1,20 +1,20 @@
 website:
   author: "mrzhqiang"
   favicon: "/image/favicon.ico"
-  title: "暗黑之门"
-  copy-right:  粤ICP备xxxxxxxx号 Copyright &copy; 2020 - 2022 ${website.author} 版权所有
+  title: "鬼门关"
+  copy-right: 粤ICP备xxxxxxxx号 Copyright &copy; 2020 - 2022 ${website.author} 版权所有
   remember-me: false
   ignore-path:
-    - /webjars/**
-    - /css/**
-    - /js/**
-    - /image/**
-    - /fontawesome/**
+    - "/fontawesome/**"
   public-path:
-    - /
-    - /index
-    - /register
-    - /register/help
-    - /error
-    - /error/**
-  default-success-url: /stage
+    - "/"
+    - "/index"
+    - "/register"
+    - "/register/help"
+    - "/error"
+    - "/error/**"
+  api-path: "/api/**"
+  default-success-url: "/stage"
+  login-path: "/login"
+  register-path: "/register"
+  register-error-path: "/register?error"

@@ -1,0 +1,38 @@
+server:
+  port: 80
+
+logging:
+  level:
+    ROOT: DEBUG
+    web: DEBUG
+    # See http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints
+    org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration: DEBUG
+    # always log high-level information about application startup
+    com.github.mrzhqiang.hellgate: DEBUG
+
+debug: true
+
+spring:
+  codec:
+    log-request-details: ${debug}
+  thymeleaf:
+    cache: false
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+  profiles:
+    include:
+      - account
+      - db
+      - kaptcha
+      - third
+      - website
+  messages:
+    basename: i18n.messages
+    fallback-to-system-locale: false
+
+  session:
+    timeout: 5m

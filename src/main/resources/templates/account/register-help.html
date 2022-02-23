@@ -2,20 +2,20 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="components/header::simple(~{::title},_)">
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
     <title th:text="|#{page.register.help} - ${website.title}|"></title>
 </head>
 
 <body>
-    <span th:text="#{page.register.help.title}"></span><br/>
-    <span th:text="#{page.register.help.head}"></span>
+<span th:text="#{page.register.help.title}"></span><br/>
+<span th:text="#{page.register.help.head}"></span>
 <p>
     <span th:text="#{page.register.help.body1}"></span><br>
     <span th:text="#{page.register.help.body2}"></span><br>
     <span th:text="#{page.register.help.body3}"></span><br>
 </p>
-    <a th:href="@{/register}" th:text="#{page.register.help.back.register}"></a><br>
-    <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
-    <a href="javascript:location.reload();" th:text="#{page.register.help.refresh}"></a><br>
+<a th:href="@{/register}" th:text="#{page.register.help.back.register}"></a><br>
+<span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
+<a href="javascript:location.reload();" th:text="#{page.register.help.refresh}"></a><br>
 </body>
 </html>

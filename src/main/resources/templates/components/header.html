@@ -19,7 +19,7 @@
     <!--/*@thymesVar id="title" type=""*/-->
     <title th:replace="${title}"></title>
 
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
     <link rel="shortcut icon" th:href="@{${website.favicon}}">
 
     <!--/* Per-page placeholder for additional links */-->
@@ -34,10 +34,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" th:content="${website.author}" th:unless="${#strings.isEmpty(website.author)}">
 
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
     <title th:text="|${title} - ${website.title}|"></title>
 
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
     <link rel="shortcut icon" th:href="@{${website.favicon}}">
 
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">

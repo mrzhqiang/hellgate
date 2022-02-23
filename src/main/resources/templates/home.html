@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/header::simple(~{::title},~{::link})">
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
     <title th:text="${website.title}"></title>
     <link th:href="@{/css/home.css}" rel="stylesheet">
 </head>
 <body>
 <div class="home-title-layout">
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
     <span class="home-title-content" th:text="${website.title}"></span>
 </div>
 <a href="#" th:href="@{/login}" class="home-login" th:text="#{page.home.game.login}"></a>

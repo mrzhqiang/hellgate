@@ -13,13 +13,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
     <meta name="author" th:content="${website.author}" th:unless="${#strings.isEmpty(website.author)}">
 
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
     <title th:text="|${title} - ${website.title}|"></title>
 
-    <!--/*@thymesVar id="website" type="com.github.mrzhqiang.hellgate.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
     <link rel="shortcut icon" th:href="@{${website.favicon}}">
     <!-- Core styles and scripts -->
     <link th:href="@{/webjars/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
