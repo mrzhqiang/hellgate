@@ -6,9 +6,9 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import hellgate.common.Authentications;
 import hellgate.common.Jacksons;
-import hellgate.common.third.ThirdApi;
-import hellgate.common.third.WhoisIpData;
-import io.reactivex.observers.DefaultObserver;
+import hellgate.common.session.SessionDetails;
+import hellgate.common.session.Sessions;
+import hellgate.common.third.IpLocation;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -18,11 +18,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.List;
@@ -40,15 +36,16 @@ public class ActionLogHandler {
 
     private static final String UNKNOWN_ACTION = "(unknown-action)";
     private static final String UNKNOWN_ADDRESS = "(unknown-address)";
+    private static final String UNKNOWN_DEVICE = "(unknown-device)";
     private static final String PARAMETERS_TEMPLATE = "%s=%s";
     private static final char DOT_CHAR = ',';
 
     private final ActionLogRepository repository;
-    private final ThirdApi thirdApi;
+    private final IpLocation location;
 
-    public ActionLogHandler(ActionLogRepository repository, ThirdApi thirdApi) {
+    public ActionLogHandler(ActionLogRepository repository, IpLocation location) {
         this.repository = repository;
-        this.thirdApi = thirdApi;
+        this.location = location;
     }
 
     @Pointcut("@annotation(hellgate.common.logging.Action)")
@@ -105,26 +102,23 @@ public class ActionLogHandler {
         log.setState(state);
         log.setResult(resultContent);
         log.setOperator(Authentications.currentUsername());
-        log.setIp(Authentications.currentHost());
+        SessionDetails sessionDetails = Sessions.ofCurrentDetails();
+        if (sessionDetails != null) {
+            log.setIp(sessionDetails.getIp());
+            log.setLocation(sessionDetails.getLocation());
+            log.setDevice(sessionDetails.getAccessType());
+            repository.save(log);
+            return;
+        }
+        // 可能还没查到 IP 地址的地理位置，此时手动发起转换请求
+        String host = Authentications.currentHost();
+        log.setIp(Optional.ofNullable(host).orElse(UNKNOWN_ADDRESS));
+        log.setLocation(UNKNOWN_ADDRESS);
+        log.setDevice(UNKNOWN_DEVICE);
         repository.save(log);
-        thirdApi.whoisIp(ThirdApi.IP_LOCATION, log.getIp(), true)
-                .subscribe(new DefaultObserver<WhoisIpData>() {
-                    @Override
-                    public void onNext(@Nonnull WhoisIpData data) {
-                        log.setAddress(data.getAddr());
-                        repository.save(log);
-                    }
-
-                    @Override
-                    public void onError(@Nonnull Throwable e) {
-                        log.setAddress(UNKNOWN_ADDRESS);
-                        repository.save(log);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        // do nothing
-                    }
-                });
+        location.convert(host, address -> {
+            log.setLocation(address);
+            repository.save(log);
+        });
     }
 }

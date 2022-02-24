@@ -1,6 +1,6 @@
 package hellgate.controller.account;
 
-import hellgate.common.Sessions;
+import hellgate.common.session.Sessions;
 import hellgate.common.logging.Action;
 import hellgate.common.logging.ActionType;
 import org.springframework.stereotype.Controller;

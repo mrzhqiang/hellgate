@@ -2,6 +2,9 @@ HELP.md
 target/
 application.log*
 
+*.db
+.cache
+
 ### STS ###
 .apt_generated
 .classpath

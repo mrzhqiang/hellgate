@@ -1,30 +1,46 @@
 server:
   port: 80
-
 logging:
   level:
     ROOT: INFO
     web: INFO
-
 spring:
-  thymeleaf:
-    cache: false
-
   mvc:
     hiddenmethod:
       filter:
         enabled: true
-
-  profiles:
-    include:
-      - account
-      - db
-      - kaptcha
-      - third
-      - website
   messages:
     basename: i18n.messages
     fallback-to-system-locale: false
-
   session:
     timeout: 15m
+  datasource:
+    #    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:mysql://localhost:3306/hellgate?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+    #    username: root
+    #    password: 123456
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:hellgate.db
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: hikariCP
+      max-lifetime: 30000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    # username:
+    password: 123456
+    connect-timeout: 10s
+  jpa:
+    show-sql: false
+website:
+  remember-me: true
+http:
+  cache-path: ${user.dir}/.cache
+  cache-max-size: 1GB

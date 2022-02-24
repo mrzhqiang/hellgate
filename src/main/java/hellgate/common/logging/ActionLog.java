@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -52,6 +50,8 @@ public class ActionLog extends BaseEntity {
     private ActionState state;
     /**
      * 操作返回结果
+     * <p>
+     * Json 序列化字符串
      */
     private String result;
     /**
@@ -63,7 +63,13 @@ public class ActionLog extends BaseEntity {
      */
     private String ip;
     /**
-     * 操作人所在地区（由 IP 地址获得）
+     * 操作人所在位置（由 IP 异步从网络获得（如果不可用则从本地数据库获得）
      */
-    private String address;
+    private String location;
+    /**
+     * 操作人所使用的设备信息。
+     * <p>
+     * 由 Header 头的 User-Agent 信息得到。
+     */
+    private String device;
 }

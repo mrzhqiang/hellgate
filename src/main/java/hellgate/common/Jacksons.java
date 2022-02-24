@@ -37,9 +37,8 @@ public final class Jacksons {
 
     static {
         OBJECT_MAPPER.registerModules(SecurityJackson2Modules.getModules(ClassUtils.getDefaultClassLoader()));
-        OBJECT_MAPPER.setFilterProvider(
-                new SimpleFilterProvider()
-                        .addFilter("fieldFilter", serializeAllExcept(EXCLUDE_PROPERTIES)))
+        OBJECT_MAPPER.setFilterProvider(new SimpleFilterProvider()
+                .addFilter("fieldFilter", serializeAllExcept(EXCLUDE_PROPERTIES)));
     }
 
     private static String generateJson(Object o, boolean prettyPrint, boolean escapeNonAscii) {

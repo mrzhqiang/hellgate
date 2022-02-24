@@ -25,14 +25,15 @@ public class SessionConfiguration implements BeanClassLoaderAware {
 
     /**
      * 会话事件发布器。
-     * <p>
-     * Redis Session 似乎不需要这里，先注释掉，再观察一下情况。
      */
     @Bean
     public HttpSessionEventPublisher sessionEventPublisher() {
         return new HttpSessionEventPublisher();
     }
 
+    /**
+     * Redis 序列化的 Json 格式。
+     */
     @Bean
     public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
         return new GenericJackson2JsonRedisSerializer(objectMapper());
@@ -59,5 +60,4 @@ public class SessionConfiguration implements BeanClassLoaderAware {
     public void setBeanClassLoader(@Nonnull ClassLoader classLoader) {
         this.loader = classLoader;
     }
-
 }

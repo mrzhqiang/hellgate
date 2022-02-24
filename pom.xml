@@ -19,9 +19,6 @@
         <kaptcha-spring-boot-starter.version>0.0.1-SNAPSHOT</kaptcha-spring-boot-starter.version>
         <helper.version>2021.1.4</helper.version>
 
-        <sqlite-dialect.version>0.1.2</sqlite-dialect.version>
-        <retrofit.version>2.9.0</retrofit.version>
-
         <webjars-locator.version>0.39</webjars-locator.version>
         <bootstrap.version>4.5.2</bootstrap.version>
         <datatables.version>1.11.3</datatables.version>
@@ -29,6 +26,10 @@
         <jquery-easing.version>1.4.1</jquery-easing.version>
         <jquery-backstretch.version>2.0.4</jquery-backstretch.version>
         <fontawesome.version>5.14.0</fontawesome.version>
+
+        <sqlite-dialect.version>0.1.2</sqlite-dialect.version>
+        <retrofit.version>2.9.0</retrofit.version>
+        <geoip2.version>2.15.0</geoip2.version>
     </properties>
 
     <repositories>
@@ -140,6 +141,7 @@
             <groupId>io.reactivex.rxjava2</groupId>
             <artifactId>rxjava</artifactId>
         </dependency>
+        <!-- 最好的 HTTP 客户端 -->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
@@ -148,6 +150,7 @@
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>logging-interceptor</artifactId>
         </dependency>
+        <!-- 声明式 RESTful 框架 -->
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
@@ -167,6 +170,12 @@
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>adapter-rxjava2</artifactId>
             <version>${retrofit.version}</version>
+        </dependency>
+        <!-- 利用本地数据库转换 IP 为地理位置 -->
+        <dependency>
+            <groupId>com.maxmind.geoip2</groupId>
+            <artifactId>geoip2</artifactId>
+            <version>${geoip2.version}</version>
         </dependency>
 
         <dependency>

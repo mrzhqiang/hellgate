@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" th:replace="layout::admin(#{page.error5xx.title}, ~{::#wrapper})">
-<div id="wrapper">
-    <div th:replace="components/sidebar::admin('')"></div>
-    <div id="content-wrapper">
-        <div class="container-fluid">
-            <h3 th:text="#{page.error5xx.head}"></h3>
-            <p class="text-danger">[[${status}]] - [[${error}]]</p>
-            <!--/*@thymesVar id="timestamp" type="String"*/-->
-            <p class="text-info" th:text="|#{page.error.timestamp} - ${timestamp}|"></p>
-            <!--/*@thymesVar id="message" type="String"*/-->
-            <p th:text="|#{page.error5xx.message.prefix}${message}|"></p>
-            <p class="lead" th:text="#{page.error.message.lead.label}"></p>
-            <a href="javascript:history.back()" th:text="#{page.error.message.lead.back}"></a>
-            <p th:text="#{page.error.message.lead.else}"></p>
-            <a href="#" th:href="@{/}" th:text="#{page.error.message.lead.back.home}"></a>
-            <footer th:replace="components/footer::copyRight"></footer>
-        </div>
-    </div>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/header::simple(~{::title},~{::link})">
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
+    <title th:text="${website.title}"></title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <h3 th:text="#{page.error5xx.head}"></h3>
+    <p class="text-danger">[[${status}]] - [[${error}]]</p>
+    <!--/*@thymesVar id="timestamp" type="String"*/-->
+    <p class="text-info" th:text="|#{page.error.timestamp} - ${timestamp}|"></p>
+    <!--/*@thymesVar id="message" type="String"*/-->
+    <p th:text="|#{page.error5xx.message.prefix}${message}|"></p>
+    <p class="lead" th:text="#{page.error.message.lead.label}"></p>
+    <a href="javascript:history.back()" th:text="#{page.error.message.lead.back}"></a>
+    <p th:text="#{page.error.message.lead.else}"></p>
+    <a href="#" th:href="@{/}" th:text="#{page.error.message.lead.back.home}"></a>
+    <footer th:replace="components/footer::copyRight"></footer>
 </div>
+</body>
 </html>

@@ -1,7 +1,7 @@
 package hellgate.common.limiter;
 
 import com.google.common.util.concurrent.RateLimiter;
-import hellgate.common.Sessions;
+import hellgate.common.session.Sessions;
 import hellgate.common.Views;
 import hellgate.config.AccountProperties;
 import lombok.extern.slf4j.Slf4j;

@@ -26,20 +26,20 @@ public final class Authentications {
     /**
      * 当前安全上下文的认证信息。
      */
-    public static Optional<Authentication> of() {
+    public static Optional<Authentication> ofCurrent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return Optional.ofNullable(authentication);
     }
 
     /**
-     * 当前身份认证的实例。
+     * 当前登录的认证信息。
      * <p>
      * 注意，如果没有 Authentication 实例，或者 Authentication 没有通过验证，或者 Authentication 是一个匿名实例，则返回不存在。
      *
      * @return 可选的实例，表示有可能返回不存在，但永远不会是 null 值。
      */
-    public static Optional<Authentication> ofCurrent() {
-        return Authentications.of()
+    public static Optional<Authentication> ofLogin() {
+        return Authentications.ofCurrent()
                 .filter(Authentication::isAuthenticated)
                 .filter(it -> !TRUST_RESOLVER.isAnonymous(it));
     }
@@ -70,17 +70,16 @@ public final class Authentications {
      * 获取当前请求的用户名。
      */
     public static String currentUsername() {
-        return Authentications.ofCurrent()
+        return Authentications.ofLogin()
                 .flatMap(Authentications::findUsername)
                 .orElse(UNKNOWN_USERNAME);
     }
 
     /**
-     * 、
      * 获取当前请求的主机地址。
      */
     public static String currentHost() {
-        return Authentications.of()
+        return Authentications.ofCurrent()
                 .map(Authentication::getDetails)
                 .map(Authentications::attemptFindHost)
                 .orElse(UNKNOWN_HOST);

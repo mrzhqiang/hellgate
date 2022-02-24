@@ -15,6 +15,6 @@ public class AuditingConfiguration {
 
     @Bean
     public AuditorAware<String> auditor() {
-        return () -> Authentications.ofCurrent().flatMap(Authentications::findUsername);
+        return () -> Authentications.ofLogin().flatMap(Authentications::findUsername);
     }
 }

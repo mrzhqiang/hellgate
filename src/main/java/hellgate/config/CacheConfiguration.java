@@ -18,7 +18,7 @@ import static com.google.common.base.CaseFormat.UPPER_CAMEL;
 @Configuration
 public class CacheConfiguration extends CachingConfigurerSupport {
 
-    private static final String CACHE_PREFIX = "cached";
+    private static final String CACHE_PREFIX = "cache";
     private static final Joiner CACHE_JOINER = Joiner.on(':').skipNulls();
 
     @Bean
