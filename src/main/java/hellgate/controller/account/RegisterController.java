@@ -40,11 +40,11 @@ public class RegisterController {
         }
 
         if (!accountService.register(form)) {
-            result.reject("message.register.failed");
+            result.reject("register.failed");
             return "account/register";
         }
 
-        attributes.addFlashAttribute("alert", "message.register.successful");
+        attributes.addFlashAttribute("alert", "register.successful");
         return "redirect:/login";
     }
 

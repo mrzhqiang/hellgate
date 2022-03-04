@@ -34,7 +34,7 @@ public class AccountService implements UserDetailsService {
     @Override
     public Account loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("message.account.not-found"));
+                .orElseThrow(() -> new UsernameNotFoundException("login.account.not-found"));
     }
 
     /**

@@ -4,7 +4,27 @@ logging:
   level:
     ROOT: INFO
     web: INFO
+  file:
+    name: application.log
+    path: ./logs
 spring:
+  kaptcha:
+    # 开发环境下屏蔽，线上建议打开
+    enabled: true
+    config:
+      kaptcha:
+        border: "no"
+        image:
+          width: "150"
+          height: "40"
+        textproducer:
+          font:
+            color: "black"
+            size: "30"
+          char:
+            space: "5"
+            length: 4
+    parameter: "kaptcha"
   mvc:
     hiddenmethod:
       filter:

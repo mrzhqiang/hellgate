@@ -1,23 +1,24 @@
 <!-- https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#template-layout -->
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 
 <!--
-页眉
+页眉。
+
 使用方式：
-<div th:replace="components/header::simple~{::title},~{::link})">
+<div th:replace="components/header::style(~{::title},~{::link})">
     <title th:text="${website.title}"></title>
     <link th:href="@{/css/home.css}" rel="stylesheet">
 </head>
 -->
 
-<head th:fragment="simple(title,links)">
+<head th:fragment="style(title,links)">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" th:content="${website.author}" th:unless="${#strings.isEmpty(website.author)}">
 
     <!--/*@thymesVar id="title" type=""*/-->
-    <title th:replace="${title}"></title>
+    <title th:replace="|${title} - ${website.title}|"></title>
 
     <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
     <link rel="shortcut icon" th:href="@{${website.favicon}}">
@@ -26,22 +27,6 @@
     <!--/*@thymesVar id="links" type=""*/-->
     <!--suppress HtmlUnknownTag -->
     <th:block th:replace="${links}"/>
-</head>
-
-<head th:fragment="login(title)">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" th:content="${website.author}" th:unless="${#strings.isEmpty(website.author)}">
-
-    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
-    <title th:text="|${title} - ${website.title}|"></title>
-
-    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
-    <link rel="shortcut icon" th:href="@{${website.favicon}}">
-
-    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/login.css}" rel="stylesheet">
 </head>
 
 </html>

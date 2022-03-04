@@ -8,8 +8,14 @@ logging:
     org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration: DEBUG
     # always log high-level information about application startup
     com.github.mrzhqiang.hellgate: DEBUG
+  file:
+    name: application.log
+    path: ./logs
 debug: true
 spring:
+  kaptcha:
+    # 开发环境下屏蔽，线上建议打开
+    enabled: false
   codec:
     log-request-details: ${debug}
   thymeleaf:

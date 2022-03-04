@@ -24,6 +24,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.session.data.redis.RedisIndexedSessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
+import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 /**
  * 安全配置。
@@ -76,21 +77,24 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         private final KaptchaProperties kaptchaProperties;
         private final KaptchaAuthenticationConverter converter;
         private final UserDetailsService userDetailsService;
+        private final RedisIndexedSessionRepository sessionRepository;
 
         public WebsiteSecurityAdapter(WebsiteProperties websiteProperties,
                                       AccountProperties accountProperties,
                                       KaptchaProperties kaptchaProperties,
                                       KaptchaAuthenticationConverter converter,
-                                      UserDetailsService userDetailsService) {
+                                      UserDetailsService userDetailsService,
+                                      RedisIndexedSessionRepository sessionRepository) {
             this.websiteProperties = websiteProperties;
             this.accountProperties = accountProperties;
             this.kaptchaProperties = kaptchaProperties;
             this.converter = converter;
             this.userDetailsService = userDetailsService;
+            this.sessionRepository = sessionRepository;
         }
 
         @Bean
-        public SessionRegistry sessionRegistry(RedisIndexedSessionRepository sessionRepository) {
+        public SessionRegistry sessionRegistry() {
             return new SpringSessionBackedSessionRegistry<>(sessionRepository);
         }
 
@@ -111,10 +115,18 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
                     .and().formLogin().loginPage(websiteProperties.getLoginPath()).permitAll()
                     .defaultSuccessUrl(websiteProperties.getDefaultSuccessUrl())
                     .and().logout().permitAll()
-                    .and().sessionManagement().maximumSessions(accountProperties.getMaxSession());
+                    .and().sessionManagement(it -> it.maximumSessions(accountProperties.getMaxSession())
+                            .sessionRegistry(sessionRegistry()));
             if (websiteProperties.getRememberMe()) {
-                http.rememberMe();
+                http.rememberMe(it -> it.rememberMeServices(rememberMeServices()));
             }
+        }
+
+        @Bean
+        public SpringSessionRememberMeServices rememberMeServices() {
+            SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
+            rememberMeServices.setAlwaysRemember(websiteProperties.getRememberMe());
+            return rememberMeServices;
         }
 
         private AuthenticationFilter getAuthenticationFilter() throws Exception {

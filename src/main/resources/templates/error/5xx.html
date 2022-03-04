@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="components/header::simple(~{::title},~{::link})">
+<head th:replace="components/header::style(~{::title},~{::link})">
     <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
-    <title th:text="${website.title}"></title>
-    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <title th:text="|#{error.title} - ${website.title}|">Title</title>
+    <link href="/webjars/bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"
+          th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 </head>
 <body>
 <div class="container-fluid">
-    <h3 th:text="#{page.error5xx.head}"></h3>
+    <h3 th:text="#{error-5xx.head}">不好意思！服务器开小差了...</h3>
     <p class="text-danger">[[${status}]] - [[${error}]]</p>
     <!--/*@thymesVar id="timestamp" type="String"*/-->
-    <p class="text-info" th:text="|#{page.error.timestamp} - ${timestamp}|"></p>
+    <p class="text-info" th:text="|#{error.timestamp} - ${timestamp}|">时间戳</p>
     <!--/*@thymesVar id="message" type="String"*/-->
-    <p th:text="|#{page.error5xx.message.prefix}${message}|"></p>
-    <p class="lead" th:text="#{page.error.message.lead.label}"></p>
-    <a href="javascript:history.back()" th:text="#{page.error.message.lead.back}"></a>
-    <p th:text="#{page.error.message.lead.else}"></p>
-    <a href="#" th:href="@{/}" th:text="#{page.error.message.lead.back.home}"></a>
+    <p th:text="|#{error-5xx.message.prefix}${message}|">请查看：</p>
+    <p class="lead" th:text="#{error.message.lead.label}">您可以：</p>
+    <a href="javascript:history.back()" th:text="#{error.message.lead.back}">返回上一页</a>
+    <p th:text="#{error.message.lead.else}">，或者</p>
+    <a href="/" th:href="@{/}" th:text="#{error.message.lead.back.home}">回到主页。</a>
     <footer th:replace="components/footer::copyRight"></footer>
 </div>
 </body>

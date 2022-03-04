@@ -29,7 +29,7 @@ public abstract class BaseEntity {
     @CreatedDate
     private LocalDateTime created;
     /**
-     * 最近修改时间。
+     * 最后修改时间。
      */
     @LastModifiedDate
     private LocalDateTime lastModified;

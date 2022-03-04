@@ -1,23 +1,6 @@
 spring:
   profiles:
     active: dev
-  kaptcha:
-    # 开发环境下屏蔽，线上建议打开
-    enabled: false
-    config:
-      kaptcha:
-        border: "no"
-        image:
-          width: "150"
-          height: "40"
-        textproducer:
-          font:
-            color: "black"
-            size: "30"
-          char:
-            space: "5"
-            length: 4
-    parameter: "kaptcha"
 website:
   author: "mrzhqiang"
   favicon: "/image/favicon.ico"

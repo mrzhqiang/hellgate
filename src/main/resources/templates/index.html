@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/header::style(~{::title},~{::link})">
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
+    <title th:text="${website.title}">鬼门关</title>
+    <link href="../static/css/home.css" rel="stylesheet"
+          th:href="@{/css/home.css}">
+</head>
+<body>
+<div class="home-title-layout">
+    <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
+    <span class="home-title-content" th:text="${website.title}">鬼门关</span>
+</div>
+<a class="home-login" href="/login"
+   th:href="@{/login}" th:text="#{home.click.login}">登录游戏</a>
+<div class="home-tips-layout">
+    <span class="home-tips-content"
+          th:text="#{home.tips}">
+        抵制不良游戏，拒绝盗版游戏。注意自我保护，谨防受骗上当。
+        适度游戏益脑，沉迷游戏伤身。合理安排时间，享受健康生活。
+    </span>
+    <footer th:replace="components/footer::copyRight"></footer>
+</div>
+<div class="backstretch home-background">
+    <img class="home-background-image" src="../static/images/dyzm.jpg" alt="轮播背景图片"
+         th:src="@{/images/dyzm.jpg}" th:alt="#{home.backstretch}">
+</div>
+
+<script src="/webjars/jquery/3.5.1/jquery.js"
+        th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script src="/webjars/jquery-backstretch/2.0.4/jquery.backstretch.js"
+        th:src="@{/webjars/jquery-backstretch/jquery.backstretch.min.js}"></script>
+<script src="../static/js/home.js"
+        th:src="@{/js/home.js}"></script>
+</body>
+</html>

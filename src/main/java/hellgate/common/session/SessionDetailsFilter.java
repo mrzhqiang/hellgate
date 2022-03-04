@@ -1,6 +1,8 @@
 package hellgate.common.session;
 
+import com.google.common.base.Strings;
 import com.google.common.net.HttpHeaders;
+import eu.bitwalker.useragentutils.UserAgent;
 import hellgate.common.third.IpLocation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -28,6 +30,8 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
 
     public static final String SESSION_DETAILS = "SESSION_DETAILS";
 
+    private static final String ACCESS_TYPE_FORMAT = "%s -- %s";
+
     private final IpLocation location;
 
     public SessionDetailsFilter(IpLocation location) {
@@ -41,8 +45,13 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
 
         SessionDetails details = new SessionDetails();
-        String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
-        details.setAccessType(userAgent);
+        String userAgentText = request.getHeader(HttpHeaders.USER_AGENT);
+        // User-Agent 里面东西太多太杂乱，我们只需要操作系统名称和浏览器名称即可
+        UserAgent userAgent = UserAgent.parseUserAgentString(userAgentText);
+        String osName = userAgent.getOperatingSystem().getName();
+        String browserName = userAgent.getBrowser().getName();
+        String accessType = Strings.lenientFormat(ACCESS_TYPE_FORMAT, osName, browserName);
+        details.setAccessType(accessType);
 
         HttpSession session = request.getSession(false);
         if (session != null) {

@@ -10,6 +10,8 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
+import org.springframework.session.web.http.HttpSessionIdResolver;
 
 import javax.annotation.Nonnull;
 
@@ -29,6 +31,11 @@ public class SessionConfiguration implements BeanClassLoaderAware {
     @Bean
     public HttpSessionEventPublisher sessionEventPublisher() {
         return new HttpSessionEventPublisher();
+    }
+
+    @Bean
+    public HttpSessionIdResolver httpSessionIdResolver() {
+        return HeaderHttpSessionIdResolver.xAuthToken();
     }
 
     /**

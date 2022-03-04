@@ -1,11 +1,19 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 
 <!--
-卡片
+卡片。
+
 使用方式：
-<div th:replace="components/card::content(~{::header}, ~{::body})"></div>
-更好的方式：
-将 card 布局添加到 live template 中，比 fragment 方式更舒服。
+<div th:replace="components/card::content(~{::#header}, ~{::#body})">
+    <div id="header" class="card-header">
+        ...
+    </tr>
+    <div id="body" class="card-body">
+        ...
+    </tr>
+</div>
+
+更推荐的做法：将 card 布局添加到 live template 中，可以用快捷键召唤神龙。
 模板内容：
 <div class="card mx-3 w-100">
     <div class="card-header">

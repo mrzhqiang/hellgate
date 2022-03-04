@@ -32,6 +32,6 @@ public class HomeController {
                 .map(sessionRepository::findByPrincipalName)
                 .orElse(Collections.emptyMap());
         model.addAttribute("sessionMap", sessionMap);
-        return "home";
+        return "index";
     }
 }

@@ -1,6 +1,8 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 
 <!--
+表格。
+
 使用方法：
 <div th:replace="components/table::data(~{::#table-head},~{::#table-body})">
     <tr id="table-head">
@@ -22,6 +24,8 @@
         </td>
     </tr>
 </div>
+
+建议将以上代码添加为 IDEA 的 Live Template 模板，方便一键加载。
 -->
 
 <div class="table-responsive" th:fragment="data(head,body)">
