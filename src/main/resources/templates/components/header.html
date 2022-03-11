@@ -2,27 +2,23 @@
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 
 <!--
-页眉。
-
 使用方式：
 <div th:replace="components/header::style(~{::title},~{::link})">
-    <title th:text="${website.title}"></title>
+    <title th:replace="|主标题 - ${website.title}|"></title>
     <link th:href="@{/css/home.css}" rel="stylesheet">
 </head>
+
+简单的页面可以直接使用，复杂页面建议定义为 layout 然后复用即可。
 -->
 
 <head th:fragment="style(title,links)">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" th:content="${website.author}" th:unless="${#strings.isEmpty(website.author)}">
-
-    <!--/*@thymesVar id="title" type=""*/-->
-    <title th:replace="|${title} - ${website.title}|"></title>
-
     <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
+    <meta name="author" th:content="${website.author}" th:unless="${#strings.isEmpty(website.author)}">
+    <title th:replace="${title}"></title>
     <link rel="shortcut icon" th:href="@{${website.favicon}}">
-
     <!--/* Per-page placeholder for additional links */-->
     <!--/*@thymesVar id="links" type=""*/-->
     <!--suppress HtmlUnknownTag -->

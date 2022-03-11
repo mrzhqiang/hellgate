@@ -1,21 +1,16 @@
 package hellgate.controller.account;
 
-import hellgate.common.session.Sessions;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/login")
 public class LoginController {
 
     @GetMapping
-    public String index(HttpSession session, Model model, @ModelAttribute AccountForm form) {
-        Sessions.httpException(session, model);
+    public String index(@ModelAttribute AccountForm form) {
         return "account/login";
     }
 }

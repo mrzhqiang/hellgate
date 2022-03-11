@@ -1,8 +1,6 @@
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 
 <!--
-警告提示。
-
 使用方式：
 <div th:replace="components/alert::show"></div>
 
@@ -10,15 +8,15 @@
 可以使用 Code >> save as live template 保存到 IDEA 模板，命名为 th-alert 快捷输入，可以极大提升效率。
 
 注意事项：
-下面以 message. 开头的 alert 字符串，表示采用 i18n 国际化语言策略，需传入完整的消息 Key 值。
+下面以 message. 开头的 alert 字符串，表示采用 i18n 国际化语言策略，则传入 Model 的是完整消息 Key 值。
 -->
 
 <!--suppress ThymeleafMessagesResolveInspection -->
 <div class="alert alert-dismissible fade show mx-3" role="alert"
-     th:classappend="*{#{alert-type}}?: 'alert-info'"
-     th:fragment="show" th:unless="${#strings.isEmpty(alert)}">
+     th:classappend="*{#{param.alert-type}}?: 'alert-info'"
+     th:fragment="show" th:unless="${#strings.isEmpty(param.alert)}">
     <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
-    <strong th:text="${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}"></strong>
+    <strong th:text="${#strings.startsWith(param.alert, 'message.')} ? #{${param.alert}} : ${param.alert}"></strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>

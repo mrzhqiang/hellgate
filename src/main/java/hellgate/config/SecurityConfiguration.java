@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,8 +21,6 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.session.data.redis.RedisIndexedSessionRepository;
-import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 /**
@@ -77,30 +74,24 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         private final KaptchaProperties kaptchaProperties;
         private final KaptchaAuthenticationConverter converter;
         private final UserDetailsService userDetailsService;
-        private final RedisIndexedSessionRepository sessionRepository;
 
         public WebsiteSecurityAdapter(WebsiteProperties websiteProperties,
                                       AccountProperties accountProperties,
                                       KaptchaProperties kaptchaProperties,
                                       KaptchaAuthenticationConverter converter,
-                                      UserDetailsService userDetailsService,
-                                      RedisIndexedSessionRepository sessionRepository) {
+                                      UserDetailsService userDetailsService) {
             this.websiteProperties = websiteProperties;
             this.accountProperties = accountProperties;
             this.kaptchaProperties = kaptchaProperties;
             this.converter = converter;
             this.userDetailsService = userDetailsService;
-            this.sessionRepository = sessionRepository;
-        }
-
-        @Bean
-        public SessionRegistry sessionRegistry() {
-            return new SpringSessionBackedSessionRegistry<>(sessionRepository);
         }
 
         @Override
         public void configure(WebSecurity web) {
-            web.ignoring().antMatchers(websiteProperties.getIgnorePath());
+            web.ignoring()
+                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                    .antMatchers(websiteProperties.getIgnorePath());
         }
 
         @Override
@@ -109,14 +100,12 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
                     .userDetailsService(userDetailsService)
                     .authorizeRequests()
                     .antMatchers(kaptchaProperties.getPath()).permitAll()
-                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                     .antMatchers(websiteProperties.getPublicPath()).permitAll()
                     .anyRequest().authenticated()
                     .and().formLogin().loginPage(websiteProperties.getLoginPath()).permitAll()
                     .defaultSuccessUrl(websiteProperties.getDefaultSuccessUrl())
                     .and().logout().permitAll()
-                    .and().sessionManagement(it -> it.maximumSessions(accountProperties.getMaxSession())
-                            .sessionRegistry(sessionRegistry()));
+                    .and().sessionManagement(it -> it.maximumSessions(accountProperties.getMaxSession()));
             if (websiteProperties.getRememberMe()) {
                 http.rememberMe(it -> it.rememberMeServices(rememberMeServices()));
             }
@@ -130,6 +119,7 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         }
 
         private AuthenticationFilter getAuthenticationFilter() throws Exception {
+            // 这里 /register 接口的 post 匹配器，只能匹配验证码错误回调
             AuthenticationFilter filter = new AuthenticationFilter(authenticationManager(), converter);
             filter.setRequestMatcher(new AntPathRequestMatcher(websiteProperties.getRegisterPath(), HttpMethod.POST.name()));
             filter.setFailureHandler(new SimpleUrlAuthenticationFailureHandler(websiteProperties.getRegisterErrorPath()));

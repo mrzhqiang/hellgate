@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="components/header::style(~{::title},~{::link})">
+<head th:replace="components/header::style(~{::title},_)">
     <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
-    <title th:text="|#{error.title} - ${website.title}|">Title</title>
-    <link href="/webjars/bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"
-          th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <title th:text="|#{error.title} - ${website.title}|"></title>
 </head>
 <body>
-<div class="container-fluid">
-    <h3 th:text="#{error-404.head}">请求的资源未找到...</h3>
-    <p class="text-danger">[[${status}]] - [[${error}]]</p>
+<div>
+    <h3 th:text="#{error-404.head}"></h3>
+    <p style="color: red">[[${status}]] - [[${error}]]</p>
     <!--/*@thymesVar id="timestamp" type="String"*/-->
-    <p class="text-info" th:text="|#{error.timestamp} - ${timestamp}|">时间戳</p>
-    <!--/*@thymesVar id="message" type="String"*/-->
-    <p th:text="|#{error-404.message.prefix}${message}|">请确认：</p>
-    <p class="lead" th:text="#{error.message.lead.label}">您可以：</p>
-    <a href="javascript:history.back()" th:text="#{error.message.lead.back}">返回上一页</a>
-    <p th:text="#{error.message.lead.else}">，或者</p>
-    <a href="#" th:href="@{/}" th:text="#{error.message.lead.back.home}">回到主页。</a>
-    <footer th:replace="components/footer::copyRight"></footer>
+    <p style="color: green" th:text="|#{error.timestamp} - ${#dates.format(timestamp, 'yyyy-MM-dd HH:mm:ss')}|"></p>
+    <!--/*@thymesVar id="debug" type="java.lang.Boolean"*/-->
+    <p th:if="${debug}">
+        <span th:text="#{error-404.message.prefix}"></span>
+        <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+        <code th:text="${message}"></code>
+    </p>
+    <span th:text="#{error.message.lead.label}"></span>
+    <a href="javascript:history.back()" th:text="#{error.message.lead.back}"></a>
+    <span th:text="#{error.message.lead.else}"></span>
+    <a href="/" th:href="@{/}" th:text="#{error.message.lead.back.home}"></a>
+    <br>
 </div>
 </body>
 </html>

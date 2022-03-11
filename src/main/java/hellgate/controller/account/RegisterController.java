@@ -1,10 +1,7 @@
 package hellgate.controller.account;
 
-import hellgate.common.session.Sessions;
-import hellgate.common.logging.Action;
-import hellgate.common.logging.ActionType;
+import hellgate.common.Messages;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -26,26 +22,25 @@ public class RegisterController {
     }
 
     @GetMapping
-    public String index(HttpSession session, Model model, @ModelAttribute AccountForm form) {
-        Sessions.httpException(session, model);
+    public String index(@ModelAttribute AccountForm form) {
         return "account/register";
     }
 
-    @Action(value = "注册账户", type = ActionType.REGISTER)
     @PostMapping
     public String register(@Valid @ModelAttribute AccountForm form,
                            BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
+            // 提示字段 validate 出错，包括验证码处理
             return "account/register";
         }
 
-        if (!accountService.register(form)) {
-            result.reject("register.failed");
-            return "account/register";
+        if (accountService.register(form)) {
+            Messages.success(attributes, Messages.REGISTER_SUCCESSFUL);
+            return "redirect:/login";
         }
 
-        attributes.addFlashAttribute("alert", "register.successful");
-        return "redirect:/login";
+        result.reject(Messages.REGISTER_FAILED);
+        return "account/register";
     }
 
     @GetMapping("/help")

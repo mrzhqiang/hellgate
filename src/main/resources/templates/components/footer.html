@@ -1,8 +1,6 @@
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 
 <!--
-页脚。
-
 使用方式：
 <footer th:replace="components/footer::copyRight"></footer>
 -->
@@ -13,7 +11,7 @@
             <div class="copyright text-center my-auto">
                 <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
                 <span th:text="${website.copyRight}" th:unless="${#strings.isEmpty(website.copyRight)}">
-                    粤ICP备xxxxxxxx号 Copyright &copy; 2020 - 2022 mrzhqiang 版权所有
+                    粤ICP备xxxxxxxx号 Copyright &copy; 2020 - 2022 [[${website.author}]] 版权所有
                 </span>
             </div>
         </div>

@@ -1,6 +1,8 @@
 package hellgate.controller.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -20,7 +22,7 @@ public class AccountForm {
      * 只包含：数字、大小写字母。
      */
     @NotBlank
-    @Size(min = 4, max = 15)
+    @Size(min = 7, max = 15)
     @Pattern(regexp = "[a-zA-Z0-9]*")
     private String username;
     /**
@@ -30,5 +32,7 @@ public class AccountForm {
      */
     @NotBlank
     @Size(min = 6, max = 15)
+    @ToString.Exclude
+    @JsonIgnore
     private String password;
 }

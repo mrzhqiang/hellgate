@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="components/header::simple(title)">
+<head th:replace="components/header::style(title)">
     <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
     <title th:replace="|初始化管理员 - ${website.title}|"></title>
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">

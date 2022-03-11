@@ -1,5 +1,6 @@
 package hellgate.config;
 
+import com.github.mrzhqiang.helper.Environments;
 import com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -32,6 +33,8 @@ public class WebsiteConfiguration implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        // 在调试模式下，提供给 error 相关页面展示更多的细节，以方便开发定位问题
+        resolver.addStaticVariable("debug", Environments.debug());
         log.info("add website properties to thymeleaf view resolver static variable.");
         resolver.addStaticVariable(WEBSITE_KEY, websiteProperties);
         log.info("add kaptcha properties to thymeleaf view resolver static variable.");

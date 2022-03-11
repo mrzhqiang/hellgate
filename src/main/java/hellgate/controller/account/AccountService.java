@@ -1,14 +1,18 @@
 package hellgate.controller.account;
 
-import hellgate.config.AccountProperties;
 import com.google.common.base.MoreObjects;
+import hellgate.common.session.Sessions;
+import hellgate.config.AccountProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -32,9 +36,11 @@ public class AccountService implements UserDetailsService {
     }
 
     @Override
-    public Account loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("login.account.not-found"));
+                .map(User::withUserDetails)
+                .map(User.UserBuilder::build)
+                .orElseThrow(() -> new UsernameNotFoundException("message.login.account.not-found"));
     }
 
     /**
@@ -82,6 +88,7 @@ public class AccountService implements UserDetailsService {
         LocalDateTime firstFailed = account.getFirstFailed();
         LocalDateTime now = LocalDateTime.now();
         Duration firstFailedDuration = properties.getFirstFailedDuration();
+        HttpSession httpSession = Sessions.ofCurrent();
         if (firstFailed == null || firstFailed.plus(firstFailedDuration).isBefore(now)) {
             account.setFirstFailed(now);
             account.setFailedCount(1);

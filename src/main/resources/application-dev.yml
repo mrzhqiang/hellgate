@@ -2,15 +2,12 @@ server:
   port: 80
 logging:
   level:
-    ROOT: DEBUG
+    ROOT: INFO
     web: DEBUG
     # See http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints
     org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration: DEBUG
     # always log high-level information about application startup
-    com.github.mrzhqiang.hellgate: DEBUG
-  file:
-    name: application.log
-    path: ./logs
+    hellgate: DEBUG
 debug: true
 spring:
   kaptcha:
@@ -53,6 +50,7 @@ website:
   # true 表示开启记住我功能，则可以在浏览器中保存 Cookie 用于一段时间内的免登录策略
   remember-me: false
 http:
-  # HTTP 请求客户端的缓存路径和限定大小
-  cache-path: ${user.dir}/.cache
-  cache-max-size: 100MB
+  client:
+    # HTTP 请求客户端的缓存路径和限定大小
+    cache-path: ${user.dir}/.cache
+    cache-max-size: 100MB

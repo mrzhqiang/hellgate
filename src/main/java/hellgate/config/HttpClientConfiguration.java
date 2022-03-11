@@ -7,8 +7,8 @@ import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import static okhttp3.logging.HttpLoggingInterceptor.Level.BASIC;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
+import static okhttp3.logging.HttpLoggingInterceptor.Level.NONE;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,9 +26,9 @@ import java.time.Duration;
  * <p>
  * 一般用来访问公共的 API 或远端服务器。
  */
-@EnableConfigurationProperties(HttpProperties.class)
+@EnableConfigurationProperties(HttpClientProperties.class)
 @Configuration
-public class HttpConfiguration {
+public class HttpClientConfiguration {
 
     /**
      * BaseUrl 占位符。
@@ -36,26 +36,31 @@ public class HttpConfiguration {
      * 我们一般在 API 接口里面写死 URL 地址，避免出现很多的 API 接口，并且需要用 Retrofit 创建这些接口实例
      */
     private static final String BASE_URL_HOLDER = "http://localhost";
+    private static final int CONNECT_TIMEOUT = 3;
+    private static final int CALL_TIMEOUT = 5;
 
-    private final HttpProperties properties;
+    private final HttpClientProperties properties;
 
-    public HttpConfiguration(HttpProperties properties) {
+    public HttpClientConfiguration(HttpClientProperties properties) {
         this.properties = properties;
     }
 
     @Bean
     public OkHttpClient okHttpClient() {
         return new OkHttpClient.Builder()
-                // 需要及时响应
-                .connectTimeout(Duration.ofSeconds(3))
-                .addInterceptor(loggingInterceptor())
+                .connectTimeout(Duration.ofSeconds(CONNECT_TIMEOUT))
+                .callTimeout(Duration.ofSeconds(CALL_TIMEOUT))
                 .cache(localCache())
+                .followSslRedirects(false)
+                .followRedirects(false)
+                .addInterceptor(loggingInterceptor())
                 .build();
     }
 
     private Interceptor loggingInterceptor() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(Environments.debug() ? BODY : BASIC);
+        // IDEA 调试模式，打印细节
+        loggingInterceptor.setLevel(Environments.debug() ? BODY : NONE);
         return loggingInterceptor;
     }
 

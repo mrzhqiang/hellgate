@@ -8,7 +8,8 @@ import hellgate.common.Authentications;
 import hellgate.common.Jacksons;
 import hellgate.common.session.SessionDetails;
 import hellgate.common.session.Sessions;
-import hellgate.common.third.IpLocation;
+import hellgate.common.third.IpService;
+import io.reactivex.observers.DefaultObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -19,6 +20,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.List;
@@ -35,17 +37,15 @@ import java.util.Optional;
 public class ActionLogHandler {
 
     private static final String UNKNOWN_ACTION = "(unknown-action)";
-    private static final String UNKNOWN_ADDRESS = "(unknown-address)";
-    private static final String UNKNOWN_DEVICE = "(unknown-device)";
     private static final String PARAMETERS_TEMPLATE = "%s=%s";
     private static final char DOT_CHAR = ',';
 
     private final ActionLogRepository repository;
-    private final IpLocation location;
+    private final IpService ipService;
 
-    public ActionLogHandler(ActionLogRepository repository, IpLocation location) {
+    public ActionLogHandler(ActionLogRepository repository, IpService ipService) {
         this.repository = repository;
-        this.location = location;
+        this.ipService = ipService;
     }
 
     @Pointcut("@annotation(hellgate.common.logging.Action)")
@@ -93,32 +93,47 @@ public class ActionLogHandler {
             resultContent = StackTraces.of(throwable);
         }
 
-        ActionLog log = new ActionLog();
-        log.setAction(action);
-        log.setType(type);
-        log.setTarget(target);
-        log.setMethod(method);
-        log.setParams(params);
-        log.setState(state);
-        log.setResult(resultContent);
-        log.setOperator(Authentications.currentUsername());
+        ActionLog actionLog = new ActionLog();
+        actionLog.setAction(action);
+        actionLog.setType(type);
+        actionLog.setTarget(target);
+        actionLog.setMethod(method);
+        actionLog.setParams(params);
+        actionLog.setState(state);
+        actionLog.setResult(resultContent);
+        actionLog.setOperator(Authentications.currentUsername());
         SessionDetails sessionDetails = Sessions.ofCurrentDetails();
         if (sessionDetails != null) {
-            log.setIp(sessionDetails.getIp());
-            log.setLocation(sessionDetails.getLocation());
-            log.setDevice(sessionDetails.getAccessType());
-            repository.save(log);
+            actionLog.setIp(sessionDetails.getIp());
+            actionLog.setLocation(sessionDetails.getLocation());
+            actionLog.setDevice(sessionDetails.getAccessType());
+            repository.save(actionLog);
             return;
         }
         // 可能还没查到 IP 地址的地理位置，此时手动发起转换请求
         String host = Authentications.currentHost();
-        log.setIp(Optional.ofNullable(host).orElse(UNKNOWN_ADDRESS));
-        log.setLocation(UNKNOWN_ADDRESS);
-        log.setDevice(UNKNOWN_DEVICE);
-        repository.save(log);
-        location.convert(host, address -> {
-            log.setLocation(address);
-            repository.save(log);
-        });
+        if (!Authentications.UNKNOWN_HOST.equals(host)) {
+            ipService.observeApi(host)
+                    .onErrorResumeNext(ipService.observeDb(host))
+                    .subscribe(new DefaultObserver<SessionDetails>() {
+                        @Override
+                        public void onNext(@Nonnull SessionDetails details) {
+                            actionLog.setIp(details.getIp());
+                            actionLog.setLocation(details.getLocation());
+                            actionLog.setDevice(details.getAccessType());
+                            repository.save(actionLog);
+                        }
+
+                        @Override
+                        public void onError(@Nonnull Throwable e) {
+                            log.error("无法为 {} 找到对应地址，可能是：{} 问题", host, e.getLocalizedMessage());
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            // do nothing
+                        }
+                    });
+        }
     }
 }

@@ -1,6 +1,7 @@
 package hellgate.controller.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import hellgate.common.domain.BaseAuditableEntity;
 import hellgate.controller.script.Script;
 import lombok.Getter;
@@ -28,6 +29,7 @@ import java.util.Collections;
 @ToString(callSuper = true)
 @SQLDelete(sql = "update account set deleted = true where id = ?")
 @Entity
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public class Account extends BaseAuditableEntity implements UserDetails {
 
     @Id
@@ -39,7 +41,7 @@ public class Account extends BaseAuditableEntity implements UserDetails {
     /**
      * 存储已编码的密码。
      * <p>
-     * 密码绝对不允许明文存储，通过 Spring Security 可以做到游戏的
+     * 密码绝对不允许明文存储，通过 Spring Security 可以做到自动随机盐加密。
      */
     @JsonIgnore
     @ToString.Exclude

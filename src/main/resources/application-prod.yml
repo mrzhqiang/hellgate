@@ -35,12 +35,12 @@ spring:
   session:
     timeout: 15m
   datasource:
-    #    driver-class-name: com.mysql.cj.jdbc.Driver
-    #    url: jdbc:mysql://localhost:3306/hellgate?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
-    #    username: root
-    #    password: 123456
-    driver-class-name: org.sqlite.JDBC
-    url: jdbc:sqlite:hellgate.db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hellgate?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+    username: root
+    password: 123456
+#    driver-class-name: org.sqlite.JDBC
+#    url: jdbc:sqlite:hellgate.db
     hikari:
       minimum-idle: 5
       maximum-pool-size: 15
@@ -62,5 +62,6 @@ spring:
 website:
   remember-me: true
 http:
-  cache-path: ${user.dir}/.cache
-  cache-max-size: 1GB
+  client:
+    cache-path: ${user.dir}/.cache
+    cache-max-size: 1GB

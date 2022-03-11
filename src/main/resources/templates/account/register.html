@@ -1,84 +1,47 @@
 <!DOCTYPE html>
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="components/header::style(~{::title}, ~{::link})">
+<head th:replace="components/header::style(~{::title}, _)">
     <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
-    <title th:text="|#{register.title} - ${website.title}|">注册</title>
-    <link href="/webjars/bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"
-          th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-    <link href="../../static/css/login.css" rel="stylesheet"
-          th:href="@{/css/login.css}">
+    <title th:text="|#{register.title} - ${website.title}|"></title>
 </head>
 <body>
-<div class="container">
-    <div class="card card-login mx-auto my-4">
-        <!--/*@thymesVar id="website" type="hellgate.config.WebsiteProperties"*/-->
-        <div class="card-header text-center h3" th:text="|#{login.welcome}${website.title}|"></div>
-        <div class="card-body">
-            <!--suppress ThymeleafVariablesResolveInspection -->
-            <p class="alert alert-danger text-center my-1 py-1"
-               th:if="${param.error} and ${!#strings.isEmpty(message)}">[[${message}]]</p>
-            <!--/*@thymesVar id="accountForm" type="hellgate.controller.account.AccountForm"*/-->
-            <form class="form-login" method="post" action="/register" th:action="@{/register}"
-                  th:object="${accountForm}">
-
-                <label for="inputUsername" class="sr-only" th:text="#{login.input.username}">用户名</label>
-                <input id="inputUsername" class="form-control"
-                       name="username" type="text"
-                       maxlength="15" aria-describedby="usernameHelpBlock"
-                       th:value="*{username}" th:placeholder="#{login.input.username}"
-                       th:errorclass="is-invalid" required autofocus>
-                <small id="usernameHelpBlock" class="form-text text-muted"
-                       th:text="#{register.input.username.tips}">4-15 位长度的字母和数字</small>
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
-
-                <label for="inputPassword" class="sr-only" th:text="#{login.input.password}">密码</label>
-                <input id="inputPassword" class="form-control my-2"
-                       name="password" type="password"
-                       maxlength="15" aria-describedby="passwordHelpBlock"
-                       th:value="*{password}" th:placeholder="#{login.input.password}"
-                       th:errorclass="is-invalid" required>
-                <small id="passwordHelpBlock" class="form-text text-muted"
-                       th:text="#{register.input.password.tips}">6-15 位长度的字母和数字</small>
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-
-                <!--/*@thymesVar id="kaptcha" type="com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties"*/-->
-                <div class="row my-3" th:if="${kaptcha!=null && kaptcha.enabled}">
-                    <div class="col-6">
-                        <label for="inputVerifyCode" class="sr-only"
-                               th:text="#{register.input.kaptcha}">验证码</label>
-                        <input id="inputVerifyCode" class="form-control"
-                               type="text" maxlength="4"
-                               th:name="${kaptcha.parameter}"
-                               th:placeholder="#{register.input.kaptcha}" required>
-                    </div>
-                    <div class="col-6">
-                        <img class="pointer w-100 h-100" src="#" alt="点击图片刷新！"
-                             th:src="@{${kaptcha.path}}" th:alt="#{register.kaptcha.picture}"
-                             th:data-path="${kaptcha.path}"
-                             onclick="this.src=this.getAttribute('data-path')+'?d='+new Date()*1">
-                    </div>
-                </div>
-
-                <button class="btn btn-lg btn-primary btn-block my-4" type="submit"
-                        th:text="#{register.submit}">注册</button>
-
-                <span th:text="#{register.login.tips}">兰达尔会员直接由此</span>
-                <a href="/login" th:href="@{/login}" th:text="#{register.login}">登录>></a>
-                <p th:text="#{register.tips}"></p>
-                <a href="/register/help" th:href="@{/register/help}" th:text="#{register.help}">注册帮助</a>
-                <br/>
-                <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span>
-                <br/>
-                <a href="javascript:location.reload();" th:text="#{register.refresh}">刷新</a>
-                <br/>
-            </form>
-        </div>
-    </div>
+<div th:if="${param.error} and ${#session} and ${session.SPRING_SECURITY_LAST_EXCEPTION}">
+    <p style="color: red" th:unless="${#strings.isEmpty(session.SPRING_SECURITY_LAST_EXCEPTION.message)}"
+       th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></p>
 </div>
-
-<script src="/webjars/jquery/3.5.1/jquery.slim.js"
-        th:src="@{/webjars/jquery/jquery.slim.min.js}"></script>
-<script src="/webjars/bootstrap/4.5.2/js/bootstrap.js"
-        th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<br>
+<!--/*@thymesVar id="accountForm" type="hellgate.controller.account.AccountForm"*/-->
+<form method="post" action="#" th:action="@{/register}" th:object="${accountForm}">
+    <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}">
+        <p style="color: red" th:unless="${#strings.isEmpty(err)}" th:text="${err}"></p>
+    </div>
+    [[#{register.title}]]：([[#{register.input.username.tips}]])<br>
+    <input type="text" name="username" maxlength="15" th:value="*{username}" required autofocus>
+    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+    <br>
+    [[#{login.input.password}]]:([[#{register.input.password.tips}]])<br>
+    <input type="password" name="password" maxlength="15" th:value="*{password}" required>
+    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+    <br>
+    <!--/*@thymesVar id="kaptcha" type="com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties"*/-->
+    <p th:if="${kaptcha!=null && kaptcha.enabled}">
+        <span th:text="#{register.input.kaptcha}"></span>
+        <input type="text" th:name="${kaptcha.parameter}"
+               th:placeholder="#{register.input.kaptcha}" required>
+        <img class="pointer" title="点击刷新" src="#" alt="" align="absbottom"
+             th:src="@{${kaptcha.path}}" th:alt="#{register.kaptcha.picture}"
+             th:data-path="${kaptcha.path}"
+             onclick="this.src=this.getAttribute('data-path')+'?d='+new Date()*1">
+        <br>[[#{register.kaptcha.tips}]]
+    </p>
+    <input type="submit" th:value="#{register.submit}"/>
+</form>
+[[#{register.login.tips}]]<a href="/login" th:href="@{/login}" th:text="#{register.login}"></a>
+<br>[[#{register.tips}]]<br>
+<a href="#" th:href="@{/register/help}" th:text="#{register.help}"></a>
+<br/>[[${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}]]
+<br/>
+<a href="javascript:location.reload();" th:text="#{register.refresh}"></a>
+<br/>
 </body>
 </html>

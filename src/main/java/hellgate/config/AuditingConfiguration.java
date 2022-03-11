@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /**
  * 审计配置。
+ * <p>
+ * 参考：https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#auditing
  */
 @EnableJpaAuditing
 @Configuration

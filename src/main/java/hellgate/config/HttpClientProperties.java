@@ -10,13 +10,13 @@ import org.springframework.util.unit.DataSize;
 import java.nio.file.Paths;
 
 /**
- * 路径属性。
+ * HTTP 客户端属性。
  */
 @Getter
 @Setter
 @ToString
-@ConfigurationProperties("http")
-public class HttpProperties {
+@ConfigurationProperties("http.client")
+public class HttpClientProperties {
 
     private final static String DEF_CACHE_PATH = Paths.get(Environments.USER_DIR, ".cache").toString();
     private final static DataSize DEF_CACHE_MAX_SIZE = DataSize.ofGigabytes(1);

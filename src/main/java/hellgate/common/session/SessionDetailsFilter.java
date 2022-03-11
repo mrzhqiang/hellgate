@@ -1,9 +1,12 @@
 package hellgate.common.session;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.net.HttpHeaders;
 import eu.bitwalker.useragentutils.UserAgent;
-import hellgate.common.third.IpLocation;
+import hellgate.common.Authentications;
+import hellgate.common.third.IpService;
+import io.reactivex.observers.DefaultObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -30,12 +33,14 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
 
     public static final String SESSION_DETAILS = "SESSION_DETAILS";
 
+    private static final String UNKNOWN = "(unknown-address)";
+
     private static final String ACCESS_TYPE_FORMAT = "%s -- %s";
 
-    private final IpLocation location;
+    private final IpService ipService;
 
-    public SessionDetailsFilter(IpLocation location) {
-        this.location = location;
+    public SessionDetailsFilter(IpService ipService) {
+        this.ipService = ipService;
     }
 
     @Override
@@ -44,23 +49,59 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
                                  FilterChain chain) throws IOException, ServletException {
         chain.doFilter(request, response);
 
-        SessionDetails details = new SessionDetails();
+        HttpSession session = request.getSession(false);
+        // 如果存在会话并且已经登录
+        if (session != null && Authentications.ofLogin().isPresent()) {
+            Object sessionDetails = session.getAttribute(SESSION_DETAILS);
+            if (sessionDetails == null) {
+                findSessionDetail(request, session);
+            }
+        }
+    }
+
+    private void findSessionDetail(HttpServletRequest request, HttpSession session) {
         String userAgentText = request.getHeader(HttpHeaders.USER_AGENT);
         // User-Agent 里面东西太多太杂乱，我们只需要操作系统名称和浏览器名称即可
         UserAgent userAgent = UserAgent.parseUserAgentString(userAgentText);
         String osName = userAgent.getOperatingSystem().getName();
         String browserName = userAgent.getBrowser().getName();
         String accessType = Strings.lenientFormat(ACCESS_TYPE_FORMAT, osName, browserName);
-        details.setAccessType(accessType);
 
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            String remoteAddress = Sessions.findRemoteAddress(request);
-            details.setIp(remoteAddress);
-            location.convert(remoteAddress, address -> {
-                details.setLocation(address);
-                session.setAttribute(SESSION_DETAILS, details);
-            });
+        String remoteAddress = this.findRemoteAddress(request);
+        ipService.observeApi(remoteAddress)
+                .onErrorResumeNext(ipService.observeDb(remoteAddress))
+                .subscribe(new DefaultObserver<SessionDetails>() {
+                    @Override
+                    public void onNext(@Nonnull SessionDetails details) {
+                        details.setAccessType(accessType);
+                        session.setAttribute(SESSION_DETAILS, details);
+                    }
+
+                    @Override
+                    public void onError(@Nonnull Throwable e) {
+                        log.error("无法为 {} 找到对应地址，可能是：{} 问题", remoteAddress, e.getLocalizedMessage());
+                        // 网络不可用，那么使用本地数据库；记录错误日志是为了判断哪个更好用
+                        SessionDetails details = new SessionDetails();
+                        details.setIp(remoteAddress);
+                        details.setLocation(UNKNOWN);
+                        details.setAccessType(accessType);
+                        session.setAttribute(SESSION_DETAILS, details);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        // do nothing
+                    }
+                });
+    }
+
+    private String findRemoteAddress(HttpServletRequest request) {
+        String remoteAddr = request.getHeader(HttpHeaders.X_FORWARDED_FOR);
+        if (remoteAddr == null) {
+            remoteAddr = request.getRemoteAddr();
+        } else if (remoteAddr.contains(",")) {
+            remoteAddr = Splitter.on(',').split(remoteAddr).iterator().next();
         }
+        return remoteAddr;
     }
 }
