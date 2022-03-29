@@ -41,7 +41,7 @@ public class AccountService implements UserDetailsService {
         return repository.findByUsername(username)
                 .map(User::withUserDetails)
                 .map(User.UserBuilder::build)
-                .orElseThrow(() -> new UsernameNotFoundException("message.login.account.not-found"));
+                .orElseThrow(() -> new UsernameNotFoundException("AccountService.usernameNotFound"));
     }
 
     /**

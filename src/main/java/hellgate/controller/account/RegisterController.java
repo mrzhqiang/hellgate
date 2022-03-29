@@ -34,11 +34,11 @@ public class RegisterController {
         }
 
         if (accountService.register(form)) {
-            attributes.addFlashAttribute("message", "message.register.successful");
+            attributes.addFlashAttribute("message", "RegisterController.success");
             return "redirect:/login";
         }
 
-        result.reject("message.register.failed");
+        result.reject("RegisterController.failed");
         return "account/register";
     }
 
