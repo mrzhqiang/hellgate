@@ -1,4 +1,4 @@
-package hellgate.common.logging;
+package hellgate.controller.logging;
 
 /**
  * 操作状态。

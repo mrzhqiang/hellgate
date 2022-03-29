@@ -1,4 +1,4 @@
-package hellgate.common.logging;
+package hellgate.controller.logging;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,6 @@
 package hellgate.controller.account;
 
 import com.google.common.base.MoreObjects;
-import hellgate.common.session.Sessions;
 import hellgate.config.AccountProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -22,6 +20,9 @@ import java.time.LocalDateTime;
 @Slf4j
 @Service
 public class AccountService implements UserDetailsService {
+
+    private static final int DEF_MAX_LOGIN_FAILED = 5;
+    private static final int DEF_LOCKED_DURATION = 5;
 
     private final AccountRepository repository;
     private final PasswordEncoder passwordEncoder;
@@ -73,7 +74,7 @@ public class AccountService implements UserDetailsService {
      * <p>
      * 但我们不可能使用定时器针对失败次数的时间区间进行检测，这样非常浪费资源。
      * <p>
-     * 因此我们在每次进行失败处理之前，先检测上述时间区间，发现区间值
+     * 因此我们在每次进行失败处理之前，先检测上述时间区间，发现区间值内已超过 5 次则锁定账号。
      *
      * @param authentication 失败的验证实例。
      */
@@ -88,7 +89,6 @@ public class AccountService implements UserDetailsService {
         LocalDateTime firstFailed = account.getFirstFailed();
         LocalDateTime now = LocalDateTime.now();
         Duration firstFailedDuration = properties.getFirstFailedDuration();
-        HttpSession httpSession = Sessions.ofCurrent();
         if (firstFailed == null || firstFailed.plus(firstFailedDuration).isBefore(now)) {
             account.setFirstFailed(now);
             account.setFailedCount(1);
@@ -96,8 +96,8 @@ public class AccountService implements UserDetailsService {
         }
 
         int failedCount = account.getFailedCount();
-        if (failedCount >= Math.max(properties.getMaxLoginFailed(), 5)) {
-            Duration duration = MoreObjects.firstNonNull(properties.getLockedDuration(), Duration.ofMinutes(5));
+        if (failedCount >= Math.max(properties.getMaxLoginFailed(), DEF_MAX_LOGIN_FAILED)) {
+            Duration duration = MoreObjects.firstNonNull(properties.getLockedDuration(), Duration.ofMinutes(DEF_LOCKED_DURATION));
             account.setLocked(now.plus(duration));
         } else {
             account.setFailedCount(failedCount + 1);
@@ -108,11 +108,11 @@ public class AccountService implements UserDetailsService {
     public void handleLoginSuccess(Authentication authentication) {
         repository.findByUsername(authentication.getName())
                 .filter(it -> !it.isAccountNonLocked())
-                .map(this::resetFailedAndLocked)
+                .map(this::resetNormalAccount)
                 .ifPresent(repository::save);
     }
 
-    private Account resetFailedAndLocked(Account account) {
+    private Account resetNormalAccount(Account account) {
         account.setFailedCount(0);
         account.setLocked(null);
         return account;

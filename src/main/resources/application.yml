@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: dev
+  messages:
+    basename: i18n.messages,org.springframework.security.messages
+    fallback-to-system-locale: false
 website:
   author: "mrzhqiang"
   favicon: "/favicon.ico"

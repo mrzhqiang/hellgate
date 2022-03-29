@@ -5,7 +5,6 @@ import com.google.common.base.Strings;
 import com.google.common.net.HttpHeaders;
 import eu.bitwalker.useragentutils.UserAgent;
 import hellgate.common.Authentications;
-import hellgate.common.third.IpService;
 import io.reactivex.observers.DefaultObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -22,7 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * 获取会话详情的过滤器。
+ * 会话详情过滤器。
  * <p>
  * 这个类来自 spring-session-sample-boot-findbyusername/src/main/java/sample/session/SessionDetails.java
  */
@@ -32,15 +31,13 @@ import java.io.IOException;
 public class SessionDetailsFilter extends OncePerRequestFilter {
 
     public static final String SESSION_DETAILS = "SESSION_DETAILS";
-
     private static final String UNKNOWN = "(unknown-address)";
-
     private static final String ACCESS_TYPE_FORMAT = "%s -- %s";
 
-    private final IpService ipService;
+    private final SessionDetailsService service;
 
-    public SessionDetailsFilter(IpService ipService) {
-        this.ipService = ipService;
+    public SessionDetailsFilter(SessionDetailsService service) {
+        this.service = service;
     }
 
     @Override
@@ -53,6 +50,7 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
         // 如果存在会话并且已经登录
         if (session != null && Authentications.ofLogin().isPresent()) {
             Object sessionDetails = session.getAttribute(SESSION_DETAILS);
+            // 基于会话的特性，不用每次访问都寻找会话详情
             if (sessionDetails == null) {
                 findSessionDetail(request, session);
             }
@@ -68,8 +66,9 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
         String accessType = Strings.lenientFormat(ACCESS_TYPE_FORMAT, osName, browserName);
 
         String remoteAddress = this.findRemoteAddress(request);
-        ipService.observeApi(remoteAddress)
-                .onErrorResumeNext(ipService.observeDb(remoteAddress))
+        service.observeApi(remoteAddress)
+                // 网络不可用，那么使用本地数据库
+                .onErrorResumeNext(service.observeDb(remoteAddress))
                 .subscribe(new DefaultObserver<SessionDetails>() {
                     @Override
                     public void onNext(@Nonnull SessionDetails details) {
@@ -79,8 +78,8 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
 
                     @Override
                     public void onError(@Nonnull Throwable e) {
+                        // 记录错误日志是为了判断哪个更好用
                         log.error("无法为 {} 找到对应地址，可能是：{} 问题", remoteAddress, e.getLocalizedMessage());
-                        // 网络不可用，那么使用本地数据库；记录错误日志是为了判断哪个更好用
                         SessionDetails details = new SessionDetails();
                         details.setIp(remoteAddress);
                         details.setLocation(UNKNOWN);

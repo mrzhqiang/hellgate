@@ -16,12 +16,12 @@ import java.time.Duration;
 @ConfigurationProperties("account")
 public class AccountProperties {
 
-    private static final int DEF_MAX_LOGIN_FAILED = 5;
-    private static final Duration DEF_FIRST_FAILED_DURATION = Duration.ofHours(1);
-    private static final Duration DEF_LOCKED_DURATION = Duration.ofMinutes(5);
-    private static final String DEF_RATE_LIMITER_KEY = "RateLimiter";
-    private static final double DEF_RATE_LIMITER_PERMITS = 2.0;
-    private static final int DEF_MAX_SESSION = 1;
+    public static final int DEF_MAX_LOGIN_FAILED = 5;
+    public static final Duration DEF_FIRST_FAILED_DURATION = Duration.ofHours(1);
+    public static final Duration DEF_LOCKED_DURATION = Duration.ofMinutes(5);
+    public static final String DEF_RATE_LIMITER_KEY = "RateLimiter";
+    public static final double DEF_RATE_LIMITER_PERMITS = 2.0;
+    public static final int DEF_MAX_SESSION = 1;
 
     /**
      * 最大登录失败次数。

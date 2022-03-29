@@ -1,4 +1,4 @@
-package hellgate.common.logging;
+package hellgate.controller.logging;
 
 import hellgate.common.domain.BaseEntity;
 import lombok.Getter;

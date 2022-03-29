@@ -1,6 +1,5 @@
 package hellgate.controller.account;
 
-import hellgate.common.Messages;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,11 +34,11 @@ public class RegisterController {
         }
 
         if (accountService.register(form)) {
-            Messages.success(attributes, Messages.REGISTER_SUCCESSFUL);
+            attributes.addFlashAttribute("message", "message.register.successful");
             return "redirect:/login";
         }
 
-        result.reject(Messages.REGISTER_FAILED);
+        result.reject("message.register.failed");
         return "account/register";
     }
 

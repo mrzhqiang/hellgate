@@ -18,7 +18,7 @@ import java.util.Optional;
  * 全局异常处理器。
  *
  * <p>
- * 实际上只在 Controller 层捕捉抛出的异常，来到这里进行处理。
+ * 捕捉 Controller 相关类抛出的异常，进行处理。
  */
 @Slf4j
 @RestControllerAdvice

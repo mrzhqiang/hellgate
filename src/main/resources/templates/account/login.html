@@ -6,12 +6,9 @@
 </head>
 <body>
 <div>
-    <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
-    <p style="color: green" th:unless="${#strings.isEmpty(alert)}" th:text="#{${alert}}"></p>
-    <div th:if="${param.error} and ${#session} and ${session.SPRING_SECURITY_LAST_EXCEPTION}">
-        <p style="color: red" th:unless="${#strings.isEmpty(session.SPRING_SECURITY_LAST_EXCEPTION.message)}"
-           th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></p>
-    </div>
+    <div th:replace="components/session::error"></div>
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <span style="color: green" th:unless="${#strings.isEmpty(message)}" th:text="#{${message}}"></span><br>
     <!--/*@thymesVar id="accountForm" type="hellgate.controller.account.AccountForm"*/-->
     <form method="post" action="/login" th:action="@{/login}" th:object="${accountForm}">
         [[#{login.input.username}]]<br>

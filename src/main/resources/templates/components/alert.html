@@ -1,6 +1,8 @@
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 
 <!--
+管理后台--警告提示
+
 使用方式：
 <div th:replace="components/alert::show"></div>
 
@@ -12,11 +14,11 @@
 -->
 
 <!--suppress ThymeleafMessagesResolveInspection -->
+<!--/*@thymesVar id="alert" type="java.lang.String"*/-->
 <div class="alert alert-dismissible fade show mx-3" role="alert"
-     th:classappend="*{#{param.alert-type}}?: 'alert-info'"
-     th:fragment="show" th:unless="${#strings.isEmpty(param.alert)}">
-    <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
-    <strong th:text="${#strings.startsWith(param.alert, 'message.')} ? #{${param.alert}} : ${param.alert}"></strong>
+     th:classappend="*{#{alert-type}}?: 'alert-info'"
+     th:fragment="show" th:unless="${#strings.isEmpty(alert)}">
+    <strong th:text="${#strings.startsWith(alert, 'message.')} ? #{${alert}} : ${alert}"></strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>

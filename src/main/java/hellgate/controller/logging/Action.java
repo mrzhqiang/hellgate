@@ -1,4 +1,4 @@
-package hellgate.common.logging;
+package hellgate.controller.logging;
 
 
 import java.lang.annotation.Documented;

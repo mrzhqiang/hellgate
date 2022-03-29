@@ -21,9 +21,6 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
-  messages:
-    basename: i18n.messages
-    fallback-to-system-locale: false
   session:
     timeout: 5m
   datasource:

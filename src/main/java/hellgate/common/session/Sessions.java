@@ -16,17 +16,11 @@ public final class Sessions {
         // no instances
     }
 
-    /**
-     * 获取当前会话。
-     */
     public static HttpSession ofCurrent() {
         RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
         return (HttpSession) requestAttributes.getAttribute(REFERENCE_SESSION, SCOPE_SESSION);
     }
 
-    /**
-     * 获取当前会话详情。
-     */
     @Nullable
     public static SessionDetails ofCurrentDetails() {
         HttpSession session = Sessions.ofCurrent();

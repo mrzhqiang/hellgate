@@ -5,10 +5,7 @@
     <title th:text="|#{register.title} - ${website.title}|"></title>
 </head>
 <body>
-<div th:if="${param.error} and ${#session} and ${session.SPRING_SECURITY_LAST_EXCEPTION}">
-    <p style="color: red" th:unless="${#strings.isEmpty(session.SPRING_SECURITY_LAST_EXCEPTION.message)}"
-       th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></p>
-</div>
+<div th:replace="components/session::error"></div>
 <br>
 <!--/*@thymesVar id="accountForm" type="hellgate.controller.account.AccountForm"*/-->
 <form method="post" action="#" th:action="@{/register}" th:object="${accountForm}">

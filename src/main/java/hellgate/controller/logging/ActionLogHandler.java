@@ -1,4 +1,4 @@
-package hellgate.common.logging;
+package hellgate.controller.logging;
 
 import com.github.mrzhqiang.helper.StackTraces;
 import com.google.common.base.Joiner;
@@ -8,7 +8,7 @@ import hellgate.common.Authentications;
 import hellgate.common.Jacksons;
 import hellgate.common.session.SessionDetails;
 import hellgate.common.session.Sessions;
-import hellgate.common.third.IpService;
+import hellgate.common.session.SessionDetailsService;
 import io.reactivex.observers.DefaultObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -41,14 +41,14 @@ public class ActionLogHandler {
     private static final char DOT_CHAR = ',';
 
     private final ActionLogRepository repository;
-    private final IpService ipService;
+    private final SessionDetailsService sessionDetailsService;
 
-    public ActionLogHandler(ActionLogRepository repository, IpService ipService) {
+    public ActionLogHandler(ActionLogRepository repository, SessionDetailsService sessionDetailsService) {
         this.repository = repository;
-        this.ipService = ipService;
+        this.sessionDetailsService = sessionDetailsService;
     }
 
-    @Pointcut("@annotation(hellgate.common.logging.Action)")
+    @Pointcut("@annotation(hellgate.controller.logging.Action)")
     public void actionPoint() {
     }
 
@@ -113,8 +113,8 @@ public class ActionLogHandler {
         // 可能还没查到 IP 地址的地理位置，此时手动发起转换请求
         String host = Authentications.currentHost();
         if (!Authentications.UNKNOWN_HOST.equals(host)) {
-            ipService.observeApi(host)
-                    .onErrorResumeNext(ipService.observeDb(host))
+            sessionDetailsService.observeApi(host)
+                    .onErrorResumeNext(sessionDetailsService.observeDb(host))
                     .subscribe(new DefaultObserver<SessionDetails>() {
                         @Override
                         public void onNext(@Nonnull SessionDetails details) {
