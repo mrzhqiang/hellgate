@@ -5,16 +5,8 @@ package hellgate.controller.logging;
  */
 public enum ActionType {
     /**
-     * 空。
+     * 空操作
      */
     NONE,
-    /**
-     * 注册
-     */
-    REGISTER,
-    /**
-     * 登录
-     */
-    LOGIN,
     ;
 }

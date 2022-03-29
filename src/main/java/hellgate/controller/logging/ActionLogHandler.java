@@ -85,7 +85,7 @@ public class ActionLogHandler {
         ActionState state = ActionState.UNKNOWN;
         String resultContent = "(no-content)";
         if (result != null) {
-            state = ActionState.SUCCESS;
+            state = ActionState.PASSING;
             resultContent = Jacksons.prettyPrint(Jacksons.toJson(result));
         }
         if (throwable != null) {

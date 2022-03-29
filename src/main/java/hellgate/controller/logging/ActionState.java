@@ -9,11 +9,11 @@ public enum ActionState {
      */
     UNKNOWN,
     /**
-     * 成功
+     * 执行通过
      */
-    SUCCESS,
+    PASSING,
     /**
-     * 失败
+     * 执行失败
      */
     FAILED
 }
