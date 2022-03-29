@@ -2,6 +2,7 @@ package hellgate.config;
 
 import com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaAuthenticationConverter;
 import com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties;
+import hellgate.common.Roles;
 import static org.springframework.boot.autoconfigure.security.SecurityProperties.BASIC_AUTH_ORDER;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,6 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.access.vote.RoleHierarchyVoter;
 import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -30,12 +34,25 @@ import org.springframework.session.security.web.authentication.SpringSessionReme
 @Configuration
 public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
+    public static final String STAGE_PATH = "/stage/**";
+    public static final String ADMIN_PATH = "/admin/**";
+
     /**
      * 密码编码器。
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    /**
+     * 等级选民。
+     */
+    @Bean
+    AccessDecisionVoter<?> hierarchyVoter() {
+        RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
+        hierarchy.setHierarchy(Roles.HIERARCHY);
+        return new RoleHierarchyVoter(hierarchy);
     }
 
     /**
@@ -53,8 +70,9 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.requestMatchers().antMatchers(websiteProperties.getApiPath())
-                    .and().authorizeRequests().anyRequest().authenticated()
+            http.authorizeRequests()
+                    .antMatchers(websiteProperties.getApiPath()).hasAnyRole(Roles.RAW_ADMIN, Roles.RAW_USER)
+                    .anyRequest().authenticated()
                     .and().httpBasic()
                     .and().csrf().disable();
 
@@ -101,6 +119,8 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
                     .authorizeRequests()
                     .antMatchers(kaptchaProperties.getPath()).permitAll()
                     .antMatchers(websiteProperties.getPublicPath()).permitAll()
+                    .antMatchers(STAGE_PATH).hasRole(Roles.RAW_USER)
+                    .antMatchers(ADMIN_PATH).hasRole(Roles.RAW_ADMIN)
                     .anyRequest().authenticated()
                     .and().formLogin().loginPage(websiteProperties.getLoginPath()).permitAll()
                     .defaultSuccessUrl(websiteProperties.getDefaultSuccessUrl())

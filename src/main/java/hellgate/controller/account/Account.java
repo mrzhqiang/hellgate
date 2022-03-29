@@ -1,14 +1,16 @@
 package hellgate.controller.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import hellgate.common.Roles;
 import hellgate.common.domain.BaseAuditableEntity;
 import hellgate.controller.script.Script;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
@@ -29,7 +31,6 @@ import java.util.Collections;
 @ToString(callSuper = true)
 @SQLDelete(sql = "update account set deleted = true where id = ?")
 @Entity
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public class Account extends BaseAuditableEntity implements UserDetails {
 
     @Id
@@ -83,7 +84,7 @@ public class Account extends BaseAuditableEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return AuthorityUtils.createAuthorityList(Roles.USER);
     }
 
     @Override
