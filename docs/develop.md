@@ -45,29 +45,56 @@
 系统的项目结构，以 `Maven` 结构为主，同时建立 `docs` 目录用于 `Jekyll` 的项目站点渲染。
 
 ```
-├─docs                          ——文档目录
-├─src                           ——核心代码目录
-├─├─main
-├─├─├─java
-├─├─├─├─hellgate
-├─├─├─├─├─common                ——系统公共包
-├─├─├─├─├─config                ——系统配置包
-├─├─├─├─├─controller            ——系统控制器包
-├─├─├─├─├─HellGateApplication   ——系统启动类
-├─├─├─resources
-├─├─├─├─i18n                    ——国际化资源目录
-├─├─├─├─static                  ——前端静态资源目录
-├─├─├─├─├─css                   ——前端 css 目录
-├─├─├─├─├─images                ——前端 images 目录
-├─├─├─├─├─js                    ——前端 js 目录
-├─├─├─├─├─favicon.ico           ——前端网站图标
-├─├─├─├─templates               ——前端模板代码目录
-├─├─├─├─application.yml         ——基础的配置文件
-├─├─├─├─application-dev.yml     ——开发环境配置文件
-├─├─├─├─application-prod.yml    ——生产环境配置文件
-├─├─├─├─GeoLite2-City.mmdb      ——IP 映射的城市数据库文件
-├─├─test                        ——单元测试目录
-├─admin*                        ——管理后台模块（设计中）
+├─docs                                  ——文档目录
+├─hellgate-admin                        ——管理模块
+├─├─src                                 ——源代码目录
+├─├─├─main
+├─├─├─├─java
+├─├─├─├─├─hellgate.admin
+├─├─├─├─├─├─config                      ——系统配置
+├─├─├─├─├─├─controller                  ——控制器
+├─├─├─├─├─├─session                     ——会话
+├─├─├─├─├─├─third                       ——第三方 API
+├─├─├─├─├─├─HellGateAdminApplication    ——系统启动类
+├─├─├─├─resources
+├─├─├─├─├─i18n                          ——国际化资源目录
+├─├─├─├─├─static                        ——前端静态资源目录
+├─├─├─├─├─templates                     ——前端模板代码目录
+├─├─├─├─├─application.yml               ——基础的配置文件
+├─├─├─├─├─application-dev.yml           ——开发环境配置文件
+├─├─├─├─├─application-prod.yml          ——生产环境配置文件
+├─├─├─├─├─GeoLite2-City.mmdb            ——IP 映射的城市数据库文件
+├─├─├─test                              ——单元测试目录
+├─hellgate-api                          ——API 模块
+├─├─src                                 ——源代码目录
+├─├─├─main
+├─├─├─├─java
+├─├─├─├─├─hellgate.api
+├─├─├─├─├─├─config                      ——系统配置
+├─├─├─├─├─├─controller                  ——控制器
+├─├─├─├─├─├─HellGateApiApplication      ——系统启动类
+├─├─├─├─resources
+├─├─├─├─├─i18n                          ——国际化资源目录
+├─├─├─├─├─static                        ——前端静态资源目录
+├─├─├─├─├─templates                     ——前端模板代码目录
+├─├─├─├─├─app.key                       ——JWT RSA 私钥文件
+├─├─├─├─├─app.pub                       ——JWT RSA 公钥文件
+├─├─├─├─├─application.yml               ——基础的配置文件
+├─├─├─├─├─application-dev.yml           ——开发环境配置文件
+├─├─├─├─├─application-prod.yml          ——生产环境配置文件
+├─├─├─test                              ——单元测试目录
+├─hellgate-common                       ——公共模块
+├─├─src                                 ——源代码目录
+├─├─├─main
+├─├─├─├─java
+├─├─├─├─├─hellgate.common
+├─├─├─├─├─├─annotation                  ——自定义注解
+├─├─├─├─├─├─config                      ——系统配置
+├─├─├─├─├─├─domain                      ——数据库领域
+├─├─├─├─├─├─exception                   ——异常处理
+├─├─├─├─├─├─util                        ——工具集合
+├─hellgate-dependencies                 ——依赖管理模块
+├─hellgate-parent                       ——父模块
 ├─.gitignore
 └─pom.xml
 ```

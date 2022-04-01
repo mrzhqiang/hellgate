@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/fragments::headerStyle(~{::title},_)">
+    <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
+    <title th:text="|#{register.title} - ${website.title}|"></title>
+</head>
+<body>
+<div>
+    <div th:replace="components/fragments::sessionException"></div>
+    <br>
+    <!--/*@thymesVar id="accountForm" type="hellgate.common.domain.account.AccountForm"*/-->
+    <form method="post" action="#" th:action="@{/register}" th:object="${accountForm}">
+        <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}">
+            <p style="color: red" th:unless="${#strings.isEmpty(err)}" th:text="${err}"></p>
+        </div>
+        [[#{register.title}]]：([[#{register.input.username.tips}]])<br>
+        <input type="text" name="username" maxlength="15" th:value="*{username}" required autofocus>
+        <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+        <br>
+        [[#{login.input.password}]]:([[#{register.input.password.tips}]])<br>
+        <input type="password" name="password" maxlength="15" th:value="*{password}" required>
+        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+        <br>
+        <!--/*@thymesVar id="kaptcha" type="com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties"*/-->
+        <p th:if="${kaptcha!=null && kaptcha.enabled}">
+            <span th:text="#{register.input.kaptcha}"></span>
+            <input type="text" th:name="${kaptcha.parameter}"
+                   th:placeholder="#{register.input.kaptcha}" required>
+            <img class="pointer" src="#" alt="" align="absbottom"
+                 th:src="@{${kaptcha.path}}" th:alt="#{register.kaptcha.picture}"
+                 th:data-path="${kaptcha.path}"
+                 onclick="this.src=this.getAttribute('data-path')+'?d='+new Date()*1">
+            <br>[[#{register.kaptcha.tips}]]
+        </p>
+        <input type="submit" th:value="#{register.submit}"/>
+    </form>
+    [[#{register.login.tips}]]<a href="/login" th:href="@{/login}" th:text="#{register.login}"></a>
+    <br>[[#{register.tips}]]<br>
+    <a href="#" th:href="@{/register/help}" th:text="#{register.help}"></a>
+    <br/>[[${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}]]
+    <br/>
+    <a href="javascript:location.reload();" th:text="#{register.refresh}"></a>
+    <br/>
+</div>
+</body>
+</html>
