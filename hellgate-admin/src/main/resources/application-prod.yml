@@ -4,6 +4,8 @@ logging:
   level:
     ROOT: INFO
     web: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
   file:
     name: application.log
     path: ./logs

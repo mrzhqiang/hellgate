@@ -26,8 +26,3 @@ spring:
     password: 123456
   jpa:
     show-sql: true
-http:
-  client:
-    # HTTP 请求客户端的缓存路径和限定大小
-    cache-path: ${user.dir}/.cache
-    cache-max-size: 100MB

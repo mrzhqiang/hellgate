@@ -4,7 +4,6 @@ http:
     cache-max-size: 1GB
 spring:
   jpa:
-    show-sql: false
     hibernate:
       ddl-auto: update
   sql:

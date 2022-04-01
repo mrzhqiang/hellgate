@@ -32,8 +32,3 @@ spring:
 security:
   # true 表示开启记住我功能，则可以在浏览器中保存 Cookie 用于一段时间内的免登录策略
   remember-me: false
-http:
-  client:
-    # HTTP 请求客户端的缓存路径和限定大小
-    cache-path: ${user.dir}/.cache
-    cache-max-size: 100MB
