@@ -22,7 +22,6 @@ public class Role extends BaseAuditableEntity {
     private Integer type;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     @ToString.Exclude
     private Set<Magic> magics;
 }

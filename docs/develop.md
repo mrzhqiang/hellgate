@@ -53,8 +53,6 @@
 ├─├─├─├─├─hellgate.admin
 ├─├─├─├─├─├─config                      ——系统配置
 ├─├─├─├─├─├─controller                  ——控制器
-├─├─├─├─├─├─session                     ——会话
-├─├─├─├─├─├─third                       ——第三方 API
 ├─├─├─├─├─├─HellGateAdminApplication    ——系统启动类
 ├─├─├─├─resources
 ├─├─├─├─├─i18n                          ——国际化资源目录
@@ -63,7 +61,6 @@
 ├─├─├─├─├─application.yml               ——基础的配置文件
 ├─├─├─├─├─application-dev.yml           ——开发环境配置文件
 ├─├─├─├─├─application-prod.yml          ——生产环境配置文件
-├─├─├─├─├─GeoLite2-City.mmdb            ——IP 映射的城市数据库文件
 ├─├─├─test                              ——单元测试目录
 ├─hellgate-api                          ——API 模块
 ├─├─src                                 ——源代码目录
@@ -92,7 +89,12 @@
 ├─├─├─├─├─├─config                      ——系统配置
 ├─├─├─├─├─├─domain                      ——数据库领域
 ├─├─├─├─├─├─exception                   ——异常处理
+├─├─├─├─├─├─session                     ——会话
+├─├─├─├─├─├─third                       ——第三方 API
 ├─├─├─├─├─├─util                        ——工具集合
+├─├─├─├─resources
+├─├─├─├─├─application.yml               ——基础的配置文件
+├─├─├─├─├─GeoLite2-City.mmdb            ——IP 映射的城市数据库文件
 ├─hellgate-dependencies                 ——依赖管理模块
 ├─hellgate-parent                       ——父模块
 ├─.gitignore

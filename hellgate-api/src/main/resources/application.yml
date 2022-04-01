@@ -16,6 +16,7 @@ security:
     - "/index"
     - "/register"
     - "/register/help"
+    - "/error/**"
   api-path: "/api/**"
   api-token-path: "/api/token"
   default-success-url: "/stage"
@@ -32,7 +33,6 @@ session:
   locked-duration: 5m
   # 会话过期重定向地址
   expired-path: "/login?expired"
-
 jwt:
   private-key: classpath:app.key
   public-key: classpath:app.pub

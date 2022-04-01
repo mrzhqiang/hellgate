@@ -17,6 +17,6 @@ import javax.persistence.Id;
 public class ComputeValue extends BaseAuditableEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String name;
 }

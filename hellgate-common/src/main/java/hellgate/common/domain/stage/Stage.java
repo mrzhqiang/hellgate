@@ -33,12 +33,10 @@ public class Stage extends BaseAuditableEntity {
     private Integer popularity = 0;
 
     @OneToMany
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     @ToString.Exclude
     private Set<Role> roles;
 
     @OneToMany
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     @ToString.Exclude
     private List<Script> actives;
 }

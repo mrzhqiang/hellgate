@@ -19,7 +19,6 @@ public class ActorMagic extends BaseAuditableEntity {
     private Long id;
 
     @OneToOne(optional = false)
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Magic magic;
 
     private Integer level;

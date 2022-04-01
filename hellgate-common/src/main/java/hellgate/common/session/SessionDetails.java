@@ -1,4 +1,4 @@
-package hellgate.admin.session;
+package hellgate.common.session;
 
 import lombok.Data;
 

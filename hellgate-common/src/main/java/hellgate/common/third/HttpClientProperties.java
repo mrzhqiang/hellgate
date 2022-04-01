@@ -1,4 +1,4 @@
-package hellgate.admin.third;
+package hellgate.common.third;
 
 import com.github.mrzhqiang.helper.Environments;
 import lombok.Getter;

@@ -1,6 +1,5 @@
 package hellgate.api.controller.account;
 
-import hellgate.api.controller.account.AccountService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.core.Authentication;

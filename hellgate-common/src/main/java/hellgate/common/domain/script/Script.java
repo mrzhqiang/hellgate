@@ -34,11 +34,9 @@ public class Script extends BaseAuditableEntity {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Stage stage;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     @ToString.Exclude
     private Set<Actor> actors;
 }

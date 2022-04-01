@@ -170,12 +170,6 @@
                 <artifactId>html5shiv</artifactId>
                 <version>${html5shiv.version}</version>
             </dependency>
-            <!-- SQLite 方言 -->
-            <dependency>
-                <groupId>com.github.gwenn</groupId>
-                <artifactId>sqlite-dialect</artifactId>
-                <version>${sqlite-dialect.version}</version>
-            </dependency>
             <!-- 用户代理解析工具 -->
             <dependency>
                 <groupId>eu.bitwalker</groupId>

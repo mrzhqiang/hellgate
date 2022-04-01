@@ -23,15 +23,12 @@ public class Actor extends BaseAuditableEntity {
     private String name;
 
     @ManyToOne(optional = false)
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Role role;
 
     @OneToMany
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     @ToString.Exclude
     private Set<ActorMagic> magics;
 
     @OneToOne(optional = false)
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Ability ability;
 }

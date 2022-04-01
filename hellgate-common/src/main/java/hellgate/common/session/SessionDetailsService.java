@@ -1,11 +1,11 @@
-package hellgate.admin.session;
+package hellgate.common.session;
 
 import com.google.common.base.Strings;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
-import hellgate.admin.third.PublicApi;
-import hellgate.admin.third.WhoisIpData;
+import hellgate.common.third.PublicApi;
+import hellgate.common.third.WhoisIpData;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;

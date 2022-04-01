@@ -1,4 +1,4 @@
-package hellgate.admin.session;
+package hellgate.common.session;
 
 import org.springframework.web.context.request.RequestAttributes;
 import static org.springframework.web.context.request.RequestAttributes.REFERENCE_SESSION;

@@ -1,4 +1,4 @@
-package hellgate.admin.session;
+package hellgate.common.session;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -23,7 +23,7 @@ import java.io.IOException;
 /**
  * 会话详情过滤器。
  * <p>
- * 这个类来自 spring-session-sample-boot-findbyusername/src/main/java/sample/session/SessionDetails.java
+ * 这个类来自 spring-session-sample-boot-findbyusername/src/main/java/sample/session/SessionDetailsFilter.java
  */
 @Slf4j
 @Component
