@@ -18,7 +18,7 @@ spring:
   codec:
     log-request-details: ${debug}
   session:
-    timeout: 5m
+    timeout: PT5M
   redis:
     database: 1
     host: 127.0.0.1
