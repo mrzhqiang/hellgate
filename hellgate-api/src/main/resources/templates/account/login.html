@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="components/fragments::headerStyle(~{::title},_)">
+<head th:replace="components/fragments::commonHead(~{::title},_)">
     <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
     <title th:text="|#{login.title} - ${website.title}|"></title>
 </head>
 <body>
 <div>
-    <div th:replace="components/fragments::sessionException"></div>
     <!--/*@thymesVar id="message" type="java.lang.String"*/-->
-    <span style="color: green" th:unless="${#strings.isEmpty(message)}" th:text="#{${message}}"></span>
+    <p style="color: green" th:unless="${#strings.isEmpty(message)}" th:text="#{${message}}"></p>
+    <div th:replace="components/fragments::sessionException"></div>
     <br>
-    <!--/*@thymesVar id="accountForm" type="hellgate.common.domain.account.AccountForm"*/-->
+    <!--/*@thymesVar id="accountForm" type="hellgate.common.model.account.AccountForm"*/-->
     <form method="post" action="/login" th:action="@{/login}" th:object="${accountForm}">
         [[#{login.input.username}]]<br>
         <input type="text" name="username" maxlength="15" th:value="*{username}" required autofocus>

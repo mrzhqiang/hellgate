@@ -37,6 +37,6 @@ spring:
     port: 6379
     username: redis
     password: redis
-    connect-timeout: PT10S
+    connect-timeout: 10s
 security:
   remember-me: true

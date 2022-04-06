@@ -1,6 +1,6 @@
-package hellgate.common.domain.script;
+package hellgate.common.model.script;
 
-import hellgate.common.domain.account.Account;
+import hellgate.common.model.account.Account;
 import lombok.Data;
 
 import javax.persistence.Embeddable;

@@ -17,10 +17,10 @@
 </div>
 
 <!--
-片段模板--头部声明
+片段模板--公共头部
 
 使用方式：
-<div th:replace="components/fragments::headerStyle(~{::title},~{::link})">
+<div th:replace="components/fragments::commonHead(~{::title},~{::link})">
     <title></title>
     <link href="../static/css/home.css" rel="stylesheet">
 </div>
@@ -30,7 +30,7 @@
 
 -->
 
-<head th:fragment="headerStyle(title,links)">
+<head th:fragment="commonHead(title,links)">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

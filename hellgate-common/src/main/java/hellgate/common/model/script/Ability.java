@@ -1,21 +1,18 @@
-package hellgate.common.domain.script;
+package hellgate.common.model.script;
 
-import hellgate.common.domain.BaseAuditableEntity;
+import hellgate.common.model.AuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
 
 @Getter
 @Setter
 @ToString(callSuper = true)
 @Entity
-public class Ability extends BaseAuditableEntity {
+public class Ability extends AuditableEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     /**
      * 等级。
      */

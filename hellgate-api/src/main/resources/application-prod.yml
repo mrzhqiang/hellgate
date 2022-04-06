@@ -4,8 +4,6 @@ logging:
   level:
     ROOT: INFO
     web: INFO
-    org.springframework.web: INFO
-    org.springframework.security: INFO
   file:
     name: application.log
     path: ./logs
@@ -27,11 +25,15 @@ spring:
             length: 4
     parameter: "kaptcha"
   session:
-    timeout: PT15M
+    timeout: 15m
   redis:
     database: 1
     host: 127.0.0.1
     port: 6379
     username: redis
     password: redis
-    connect-timeout: PT10S
+    connect-timeout: 10s
+  application:
+    name: "Hell Gate API"
+    admin:
+      enabled: true

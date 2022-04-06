@@ -8,7 +8,9 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import hellgate.api.controller.account.LoginFailureHandler;
 import hellgate.api.controller.rest.JwtProperties;
+import hellgate.common.util.Joiners;
 import static org.springframework.boot.autoconfigure.security.SecurityProperties.BASIC_AUTH_ORDER;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -99,17 +101,22 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         private final KaptchaProperties kaptchaProperties;
         private final KaptchaAuthenticationConverter converter;
         private final UserDetailsService userDetailsService;
+        private final LoginFailureHandler failureHandler;
 
         public WebSecurityAdapter(SecurityProperties securityProperties,
                                   SessionProperties sessionProperties,
                                   KaptchaProperties kaptchaProperties,
                                   KaptchaAuthenticationConverter converter,
-                                  UserDetailsService userDetailsService) {
+                                  UserDetailsService userDetailsService,
+                                  LoginFailureHandler failureHandler) {
             this.securityProperties = securityProperties;
             this.sessionProperties = sessionProperties;
             this.kaptchaProperties = kaptchaProperties;
             this.converter = converter;
             this.userDetailsService = userDetailsService;
+            this.failureHandler = failureHandler;
+            this.failureHandler.setDefaultFailureUrl(
+                    Joiners.QUERY.join(securityProperties.getLoginPath(), "error"));
         }
 
         @Override
@@ -125,9 +132,13 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
                     .userDetailsService(userDetailsService)
                     .authorizeRequests()
                     .antMatchers(kaptchaProperties.getPath()).permitAll()
+                    .antMatchers(securityProperties.getLoginPath()).permitAll()
+                    .antMatchers(securityProperties.getRegisterPath()).permitAll()
                     .antMatchers(securityProperties.getPublicPath()).permitAll()
+                    //.requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(Roles.RAW_ADMIN)
                     .anyRequest().authenticated()
                     .and().formLogin().loginPage(securityProperties.getLoginPath()).permitAll()
+                    .failureHandler(failureHandler)
                     .defaultSuccessUrl(securityProperties.getDefaultSuccessUrl())
                     .and().logout().permitAll()
                     .and().sessionManagement(it ->

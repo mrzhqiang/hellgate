@@ -1,6 +1,6 @@
-package hellgate.common.domain.stage;
+package hellgate.common.model.stage;
 
-import hellgate.common.domain.BaseEntity;
+import hellgate.common.model.AuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,9 +8,6 @@ import lombok.ToString;
 import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -18,7 +15,7 @@ import java.math.RoundingMode;
 @Setter
 @ToString(callSuper = true)
 @Entity
-public class TypedValue extends BaseEntity {
+public class TypedValue extends AuditableEntity {
 
     /**
      * 固定值。
@@ -50,10 +47,6 @@ public class TypedValue extends BaseEntity {
     public static final int TYPE_FACTOR_PERCENTAGE = 4;
 
     public static final BigDecimal PERCENT = BigDecimal.valueOf(100);
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private String name;
 

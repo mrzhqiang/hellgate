@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="components/fragments::headerStyle(~{::title},~{::link})">
+<head th:replace="components/fragments::commonHead(~{::title},~{::link})">
     <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
     <title th:text="${website.title}"></title>
     <link href="../static/css/home.css" rel="stylesheet" th:href="@{/css/home.css}">

@@ -1,6 +1,6 @@
 package hellgate.api.controller.account;
 
-import hellgate.common.domain.account.AccountForm;
+import hellgate.common.model.account.AccountForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;

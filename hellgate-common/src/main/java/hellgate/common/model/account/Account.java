@@ -1,8 +1,8 @@
-package hellgate.common.domain.account;
+package hellgate.common.model.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import hellgate.common.domain.BaseAuditableEntity;
-import hellgate.common.domain.script.Script;
+import hellgate.common.model.AuditableEntity;
+import hellgate.common.model.script.Script;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,11 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Collection;
 
 @Getter
@@ -25,11 +22,7 @@ import java.util.Collection;
 @ToString(callSuper = true)
 @SQLDelete(sql = "update account set deleted = true where id = ?")
 @Entity
-public class Account extends BaseAuditableEntity implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Account extends AuditableEntity implements UserDetails {
 
     @Column(updatable = false, unique = true, nullable = false)
     private String username;
@@ -47,7 +40,7 @@ public class Account extends BaseAuditableEntity implements UserDetails {
      * <p>
      * 记录首次失败时间，可以在一定持续时间内，统计认证失败的次数，在达到最大次数时，锁定账号一段时间，避免被暴力破解。
      */
-    private LocalDateTime firstFailed;
+    private Instant firstFailed;
     /**
      * 失败次数。
      * <p>
@@ -61,7 +54,7 @@ public class Account extends BaseAuditableEntity implements UserDetails {
      * <p>
      * 这种逻辑可以避免锁定状态的循环检测。
      */
-    private LocalDateTime locked;
+    private Instant locked;
     /**
      * 是否禁用。
      * <p>
@@ -88,7 +81,7 @@ public class Account extends BaseAuditableEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return locked == null || LocalDateTime.now().isAfter(locked);
+        return locked == null || Instant.now().isAfter(locked);
     }
 
     @Override

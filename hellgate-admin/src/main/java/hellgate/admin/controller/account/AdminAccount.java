@@ -1,8 +1,8 @@
 package hellgate.admin.controller.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hellgate.common.model.AuditableEntity;
 import hellgate.common.util.Roles;
-import hellgate.common.domain.BaseAuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,7 +23,7 @@ import java.util.Collection;
 @ToString(callSuper = true)
 @SQLDelete(sql = "update admin_account set deleted = true where id = ?")
 @Entity
-public class AdminAccount extends BaseAuditableEntity implements UserDetails {
+public class AdminAccount extends AuditableEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

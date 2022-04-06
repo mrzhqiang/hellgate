@@ -1,4 +1,4 @@
-package hellgate.common.domain.account;
+package hellgate.common.model.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

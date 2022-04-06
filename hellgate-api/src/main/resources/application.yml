@@ -1,16 +1,22 @@
 spring:
   profiles:
     active: dev
+    include:
+      - common
   messages:
     basename: i18n.messages,org.springframework.security.messages
     fallback-to-system-locale: false
+  cache:
+    redis:
+      key-prefix: "hellgate"
+      enable-statistics: true
 website:
   author: "287431404@qq.com"
   favicon: "/favicon.ico"
   title: "鬼门关"
 security:
+  # 记住我功能，即开启 cookie 保存会话
   remember-me: true
-  ignore-path:
   public-path:
     - "/"
     - "/index"
@@ -24,16 +30,17 @@ security:
   register-path: "/register"
   register-error-path: "/register?error"
 session:
-  # 第一次登录失败距离现在的区间时长
-  # 当触发登录失败处理时，如果位于区间时长内，则累加失败次数；否则重置失败次数统计
-  first-failed-duration: PT1H
-  # 最大登录失败次数
+  # 正常账户在首次登录失败时，将记录一个时间戳
+  # 再次登录失败时，如果位于设定的区间时长内，则累加失败次数
+  # 在账户未锁定时，登录成功将清除首次失败时间戳，并重置失败次数
+  first-failed-duration: 1h
+  # 若超过最大登录失败次数，账户将被锁定一段时间
   max-login-failed: 5
-  # 触发最大登录失败次数时，账户锁定的持续时长
-  locked-duration: PT5M
+  # 在锁定区间内，无法进行登录操作
+  locked-duration: 5m
   # 会话过期重定向地址
   expired-path: "/login?expired"
 jwt:
   private-key: classpath:app.key
   public-key: classpath:app.pub
-  expiry: PT10H
+  expiry: 10h

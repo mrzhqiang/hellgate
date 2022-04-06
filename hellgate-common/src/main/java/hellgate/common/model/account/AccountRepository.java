@@ -1,4 +1,4 @@
-package hellgate.common.domain.account;
+package hellgate.common.model.account;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

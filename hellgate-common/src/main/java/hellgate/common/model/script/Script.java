@@ -1,19 +1,13 @@
-package hellgate.common.domain.script;
+package hellgate.common.model.script;
 
-import hellgate.common.domain.BaseAuditableEntity;
-import hellgate.common.domain.stage.Stage;
+import hellgate.common.model.AuditableEntity;
+import hellgate.common.model.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.CascadeType;
-import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.Set;
@@ -27,11 +21,7 @@ import java.util.Set;
 @Setter
 @ToString(callSuper = true)
 @Entity
-public class Script extends BaseAuditableEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Script extends AuditableEntity {
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Stage stage;

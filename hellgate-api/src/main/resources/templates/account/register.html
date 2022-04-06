@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="components/fragments::headerStyle(~{::title},_)">
+<head th:replace="components/fragments::commonHead(~{::title},_)">
     <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
     <title th:text="|#{register.title} - ${website.title}|"></title>
 </head>
@@ -8,7 +8,7 @@
 <div>
     <div th:replace="components/fragments::sessionException"></div>
     <br>
-    <!--/*@thymesVar id="accountForm" type="hellgate.common.domain.account.AccountForm"*/-->
+    <!--/*@thymesVar id="accountForm" type="hellgate.common.model.account.AccountForm"*/-->
     <form method="post" action="#" th:action="@{/register}" th:object="${accountForm}">
         <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}">
             <p style="color: red" th:unless="${#strings.isEmpty(err)}" th:text="${err}"></p>

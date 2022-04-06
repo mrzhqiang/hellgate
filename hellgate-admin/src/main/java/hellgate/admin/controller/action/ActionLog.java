@@ -1,6 +1,6 @@
 package hellgate.admin.controller.action;
 
-import hellgate.common.domain.BaseEntity;
+import hellgate.common.model.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

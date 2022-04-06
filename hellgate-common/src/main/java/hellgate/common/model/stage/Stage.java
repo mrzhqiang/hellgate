@@ -1,12 +1,13 @@
-package hellgate.common.domain.stage;
+package hellgate.common.model.stage;
 
-import hellgate.common.domain.BaseAuditableEntity;
-import hellgate.common.domain.script.Script;
+import hellgate.common.model.AuditableEntity;
+import hellgate.common.model.script.Script;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Set;
 
@@ -14,11 +15,7 @@ import java.util.Set;
 @Setter
 @ToString(callSuper = true)
 @Entity
-public class Stage extends BaseAuditableEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Stage extends AuditableEntity {
 
     private String name;
     private String label;

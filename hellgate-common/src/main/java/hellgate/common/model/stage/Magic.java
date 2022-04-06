@@ -1,22 +1,20 @@
-package hellgate.common.domain.stage;
+package hellgate.common.model.stage;
 
-import hellgate.common.domain.BaseAuditableEntity;
+import hellgate.common.model.AuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 
 @Getter
 @Setter
 @ToString(callSuper = true)
 @Entity
-public class Magic extends BaseAuditableEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Magic extends AuditableEntity {
 
     /**
      * 技能名称。

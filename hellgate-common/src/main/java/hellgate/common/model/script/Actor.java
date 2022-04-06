@@ -1,23 +1,23 @@
-package hellgate.common.domain.script;
+package hellgate.common.model.script;
 
-import hellgate.common.domain.BaseAuditableEntity;
-import hellgate.common.domain.stage.Role;
+import hellgate.common.model.AuditableEntity;
+import hellgate.common.model.stage.Role;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.Set;
 
 @Getter
 @Setter
 @ToString(callSuper = true)
 @Entity
-public class Actor extends BaseAuditableEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Actor extends AuditableEntity {
 
     @Column(length = 20)
     private String name;

@@ -1,4 +1,4 @@
-package hellgate.common.domain.stage;
+package hellgate.common.model.stage;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

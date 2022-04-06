@@ -2,9 +2,9 @@ package hellgate.api.controller.account;
 
 import com.google.common.base.MoreObjects;
 import hellgate.api.config.SessionProperties;
-import hellgate.common.domain.account.Account;
-import hellgate.common.domain.account.AccountForm;
-import hellgate.common.domain.account.AccountRepository;
+import hellgate.common.model.account.Account;
+import hellgate.common.model.account.AccountForm;
+import hellgate.common.model.account.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Slf4j
 @Service
@@ -86,8 +86,8 @@ public class AccountService implements UserDetailsService {
     }
 
     private Account computeFailedCount(Account account) {
-        LocalDateTime firstFailed = account.getFirstFailed();
-        LocalDateTime now = LocalDateTime.now();
+        Instant firstFailed = account.getFirstFailed();
+        Instant now = Instant.now();
         Duration firstFailedDuration = properties.getFirstFailedDuration();
         if (firstFailed == null || firstFailed.plus(firstFailedDuration).isBefore(now)) {
             account.setFirstFailed(now);
@@ -95,12 +95,11 @@ public class AccountService implements UserDetailsService {
             return account;
         }
 
-        int failedCount = account.getFailedCount();
-        if (failedCount >= Math.max(properties.getMaxLoginFailed(), DEF_MAX_LOGIN_FAILED)) {
+        int hasFailedCount = account.getFailedCount() + 1;
+        account.setFailedCount(hasFailedCount);
+        if (hasFailedCount >= Math.max(properties.getMaxLoginFailed(), DEF_MAX_LOGIN_FAILED)) {
             Duration duration = MoreObjects.firstNonNull(properties.getLockedDuration(), Duration.ofMinutes(DEF_LOCKED_DURATION));
             account.setLocked(now.plus(duration));
-        } else {
-            account.setFailedCount(failedCount + 1);
         }
         return account;
     }
