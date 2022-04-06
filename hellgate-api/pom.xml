@@ -81,7 +81,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.mrzhqiang.kaptcha</groupId>
+            <groupId>com.github.mrzhqiang</groupId>
             <artifactId>kaptcha-spring-boot-starter</artifactId>
         </dependency>
 
