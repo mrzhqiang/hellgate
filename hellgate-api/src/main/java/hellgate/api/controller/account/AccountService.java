@@ -1,46 +1,34 @@
 package hellgate.api.controller.account;
 
-import com.google.common.base.MoreObjects;
-import hellgate.api.config.SessionProperties;
 import hellgate.common.model.account.Account;
 import hellgate.common.model.account.AccountForm;
 import hellgate.common.model.account.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.Instant;
-
 @Slf4j
 @Service
 public class AccountService implements UserDetailsService {
 
-    private static final int DEF_MAX_LOGIN_FAILED = 5;
-    private static final int DEF_LOCKED_DURATION = 5;
-
     private final AccountRepository repository;
     private final PasswordEncoder passwordEncoder;
-    private final SessionProperties properties;
 
-    public AccountService(AccountRepository repository,
-                          PasswordEncoder passwordEncoder,
-                          SessionProperties properties) {
+    public AccountService(AccountRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
-        this.properties = properties;
     }
 
+    /**
+     * 通过用户名加载用户详情。
+     * <p>
+     * 主要是提供给 {@link org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter 登录过滤器} 使用。
+     */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public Account loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByUsername(username)
-                .map(User::withUserDetails)
-                .map(User.UserBuilder::build)
                 .orElseThrow(() -> new UsernameNotFoundException("AccountService.usernameNotFound"));
     }
 
@@ -65,73 +53,5 @@ public class AccountService implements UserDetailsService {
             log.debug("create account: {} for register", account);
         }
         return true;
-    }
-
-    /**
-     * 登录失败处理。
-     * <p>
-     * 一般来说，我们对登录失败的重复尝试，有一定的容忍度，比如说 1 小时内最多不超过 5 次。
-     * <p>
-     * 但我们不可能使用定时器针对失败次数的时间区间进行检测，这样非常浪费资源。
-     * <p>
-     * 因此我们在每次进行失败处理之前，先检测上述时间区间，发现区间值内已超过 5 次则锁定账号。
-     *
-     * @param authentication 认证实例。
-     */
-    public void handleLoginFailed(Authentication authentication) {
-        repository.findByUsername(authentication.getName())
-                .filter(Account::isAccountNonLocked)
-                .map(this::computeFailedCount)
-                .ifPresent(repository::save);
-    }
-
-    private Account computeFailedCount(Account account) {
-        Instant firstFailed = account.getFirstFailed();
-        Instant now = Instant.now();
-        Duration firstFailedDuration = properties.getFirstFailedDuration();
-        if (firstFailed == null || firstFailed.plus(firstFailedDuration).isBefore(now)) {
-            account.setFirstFailed(now);
-            account.setFailedCount(1);
-            return account;
-        }
-
-        int hasFailedCount = account.getFailedCount() + 1;
-        account.setFailedCount(hasFailedCount);
-        if (hasFailedCount >= Math.max(properties.getMaxLoginFailed(), DEF_MAX_LOGIN_FAILED)) {
-            Duration duration = MoreObjects.firstNonNull(properties.getLockedDuration(), Duration.ofMinutes(DEF_LOCKED_DURATION));
-            account.setLocked(now.plus(duration));
-        }
-        return account;
-    }
-
-    /**
-     * 登录成功处理。
-     * <p>
-     * 如果账号未锁定，则设置账号为正常状态；如果账号已锁定，需要等待锁定时间过期。
-     *
-     * @param authentication 认证实例。
-     */
-    public void handleLoginSuccess(Authentication authentication) {
-        repository.findByUsername(authentication.getName())
-                .filter(it -> !it.isAccountNonLocked())
-                .map(this::resetNormalAccount)
-                .ifPresent(repository::save);
-    }
-
-    private Account resetNormalAccount(Account account) {
-        account.setFailedCount(0);
-        account.setLocked(null);
-        return account;
-    }
-
-    /**
-     * 注销成功处理。
-     * <p>
-     * 暂时不做任何处理。
-     *
-     * @param authentication 认证实例。
-     */
-    public void handleLogoutSuccess(Authentication authentication) {
-        // 目前没有处理逻辑，等待丰富
     }
 }

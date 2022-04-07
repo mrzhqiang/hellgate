@@ -10,7 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import java.util.Set;
+import java.util.List;
 
 /**
  * 剧本。
@@ -28,5 +28,5 @@ public class Script extends AuditableEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
-    private Set<Actor> actors;
+    private List<Actor> actors;
 }

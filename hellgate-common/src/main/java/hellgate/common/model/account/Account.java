@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.time.Instant;
 import java.util.Collection;
@@ -65,7 +66,19 @@ public class Account extends AuditableEntity implements UserDetails {
      * 最近玩过的剧本。
      */
     @OneToOne
+    @ToString.Exclude
     private Script lastScript;
+
+    /**
+     * 身份证。
+     * <p>
+     * 用于未成年人防沉迷验证，同时控制账号数量。
+     * <p>
+     * 由于网页文字游戏很难去支撑一个面部识别系统，因此单纯的身份证绑定账号，并不能真正实现未成年人防沉迷功能。
+     */
+    @ManyToOne
+    @ToString.Exclude
+    private IdentityCard card;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

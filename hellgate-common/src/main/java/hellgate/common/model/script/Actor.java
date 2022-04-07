@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,7 +27,7 @@ public class Actor extends AuditableEntity {
 
     @OneToMany
     @ToString.Exclude
-    private Set<ActorMagic> magics;
+    private List<ActorMagic> magics;
 
     @OneToOne(optional = false)
     private Ability ability;

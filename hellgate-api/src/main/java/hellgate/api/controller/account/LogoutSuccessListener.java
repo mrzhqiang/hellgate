@@ -1,6 +1,5 @@
 package hellgate.api.controller.account;
 
-import hellgate.api.controller.account.AccountService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.security.core.Authentication;
@@ -11,15 +10,20 @@ import javax.annotation.Nonnull;
 @Component
 public class LogoutSuccessListener implements ApplicationListener<LogoutSuccessEvent> {
 
-    private final AccountService accountService;
-
-    public LogoutSuccessListener(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
     @Override
     public void onApplicationEvent(@Nonnull LogoutSuccessEvent event) {
         Authentication authentication = event.getAuthentication();
-        accountService.handleLogoutSuccess(authentication);
+        handleLogoutSuccess(authentication);
+    }
+
+    /**
+     * 注销成功处理。
+     * <p>
+     * 暂时不做任何处理。
+     *
+     * @param authentication 认证实例。
+     */
+    public void handleLogoutSuccess(Authentication authentication) {
+        // 目前没有处理逻辑，等待丰富
     }
 }

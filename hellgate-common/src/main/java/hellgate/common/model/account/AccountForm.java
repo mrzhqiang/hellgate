@@ -3,14 +3,12 @@ package hellgate.common.model.account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
-@Validated
 public class AccountForm {
 
     /**
@@ -20,7 +18,7 @@ public class AccountForm {
      */
     @NotBlank
     @Size(min = 7, max = 15)
-    @Pattern(regexp = "[a-zA-Z0-9]*")
+    @Pattern(regexp = "[a-zA-Z0-9]*", message = "{AccountForm.username}")
     private String username;
     /**
      * 密码。
