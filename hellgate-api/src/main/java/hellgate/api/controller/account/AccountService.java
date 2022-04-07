@@ -1,9 +1,14 @@
 package hellgate.api.controller.account;
 
+import com.github.mrzhqiang.helper.random.RandomStrings;
+import com.google.common.base.Strings;
 import hellgate.common.model.account.Account;
 import hellgate.common.model.account.AccountForm;
 import hellgate.common.model.account.AccountRepository;
+import hellgate.common.model.account.IdentityCard;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,8 +32,10 @@ public class AccountService implements UserDetailsService {
      * 主要是提供给 {@link org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter 登录过滤器} 使用。
      */
     @Override
-    public Account loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByUsername(username)
+                .map(User::withUserDetails)
+                .map(User.UserBuilder::build)
                 .orElseThrow(() -> new UsernameNotFoundException("AccountService.usernameNotFound"));
     }
 
@@ -43,8 +50,12 @@ public class AccountService implements UserDetailsService {
         if (repository.findByUsername(username).isPresent()) {
             return false;
         }
-
+        String uid = generateUid(username);
+        while (repository.findByUid(uid).isPresent()) {
+            uid = generateUid(username);
+        }
         Account account = new Account();
+        account.setUid(uid);
         account.setUsername(username);
         String encodePassword = passwordEncoder.encode(form.getPassword());
         account.setPassword(encodePassword);
@@ -53,5 +64,24 @@ public class AccountService implements UserDetailsService {
             log.debug("create account: {} for register", account);
         }
         return true;
+    }
+
+    private String generateUid(String username) {
+        String uid = RandomStrings.ofNumber(2, 5);
+        uid = uid + Math.abs(username.hashCode() % 1000);
+        uid = Strings.padEnd(uid, 6, '0');
+        return uid;
+    }
+
+    public Account findByUserDetails(UserDetails userDetails) {
+        return repository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("错误的会话"));
+    }
+
+    public void binding(UserDetails userDetails, IdentityCard card) {
+        repository.findByUsername(userDetails.getUsername()).ifPresent(it -> {
+            it.setCard(card);
+            repository.save(it);
+        });
     }
 }

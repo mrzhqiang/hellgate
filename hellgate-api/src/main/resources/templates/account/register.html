@@ -36,11 +36,9 @@
     </form>
     [[#{register.login.tips}]]<a href="/login" th:href="@{/login}" th:text="#{register.login}"></a>
     <br>[[#{register.tips}]]<br>
-    <a href="#" th:href="@{/register/help}" th:text="#{register.help}"></a>
-    <br/>[[${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}]]
-    <br/>
-    <a href="javascript:location.reload();" th:text="#{register.refresh}"></a>
-    <br/>
+    <a href="#" th:href="@{/register/help}" th:text="#{register.help}"></a><br>
+    <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
+    <a href="javascript:location.reload();" th:text="#{refresh.label}"></a><br>
 </div>
 </body>
 </html>

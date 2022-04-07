@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/fragments::commonHead(~{::title},_)">
+    <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
+    <title th:text="|#{card.title} - ${website.title}|"></title>
+</head>
+<body>
+<div>
+    <br>
+    用户名：[[${username}]]
+    <br>
+    数字uid：[[${uid}]]
+    <br>
+    为了积极响应国家“进一步防止未成年人沉迷网络游戏”举措，请完成身份实名认证(一个身份证最多可以认证五个自己的账号)
+    <br>
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <p style="color: red" th:unless="${#strings.isEmpty(message)}" th:text="#{${message}}"></p>
+    <div th:replace="components/fragments::sessionException"></div>
+    <br>
+    <!--/*@thymesVar id="identityCardForm" type="hellgate.common.model.account.IdentityCardForm"*/-->
+    <form method="post" action="#" th:action="@{/identity-card}" th:object="${identityCardForm}">
+        [[#{card.input.number}]]<br>
+        <input type="text" name="number" th:value="*{number}" required autofocus>
+        <br>
+        [[#{card.input.fullName}]]<br>
+        <input type="text" name="fullName" th:value="*{fullName}" required>
+        <br>
+        <input type="submit" th:value="#{card.submit}"/>
+    </form>
+    <br>
+    <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
+    <a href="javascript:location.reload();" th:text="#{refresh.label}"></a><br>
+</div>
+</body>
+</html>

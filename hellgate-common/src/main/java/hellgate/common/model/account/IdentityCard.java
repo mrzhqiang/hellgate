@@ -21,7 +21,7 @@ public class IdentityCard extends AuditableEntity {
     @Column(nullable = false)
     private String fullName;
 
-    @OneToMany
+    @OneToMany(mappedBy = "card")
     @ToString.Exclude
     private List<Account> holders;
 }

@@ -21,12 +21,16 @@ import java.util.Collection;
 @Getter
 @Setter
 @ToString(callSuper = true)
-@SQLDelete(sql = "update account set deleted = true where id = ?")
 @Entity
 public class Account extends AuditableEntity implements UserDetails {
 
     @Column(updatable = false, unique = true, nullable = false)
     private String username;
+    /**
+     * 用于替代用户名的纯数字编号。
+     */
+    @Column(updatable = false, unique = true, nullable = false)
+    private String uid;
     /**
      * 存储已编码的密码。
      * <p>

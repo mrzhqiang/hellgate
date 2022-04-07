@@ -21,7 +21,6 @@ import java.util.Collection;
 @Setter
 @Getter
 @ToString(callSuper = true)
-@SQLDelete(sql = "update admin_account set deleted = true where id = ?")
 @Entity
 public class AdminAccount extends AuditableEntity implements UserDetails {
 
