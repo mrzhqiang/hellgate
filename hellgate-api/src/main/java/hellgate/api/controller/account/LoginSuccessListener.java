@@ -5,11 +5,11 @@ import hellgate.common.model.account.AccountRepository;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
 
-@Component
+@Service
 public class LoginSuccessListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
     private final AccountRepository repository;

@@ -136,9 +136,9 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
                     .antMatchers(securityProperties.getRegisterPath()).permitAll()
                     .antMatchers(securityProperties.getPublicPath()).permitAll()
                     .anyRequest().authenticated()
-                    .and().formLogin().loginPage(securityProperties.getLoginPath()).permitAll()
+                    .and().formLogin().loginPage(securityProperties.getLoginPath())
                     .failureHandler(failureHandler)
-                    .defaultSuccessUrl(securityProperties.getDefaultSuccessUrl(), true)
+                    .defaultSuccessUrl(securityProperties.getDefaultSuccessUrl(), true).permitAll()
                     .and().logout().permitAll()
                     .and().sessionManagement(it ->
                             it.maximumSessions(sessionProperties.getMaxSession())

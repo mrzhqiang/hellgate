@@ -3,11 +3,11 @@ package hellgate.api.controller.account;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
 
-@Component
+@Service
 public class LogoutSuccessListener implements ApplicationListener<LogoutSuccessEvent> {
 
     @Override

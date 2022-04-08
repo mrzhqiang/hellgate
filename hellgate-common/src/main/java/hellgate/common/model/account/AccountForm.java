@@ -18,7 +18,7 @@ public class AccountForm {
      */
     @NotBlank
     @Size(min = 7, max = 15)
-    @Pattern(regexp = "[a-zA-Z0-9]*", message = "{AccountForm.username}")
+    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z0-9]*$", message = "{AccountForm.username}")
     private String username;
     /**
      * 密码。

@@ -1,6 +1,7 @@
 package hellgate.api.controller.account;
 
 import com.github.mrzhqiang.helper.random.RandomStrings;
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import hellgate.common.model.account.Account;
 import hellgate.common.model.account.AccountForm;
@@ -14,6 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 public class AccountService implements UserDetailsService {
@@ -26,25 +29,22 @@ public class AccountService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     * 通过用户名加载用户详情。
-     * <p>
-     * 主要是提供给 {@link org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter 登录过滤器} 使用。
-     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByUsername(username)
+        // uid 是纯数字账号，username 首位必须是字母
+        boolean matchesAllOfNumber = CharMatcher.inRange('0', '9').matchesAllOf(username);
+        Optional<Account> optionalAccount;
+        if (matchesAllOfNumber) {
+            optionalAccount = repository.findByUid(username);
+        } else {
+            optionalAccount = repository.findByUsername(username);
+        }
+        return optionalAccount
                 .map(User::withUserDetails)
                 .map(User.UserBuilder::build)
                 .orElseThrow(() -> new UsernameNotFoundException("AccountService.usernameNotFound"));
     }
 
-    /**
-     * 注册账户。
-     *
-     * @param form 注册时填写的表单。
-     * @return true 表示注册成功；false 表示注册失败。基本上属于用户名已存在的问题。但我们一般不返回类似的提示信息，以免被恶意攻击。
-     */
     public boolean register(AccountForm form) {
         String username = form.getUsername();
         if (repository.findByUsername(username).isPresent()) {
@@ -52,6 +52,7 @@ public class AccountService implements UserDetailsService {
         }
         String uid = generateUid(username);
         while (repository.findByUid(uid).isPresent()) {
+            // 随机生成 uid，避免重复
             uid = generateUid(username);
         }
         Account account = new Account();
@@ -67,15 +68,23 @@ public class AccountService implements UserDetailsService {
     }
 
     private String generateUid(String username) {
-        String uid = RandomStrings.ofNumber(2, 5);
-        uid = uid + Math.abs(username.hashCode() % 1000);
-        uid = Strings.padEnd(uid, 6, '0');
+        // 参考：HashMap.hash(obj)
+        int h;
+        int code = (username == null) ? 0 : (h = username.hashCode()) ^ (h >>> 16);
+
+        String uid = RandomStrings.ofNumber(3, 5);
+        // code 可能为负数，需要修正为绝对值，以免拼接出现 - 负数符号
+        // 同时要保证 code 只有 3 位数字，防止最终 uid 过长
+        uid = uid + Math.abs(code % 1000);
+        // 保证最小长度为 7 位，不足 7 位尾部补零
+        uid = Strings.padEnd(uid, 7, '0');
         return uid;
     }
 
     public Account findByUserDetails(UserDetails userDetails) {
         return repository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("错误的会话"));
+                // 基本上不可能出现，除非数据库无法访问，或者已删除对应 username 的 account 表数据
+                .orElseThrow(() -> new RuntimeException("当前会话无法找到对应的账户信息"));
     }
 
     public void binding(UserDetails userDetails, IdentityCard card) {

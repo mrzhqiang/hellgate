@@ -30,15 +30,6 @@ public class LoginFailureListener implements ApplicationListener<AuthenticationF
         handleLoginFailed(authentication);
     }
 
-    /**
-     * 登录失败处理。
-     * <p>
-     * 一般来说，我们对登录失败的重复尝试，有一定的容忍度，比如说 1 小时内最多不超过 5 次。
-     * <p>
-     * 但我们不可能使用定时器针对失败次数的时间区间进行检测，这样非常浪费资源。
-     * <p>
-     * 因此我们在每次进行失败处理之前，先检测上述时间区间，发现区间值内已超过 5 次则锁定账号。
-     */
     @Transactional(rollbackFor = {Exception.class})
     public void handleLoginFailed(Authentication authentication) {
         repository.findByUsername(authentication.getName())
