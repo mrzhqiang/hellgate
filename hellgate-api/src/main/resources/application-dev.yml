@@ -28,7 +28,7 @@ spring:
     # 在 DEBUG 级别记录请求的表单数据；在 TRACE 级别记录请求的 Header 信息
     log-request-details: true
   session:
-    timeout: 5m
+    timeout: 300s
   redis:
     database: 1
     host: 127.0.0.1

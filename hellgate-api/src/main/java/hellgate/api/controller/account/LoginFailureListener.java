@@ -6,14 +6,13 @@ import hellgate.common.model.account.AccountRepository;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
 import java.time.Duration;
 import java.time.Instant;
 
-@Service
+@Component
 public class LoginFailureListener implements ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
 
     private final SessionProperties properties;
@@ -30,8 +29,7 @@ public class LoginFailureListener implements ApplicationListener<AuthenticationF
         handleLoginFailed(authentication);
     }
 
-    @Transactional(rollbackFor = {Exception.class})
-    public void handleLoginFailed(Authentication authentication) {
+    private void handleLoginFailed(Authentication authentication) {
         repository.findByUsername(authentication.getName())
                 .filter(Account::isAccountNonLocked)
                 .map(this::computeFailedCount)

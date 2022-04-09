@@ -6,18 +6,18 @@
 </head>
 <body>
 <div>
+    <p>
     <div th:replace="components/fragments::sessionException"></div>
-    <br>
     <!--/*@thymesVar id="accountForm" type="hellgate.common.model.account.AccountForm"*/-->
     <form method="post" action="#" th:action="@{/register}" th:object="${accountForm}">
         <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}">
             <p style="color: red" th:unless="${#strings.isEmpty(err)}" th:text="${err}"></p>
         </div>
-        [[#{register.title}]]：([[#{register.input.username.tips}]])<br>
+        <span th:text="#{register.input.username.label}"></span><br>
         <input type="text" name="username" maxlength="15" th:value="*{username}" required autofocus>
         <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
         <br>
-        [[#{login.input.password}]]:([[#{register.input.password.tips}]])<br>
+        <span th:text="#{register.input.password.label}"></span><br>
         <input type="password" name="password" maxlength="15" th:value="*{password}" required>
         <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
         <br>
@@ -30,15 +30,17 @@
                  th:src="@{${kaptcha.path}}" th:alt="#{register.kaptcha.picture}"
                  th:data-path="${kaptcha.path}"
                  onclick="this.src=this.getAttribute('data-path')+'?d='+new Date()*1">
-            <br>[[#{register.kaptcha.tips}]]
+            <br><span th:text="#{register.kaptcha.tips}"></span>
         </p>
+        <br>
         <input type="submit" th:value="#{register.submit}"/>
     </form>
-    [[#{register.login.tips}]]<a href="/login" th:href="@{/login}" th:text="#{register.login}"></a>
-    <br>[[#{register.tips}]]<br>
+    <span th:text="#{register.login.tips}"></span><a href="/login" th:href="@{/login}" th:text="#{register.login}"></a>
+    <br><span th:text="#{register.tips}"></span><br>
     <a href="#" th:href="@{/register/help}" th:text="#{register.help}"></a><br>
     <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
     <a href="javascript:location.reload();" th:text="#{refresh.label}"></a><br>
+    </p>
 </div>
 </body>
 </html>

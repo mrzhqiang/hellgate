@@ -19,6 +19,8 @@ public class SecurityProperties {
     private static final String DEF_REGISTER_ERROR_PATH = DEF_REGISTER_PATH + "?error";
     private static final String[] DEF_IGNORE_PATH = {};
     private static final String[] DEF_PUBLIC_PATH = {DEF_HOME_PATH, "/index", DEF_LOGIN_PATH, DEF_REGISTER_PATH};
+    private static final String DEF_BOOKMARK_PATH = "/bookmark";
+    private static final String DEF_BOOKMARK_PARAMS = "username=%s&password=%s&timestamp=%s";
 
     /**
      * 是否开启 cookie 功能。
@@ -44,6 +46,14 @@ public class SecurityProperties {
      * 认证成功默认跳转的地址。
      */
     private String defaultSuccessUrl = DEF_HOME_PATH;
+    /**
+     * 书签路径
+     */
+    private String bookmarkPath = DEF_BOOKMARK_PATH;
+    /**
+     * 书签模板
+     */
+    private String bookmarkTemplate = DEF_BOOKMARK_PATH + "?" + DEF_BOOKMARK_PARAMS;
     /**
      * 登录路径。
      */

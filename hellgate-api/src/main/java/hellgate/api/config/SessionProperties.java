@@ -18,6 +18,7 @@ public class SessionProperties {
     private static final Duration DEF_LOCKED_DURATION = Duration.ofMinutes(5);
     private static final int DEF_MAX_SESSION = 1;
     private static final String DEF_EXPIRED_PATH = "/login?expired";
+    private static final Duration DEF_COOKIE_TIMEOUT = Duration.ofMinutes(15);
 
     /**
      * 最大登录失败次数。
@@ -45,4 +46,8 @@ public class SessionProperties {
      * 可能是由于会话数量过多而引起会话过期。
      */
     private String expiredPath = DEF_EXPIRED_PATH;
+    /**
+     * Remember-me 即 Cookie 的会话超时时长。
+     */
+    private Duration cookieTimeout = DEF_COOKIE_TIMEOUT;
 }

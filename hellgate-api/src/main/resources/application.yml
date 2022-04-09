@@ -20,12 +20,13 @@ security:
   public-path:
     - "/"
     - "/index"
-    - "/register"
     - "/register/help"
     - "/error/**"
   api-path: "/api/**"
   api-token-path: "/api/token"
   default-success-url: "/stage"
+  bookmark-path: "/bookmark"
+  bookmark-template: ${security.bookmark-path}?username=%s&password=%s&timestamp=%s
   login-path: "/login"
   register-path: "/register"
   register-error-path: "/register?error"
@@ -40,6 +41,7 @@ session:
   locked-duration: 5m
   # 会话过期重定向地址
   expired-path: "/login?expired"
+  cookie-timeout: ${spring.session.timeout}
 jwt:
   private-key: classpath:app.key
   public-key: classpath:app.pub

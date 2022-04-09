@@ -5,11 +5,11 @@ import hellgate.common.model.account.AccountRepository;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
 
-@Service
+@Component
 public class LoginSuccessListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
     private final AccountRepository repository;
@@ -24,14 +24,7 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
         handleLoginSuccess(authentication);
     }
 
-    /**
-     * 登录成功处理。
-     * <p>
-     * 如果账号未锁定，则设置账号为正常状态；如果账号已锁定，需要等待锁定时间过期。
-     *
-     * @param authentication 认证实例。
-     */
-    public void handleLoginSuccess(Authentication authentication) {
+    private void handleLoginSuccess(Authentication authentication) {
         repository.findByUsername(authentication.getName())
                 .filter(it -> !it.isAccountNonLocked())
                 .map(this::resetNormalAccount)

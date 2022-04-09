@@ -6,16 +6,20 @@
 </head>
 <body>
 <div>
+    <p>
+    <div th:replace="components/fragments::sessionException"></div>
     <!--/*@thymesVar id="message" type="java.lang.String"*/-->
     <p style="color: green" th:unless="${#strings.isEmpty(message)}" th:text="#{${message}}"></p>
-    <div th:replace="components/fragments::sessionException"></div>
-    <br>
+    <span style="color: red" th:if="${param.logout}" th:text="#{login.alert.logout}"></span>
+    <span style="color: red" th:if="${param.expired}" th:text="#{login.alert.expired}"></span>
     <!--/*@thymesVar id="accountForm" type="hellgate.common.model.account.AccountForm"*/-->
     <form method="post" action="/login" th:action="@{/login}" th:object="${accountForm}">
-        [[#{login.input.username}]]<br>
+        <span th:text="#{login.input.username}"></span>
+        <br>
         <input type="text" name="username" maxlength="15" th:value="*{username}" required autofocus>
         <br>
-        [[#{login.input.password}]]<br>
+        <span th:text="#{login.input.password}"></span>
+        <br>
         <input type="password" name="password" maxlength="15" th:value="*{password}" required>
         <br>
         <input type="submit" th:value="#{login.submit}"
@@ -25,10 +29,11 @@
                -webkit-border-radius:2px; font-size:16px;"/>
     </form>
     <br/>
-    [[#{login.new-user}]]<a href='#' th:href="@{/register}" th:text="#{login.click.register}"></a>
+    <span th:text="#{login.new-user}"></span><a href='#' th:href="@{/register}" th:text="#{login.click.register}"></a>
     <br>
     <a href="javascript:window.history.back()" th:text="#{login.back} "></a>
     <a href='#' th:href="@{/}" th:text="#{login.home}"></a>
+    </p>
 </div>
 </body>
 </html>

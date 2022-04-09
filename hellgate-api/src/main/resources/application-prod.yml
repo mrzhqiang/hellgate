@@ -25,7 +25,8 @@ spring:
             length: 4
     parameter: "kaptcha"
   session:
-    timeout: 15m
+    # 15 minutes
+    timeout: 900s
   redis:
     database: 1
     host: 127.0.0.1

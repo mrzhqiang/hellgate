@@ -65,21 +65,23 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
         return exception;
     }
 
-    private BadCredentialsException parseBadCredentials(Account account, BadCredentialsException exception) {
+    private BadCredentialsException parseBadCredentials(Account account,
+                                                        BadCredentialsException exception) {
         int currentFailedCount = account.getFailedCount();
         Integer maxLoginFailed = properties.getMaxLoginFailed();
         String rawMessage = exception.getMessage();
         String message = accessor.getMessage("AccountAuthenticationFailureHandler.BadCredentialsException",
                 new Object[]{currentFailedCount, maxLoginFailed});
-        return new BadCredentialsException(Joiners.MESSAGE.join(rawMessage, message));
+        return new BadCredentialsException(Joiners.MESSAGE.join(rawMessage, message), exception);
     }
 
-    private LockedException parseLocked(Account account, LockedException exception) {
+    private LockedException parseLocked(Account account,
+                                        LockedException exception) {
         Instant locked = account.getLocked();
         String lockedDuration = DateTimes.haveTime(Instant.now(), locked);
         String rawMessage = exception.getMessage();
         String message = accessor.getMessage("AccountAuthenticationFailureHandler.LockedException",
                 new Object[]{lockedDuration});
-        return new LockedException(Joiners.MESSAGE.join(rawMessage, message));
+        return new LockedException(Joiners.MESSAGE.join(rawMessage, message), exception);
     }
 }

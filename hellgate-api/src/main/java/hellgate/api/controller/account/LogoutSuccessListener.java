@@ -16,14 +16,7 @@ public class LogoutSuccessListener implements ApplicationListener<LogoutSuccessE
         handleLogoutSuccess(authentication);
     }
 
-    /**
-     * 注销成功处理。
-     * <p>
-     * 暂时不做任何处理。
-     *
-     * @param authentication 认证实例。
-     */
-    public void handleLogoutSuccess(Authentication authentication) {
+    private void handleLogoutSuccess(Authentication authentication) {
         // 目前没有处理逻辑，等待丰富
     }
 }

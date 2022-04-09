@@ -8,7 +8,9 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import hellgate.api.controller.account.BookmarkConverter;
 import hellgate.api.controller.account.LoginFailureHandler;
+import hellgate.api.controller.account.LoginSuccessHandler;
 import hellgate.api.controller.rest.JwtProperties;
 import hellgate.common.util.Joiners;
 import static org.springframework.boot.autoconfigure.security.SecurityProperties.BASIC_AUTH_ORDER;
@@ -100,23 +102,29 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         private final SessionProperties sessionProperties;
         private final KaptchaProperties kaptchaProperties;
         private final KaptchaAuthenticationConverter converter;
+        private final BookmarkConverter bookmarkConverter;
         private final UserDetailsService userDetailsService;
         private final LoginFailureHandler failureHandler;
+        private final LoginSuccessHandler successHandler;
 
         public WebSecurityAdapter(SecurityProperties securityProperties,
                                   SessionProperties sessionProperties,
                                   KaptchaProperties kaptchaProperties,
                                   KaptchaAuthenticationConverter converter,
+                                  BookmarkConverter bookmarkConverter,
                                   UserDetailsService userDetailsService,
-                                  LoginFailureHandler failureHandler) {
+                                  LoginFailureHandler failureHandler,
+                                  LoginSuccessHandler successHandler) {
             this.securityProperties = securityProperties;
             this.sessionProperties = sessionProperties;
             this.kaptchaProperties = kaptchaProperties;
             this.converter = converter;
+            this.bookmarkConverter = bookmarkConverter;
             this.userDetailsService = userDetailsService;
-            this.failureHandler = failureHandler;
-            this.failureHandler.setDefaultFailureUrl(
+            failureHandler.setDefaultFailureUrl(
                     Joiners.QUERY.join(securityProperties.getLoginPath(), "error"));
+            this.failureHandler = failureHandler;
+            this.successHandler = successHandler;
         }
 
         @Override
@@ -129,6 +137,7 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.addFilterAfter(getAuthenticationFilter(), AnonymousAuthenticationFilter.class)
+                    .addFilterAfter(getBookmarkFilter(), AnonymousAuthenticationFilter.class)
                     .userDetailsService(userDetailsService)
                     .authorizeRequests()
                     .antMatchers(kaptchaProperties.getPath()).permitAll()
@@ -137,8 +146,7 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
                     .antMatchers(securityProperties.getPublicPath()).permitAll()
                     .anyRequest().authenticated()
                     .and().formLogin().loginPage(securityProperties.getLoginPath())
-                    .failureHandler(failureHandler)
-                    .defaultSuccessUrl(securityProperties.getDefaultSuccessUrl(), true).permitAll()
+                    .failureHandler(failureHandler).successHandler(successHandler).permitAll()
                     .and().logout().permitAll()
                     .and().sessionManagement(it ->
                             it.maximumSessions(sessionProperties.getMaxSession())
@@ -152,6 +160,7 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         public SpringSessionRememberMeServices rememberMeServices() {
             SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
             rememberMeServices.setAlwaysRemember(securityProperties.getRememberMe());
+            rememberMeServices.setValiditySeconds((int) sessionProperties.getCookieTimeout().getSeconds());
             return rememberMeServices;
         }
 
@@ -160,6 +169,17 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
             AuthenticationFilter filter = new AuthenticationFilter(authenticationManager(), converter);
             filter.setRequestMatcher(new AntPathRequestMatcher(securityProperties.getRegisterPath(), HttpMethod.POST.name()));
             filter.setFailureHandler(new SimpleUrlAuthenticationFailureHandler(securityProperties.getRegisterErrorPath()));
+            return filter;
+        }
+
+        private AuthenticationFilter getBookmarkFilter() throws Exception {
+            // 书签过滤器，用来做书签自动登录功能
+            AuthenticationFilter filter = new AuthenticationFilter(authenticationManager(), bookmarkConverter);
+            filter.setRequestMatcher(new AntPathRequestMatcher(securityProperties.getBookmarkPath(), HttpMethod.GET.name()));
+            filter.setFailureHandler(new SimpleUrlAuthenticationFailureHandler(securityProperties.getLoginPath()));
+            filter.setSuccessHandler((request, response, authentication) -> {
+                // 不进行任何操作，这样就会继续执行过滤器链，从而抵达书签页面
+            });
             return filter;
         }
     }

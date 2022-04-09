@@ -3,6 +3,7 @@ package hellgate.api.controller.account;
 import com.github.mrzhqiang.helper.random.RandomStrings;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
+import hellgate.api.config.SecurityProperties;
 import hellgate.common.model.account.Account;
 import hellgate.common.model.account.AccountForm;
 import hellgate.common.model.account.AccountRepository;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Slf4j
@@ -23,10 +25,14 @@ public class AccountService implements UserDetailsService {
 
     private final AccountRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final SecurityProperties properties;
 
-    public AccountService(AccountRepository repository, PasswordEncoder passwordEncoder) {
+    public AccountService(AccountRepository repository,
+                          PasswordEncoder passwordEncoder,
+                          SecurityProperties properties) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+        this.properties = properties;
     }
 
     @Override
@@ -45,10 +51,10 @@ public class AccountService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("AccountService.usernameNotFound"));
     }
 
-    public boolean register(AccountForm form) {
+    public String register(AccountForm form) {
         String username = form.getUsername();
         if (repository.findByUsername(username).isPresent()) {
-            return false;
+            return null;
         }
         String uid = generateUid(username);
         while (repository.findByUid(uid).isPresent()) {
@@ -64,7 +70,9 @@ public class AccountService implements UserDetailsService {
         if (log.isDebugEnabled()) {
             log.debug("create account: {} for register", account);
         }
-        return true;
+        String bookmarkTemplate = properties.getBookmarkTemplate();
+        return Strings.lenientFormat(bookmarkTemplate,
+                form.getUsername(), form.getPassword(), Instant.now().getEpochSecond());
     }
 
     private String generateUid(String username) {
