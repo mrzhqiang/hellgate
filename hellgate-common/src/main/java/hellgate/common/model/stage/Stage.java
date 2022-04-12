@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
-import java.util.Set;
+import java.util.List;
 
 /**
  * 舞台。
@@ -37,7 +37,7 @@ public class Stage extends AuditableEntity {
 
     @OneToMany
     @ToString.Exclude
-    private Set<Role> roles;
+    private List<Role> roles;
 
     /**
      * 舞台标签。

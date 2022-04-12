@@ -5,39 +5,42 @@ import hellgate.common.annotation.CurrentUser;
 import hellgate.common.model.account.Account;
 import hellgate.common.model.stage.Stage;
 import org.springframework.security.core.userdetails.UserDetails;
-import static org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/stage")
 public class StageController {
 
     private final AccountService accountService;
-    private final StageService service;
+    private final StageService stageService;
 
     public StageController(AccountService accountService,
                            StageService stageService) {
-        this.service = stageService;
+        this.stageService = stageService;
         this.accountService = accountService;
     }
 
     @GetMapping
     public String index(@CurrentUser UserDetails userDetails, Model model) {
         Account account = accountService.findByUserDetails(userDetails);
-        model.addAttribute(SPRING_SECURITY_FORM_USERNAME_KEY, account.getUsername());
-        model.addAttribute("uid", account.getUid());
-        if (account.getCard() == null) {
-            return "account/identity-card";
-        }
+        model.addAttribute(AccountService.USERNAME_KEY, account.getUsername());
+        model.addAttribute(AccountService.UID_KEY, account.getUid());
 
-        List<Stage> stages = service.listByRecommend();
+        //noinspection DuplicatedCode
+        Stage lastStage = Optional.ofNullable(account.getLastStage())
+                .orElseGet(stageService::getNewest);
+        model.addAttribute("lastStage", lastStage);
+        List<Stage> stages = stageService.listByRecommend().stream()
+                .filter(it -> !it.equals(lastStage))
+                .collect(Collectors.toList());
         model.addAttribute("stages", stages);
-        model.addAttribute("lastStage", account.getLastScript());
         return "stage/index";
     }
 }

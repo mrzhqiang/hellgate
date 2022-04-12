@@ -2,7 +2,7 @@ package hellgate.common.model.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hellgate.common.model.AuditableEntity;
-import hellgate.common.model.script.Script;
+import hellgate.common.model.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import java.time.Instant;
 import java.util.Collection;
 
@@ -65,12 +64,6 @@ public class Account extends AuditableEntity implements UserDetails {
      * 禁用账户比锁定账户更严重，因为这意味着，如果不手动启用，账户将始终无法使用。
      */
     private boolean disabled;
-    /**
-     * 最近玩过的剧本。
-     */
-    @OneToOne
-    @ToString.Exclude
-    private Script lastScript;
 
     /**
      * 身份证。
@@ -81,12 +74,20 @@ public class Account extends AuditableEntity implements UserDetails {
      */
     @ManyToOne
     @ToString.Exclude
-    private IdentityCard card;
+    private IdCard card;
+    /**
+     * 最近访问的舞台。
+     */
+    @ManyToOne
+    @ToString.Exclude
+    private Stage lastStage;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // 用户角色只用于控制访问路径（菜单权限、方法权限），所以我们在 api 模块下，不使用 spring-security 的权限控制
-        // 若要开发粒度更细的权限控制（菜单权限、方法权限、数据权限），则需要考量 spring-security-acl 和 shiro 框架，哪种更容易实现需求
+        // 用户角色只用于控制访问路径（菜单权限、方法权限）
+        // 所以我们在 api 模块下，不使用 spring-security 的权限控制
+        // 若要开发粒度更细的权限控制（菜单权限、方法权限、数据权限）
+        // 则需要考量 spring-security-acl 和 shiro 框架，哪种更容易实现需求
         return AuthorityUtils.NO_AUTHORITIES;
     }
 

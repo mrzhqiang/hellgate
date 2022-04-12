@@ -1,22 +1,26 @@
 package hellgate.api.controller.stage;
 
 import hellgate.common.model.stage.Stage;
-import hellgate.common.model.stage.StageRepository;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class StageService {
+public interface StageService {
 
-    private final StageRepository stageRepository;
+    /**
+     * 列出推荐的舞台列表。
+     * <p>
+     * 按照推荐指数倒序排列。
+     *
+     * @return 舞台实体列表。
+     */
+    List<Stage> listByRecommend();
 
-    public StageService(StageRepository stageRepository) {
-        this.stageRepository = stageRepository;
-    }
-
-    public List<Stage> listByRecommend() {
-        return stageRepository.findAll(Sort.by(Sort.Order.desc("recommend")));
-    }
+    /**
+     * 获取最新的舞台。
+     * <p>
+     * 以创建时间为基准，倒序后获取最上面的数据。
+     *
+     * @return 舞台实体。
+     */
+    Stage getNewest();
 }

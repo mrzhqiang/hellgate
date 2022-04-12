@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
-public class IdentityCardForm {
+public class IdCardForm {
 
     /**
      * 身份证号码。
@@ -18,12 +18,12 @@ public class IdentityCardForm {
      */
     @NotBlank
     @Size(min = 18, max = 18)
-    @Pattern(regexp = "^[0-9]{17}[0-9X]$", message = "{IdentityCardForm.number}")
+    @Pattern(regexp = "^[0-9]{17}[0-9X]$", message = "{IdCardForm.number}")
     private String number;
     /**
      * 身份证姓名。
      */
     @NotBlank
-    @Pattern(regexp = "[\\u4E00-\\u9FA5]+", message = "{IdentityCardForm.fullName}")
+    @Pattern(regexp = "[\\u4E00-\\u9FA5]+", message = "{IdCardForm.fullName}")
     private String fullName;
 }

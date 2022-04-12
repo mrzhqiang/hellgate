@@ -6,17 +6,17 @@
 </head>
 <body>
 <div>
-    <p>
-        <img src="#" th:src="@{/images/passport_1.png}" alt="pic"><br>
-        <span th:unless="${#strings.isEmpty(password)}" th:text="#{card.bookmark-tips}"></span><br>
-        <span th:text="|#{card.username}${username}|"></span><br>
-        <span th:text="|#{card.uid}${uid}|"></span><br>
-        <span th:text="#{card.tips}"></span><br>
-        <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <br>
+    <img src="#" th:src="@{/images/passport_1.png}" alt="pic"><br>
+    <span th:unless="${#strings.isEmpty(password)}" th:text="#{bookmark.tips}"></span><br>
+    <span th:text="|#{card.username}${username}|"></span><br>
+    <span th:text="|#{card.uid}${uid}|"></span><br>
+    <span th:text="#{card.tips}"></span><br>
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
     <p style="color: red" th:unless="${#strings.isEmpty(message)}" th:text="#{${message}}"></p>
     <div th:replace="components/fragments::sessionException"></div>
-    <!--/*@thymesVar id="identityCardForm" type="hellgate.common.model.account.IdentityCardForm"*/-->
-    <form method="post" action="#" th:action="@{/identity-card}" th:object="${identityCardForm}">
+    <!--/*@thymesVar id="idCardForm" type="hellgate.common.model.account.IdCardForm"*/-->
+    <form method="post" action="#" th:action="@{/id-card}" th:object="${idCardForm}">
         <span th:text="#{card.input.number}"></span><br>
         <input type="text" name="number" th:value="*{number}" required autofocus>
         <br>
@@ -27,7 +27,6 @@
     </form>
     <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
     <a href="javascript:location.reload();" th:text="#{refresh.label}"></a><br>
-    </p>
 </div>
 </body>
 </html>

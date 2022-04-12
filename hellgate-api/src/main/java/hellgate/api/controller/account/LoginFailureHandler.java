@@ -12,7 +12,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import static org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -41,7 +40,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
                                         HttpServletResponse response,
                                         AuthenticationException exception)
             throws IOException, ServletException {
-        String username = request.getParameter(SPRING_SECURITY_FORM_USERNAME_KEY);
+        String username = request.getParameter(AccountService.USERNAME_KEY);
         AuthenticationException rawException = exception;
         if (!Strings.isNullOrEmpty(username)) {
             exception = repository.findByUsername(username)

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/fragments::commonHead(~{::title},_)">
+    <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
+    <title th:text="|#{bookmark.title} - ${website.title}|"></title>
+</head>
+<body>
+<div>
+    <br>
+    <img src="#" th:src="@{/images/passport_1.png}" alt="pic"><br>
+    <span th:unless="${#strings.isEmpty(password)}" th:text="#{bookmark.tips}"></span><br>
+    <span th:text="|#{card.username}${username}|"></span><br>
+    <span th:text="|#{card.uid}${uid}|"></span><br>
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <div style="color: red" th:unless="${#strings.isEmpty(message)}" th:text="#{${message}}"></div>
+    <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
+    <a th:if="${lastStage}" th:href="${lastStage}"
+       th:text="${website.title} + '[' + ${lastStage.name} + ']'">
+    </a><img th:if="${lastStage}" th:src="@{/images/new.gif}" alt="pic" src="#"><br>
+    <img th:src="@{/images/passport_2.png}" alt="pic" src="#"><br>
+    <div th:if="${stages}" th:each="stage : ${stages}">
+        <!--/*@thymesVar id="stage" type="hellgate.common.model.stage.Stage"*/-->
+        <a th:href="${stage.href}" th:text="|${stage.name}${stage.label}|"></a><span
+            th:text="${stage.description}"></span><br>
+    </div>
+    ----------------<br>
+    <a th:href="@{/logout?reload=1}"
+       th:text="#{bookmark.relogin}"></a>|<a th:href="@{/password}" th:text="#{bookmark.password}"></a><br>
+    <span th:text="${hotline}"></span><br>
+    <span th:text="${group1}"></span><br>
+    <span th:text="${group2}"></span><br>
+    <a th:href="@{/logout}" th:text="#{bookmark.logout}"></a><br>
+    <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
+    <a href="javascript:location.reload();" th:text="#{refresh.label}"></a><br>
+</div>
+</body>
+</html>

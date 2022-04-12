@@ -20,7 +20,7 @@ public class SecurityProperties {
     private static final String[] DEF_IGNORE_PATH = {};
     private static final String[] DEF_PUBLIC_PATH = {DEF_HOME_PATH, "/index", DEF_LOGIN_PATH, DEF_REGISTER_PATH};
     private static final String DEF_BOOKMARK_PATH = "/bookmark";
-    private static final String DEF_BOOKMARK_PARAMS = "username=%s&password=%s&timestamp=%s";
+    private static final String DEF_BOOKMARK_TEMPLATE = DEF_BOOKMARK_PATH + "?username=%s&password=%s&timestamp=%s";
 
     /**
      * 是否开启 cookie 功能。
@@ -53,7 +53,7 @@ public class SecurityProperties {
     /**
      * 书签模板
      */
-    private String bookmarkTemplate = DEF_BOOKMARK_PATH + "?" + DEF_BOOKMARK_PARAMS;
+    private String bookmarkTemplate = DEF_BOOKMARK_TEMPLATE;
     /**
      * 登录路径。
      */

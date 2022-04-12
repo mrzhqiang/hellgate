@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @ToString(callSuper = true)
 @Entity
-public class IdentityCard extends AuditableEntity {
+public class IdCard extends AuditableEntity {
 
     @Column(nullable = false, unique = true)
     private String number;
