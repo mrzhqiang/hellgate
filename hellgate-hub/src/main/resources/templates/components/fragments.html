@@ -1,0 +1,47 @@
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+
+<!--
+片段模板--会话异常
+
+使用方式：
+<div th:replace="components/fragments::sessionException"></div>
+
+小技巧：
+可以使用 Code >> save as live template 保存到 IDEA 模板，命名为 th-session-exception 快捷输入，可以极大提升效率。
+-->
+
+<div th:if="${param.error} and ${#session} and ${session.SPRING_SECURITY_LAST_EXCEPTION}"
+     th:fragment="sessionException">
+    <span style="color: red" th:unless="${#strings.isEmpty(session.SPRING_SECURITY_LAST_EXCEPTION.message)}"
+          th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
+</div>
+
+<!--
+片段模板--公共头部
+
+使用方式：
+<div th:replace="components/fragments::commonHead(~{::title},~{::link})">
+    <title></title>
+    <link href="../static/css/home.css" rel="stylesheet">
+</div>
+
+小技巧：
+可以使用 Code >> save as live template 保存到 IDEA 模板，命名为 th-header-style 快捷输入，可以极大提升效率。
+
+-->
+
+<head th:fragment="commonHead(title,links)">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
+    <meta name="author" th:content="${website.author}" th:unless="${#strings.isEmpty(website.author)}">
+    <title th:replace="${title}"></title>
+    <link rel="shortcut icon" th:href="@{${website.favicon}}">
+    <!--/* Per-page placeholder for additional links */-->
+    <!--/*@thymesVar id="links" type=""*/-->
+    <!--suppress HtmlUnknownTag -->
+    <th:block th:replace="${links}"/>
+</head>
+
+</html>

@@ -1,9 +1,9 @@
 package hellgate.api.controller.stage;
 
 import hellgate.api.controller.account.AccountService;
-import hellgate.common.annotation.CurrentUser;
-import hellgate.common.model.account.Account;
-import hellgate.common.model.stage.Stage;
+import hellgate.common.account.Account;
+import hellgate.common.account.CurrentUser;
+import hellgate.common.stage.Stage;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

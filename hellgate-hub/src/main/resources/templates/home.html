@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/fragments::commonHead(~{::title},~{::link})">
+    <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
+    <title th:text="${website.title}"></title>
+    <link href="../static/css/home.css" rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+<div class="home-title-layout">
+    <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
+    <span class="home-title-content" th:text="${website.title}"></span>
+</div>
+<a class="home-login" href="/login" th:href="@{/login}" th:text="#{home.click.login}"></a>
+<div class="home-tips-layout">
+    <span class="home-tips-content" th:text="#{home.tips}"></span>
+</div>
+<div class="backstretch home-background">
+    <img class="home-background-image" src="../static/images/dyzm.jpg" alt="background images"
+         th:src="@{/images/dyzm.jpg}" th:alt="#{home.backstretch}">
+</div>
+
+<script src="/webjars/jquery/3.5.1/jquery.js"
+        th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script src="/webjars/jquery-backstretch/2.0.4/jquery.backstretch.js"
+        th:src="@{/webjars/jquery-backstretch/jquery.backstretch.min.js}"></script>
+<script src="../static/js/home.js"
+        th:src="@{/js/home.js}"></script>
+</body>
+</html>

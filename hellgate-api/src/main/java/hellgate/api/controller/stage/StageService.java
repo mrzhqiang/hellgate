@@ -1,6 +1,6 @@
 package hellgate.api.controller.stage;
 
-import hellgate.common.model.stage.Stage;
+import hellgate.common.stage.Stage;
 
 import java.util.List;
 

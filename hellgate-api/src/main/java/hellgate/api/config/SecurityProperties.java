@@ -11,12 +11,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("security")
 public class SecurityProperties {
 
+    public static final String ERROR_SUFFIX = "?error";
+
     private static final String DEF_HOME_PATH = "/";
     private static final String DEF_API_PATH = "/api/**";
     private static final String DEF_API_TOKEN_PATH = "/api/token";
     private static final String DEF_LOGIN_PATH = "/login";
     private static final String DEF_REGISTER_PATH = "/register";
-    private static final String DEF_REGISTER_ERROR_PATH = DEF_REGISTER_PATH + "?error";
+    private static final String DEF_REGISTER_ERROR_PATH = DEF_REGISTER_PATH + ERROR_SUFFIX;
     private static final String[] DEF_IGNORE_PATH = {};
     private static final String[] DEF_PUBLIC_PATH = {DEF_HOME_PATH, "/index", DEF_LOGIN_PATH, DEF_REGISTER_PATH};
     private static final String DEF_BOOKMARK_PATH = "/bookmark";

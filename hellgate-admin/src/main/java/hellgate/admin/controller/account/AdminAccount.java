@@ -1,21 +1,17 @@
 package hellgate.admin.controller.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import hellgate.common.model.AuditableEntity;
+import hellgate.common.domain.AuditableEntity;
 import hellgate.common.util.Roles;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.SQLDelete;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Collection;
 
 @Setter
@@ -23,10 +19,6 @@ import java.util.Collection;
 @ToString(callSuper = true)
 @Entity
 public class AdminAccount extends AuditableEntity implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(updatable = false, unique = true, nullable = false)
     private String username;

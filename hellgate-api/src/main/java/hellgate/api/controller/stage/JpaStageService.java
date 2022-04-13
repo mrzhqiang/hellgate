@@ -1,7 +1,7 @@
 package hellgate.api.controller.stage;
 
-import hellgate.common.model.stage.Stage;
-import hellgate.common.model.stage.StageRepository;
+import hellgate.common.stage.Stage;
+import hellgate.common.stage.StageRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

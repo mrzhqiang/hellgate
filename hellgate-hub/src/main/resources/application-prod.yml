@@ -1,0 +1,40 @@
+server:
+  port: 80
+logging:
+  level:
+    ROOT: INFO
+    web: INFO
+  file:
+    name: application.log
+    path: ./logs
+spring:
+  kaptcha:
+    enabled: true
+    config:
+      kaptcha:
+        border: "no"
+        image:
+          width: "150"
+          height: "40"
+        textproducer:
+          font:
+            color: "black"
+            size: "30"
+          char:
+            space: "5"
+            length: 4
+    parameter: "kaptcha"
+  session:
+    # 15 minutes
+    timeout: 900s
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    username: redis
+    password: redis
+    connect-timeout: 10s
+  application:
+    name: "Hell Gate API"
+    admin:
+      enabled: true

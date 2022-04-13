@@ -76,6 +76,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.github.mrzhqiang</groupId>
+                <artifactId>hellgate-hub</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>

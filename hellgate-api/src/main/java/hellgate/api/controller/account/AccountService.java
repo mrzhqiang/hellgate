@@ -1,8 +1,8 @@
 package hellgate.api.controller.account;
 
-import hellgate.common.model.account.Account;
-import hellgate.common.model.account.AccountForm;
-import hellgate.common.model.account.IdCardForm;
+import hellgate.common.account.Account;
+import hellgate.common.account.AccountForm;
+import hellgate.common.account.IdCardForm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -12,7 +12,6 @@ import hellgate.api.controller.account.BookmarkConverter;
 import hellgate.api.controller.account.LoginFailureHandler;
 import hellgate.api.controller.account.LoginSuccessHandler;
 import hellgate.api.controller.rest.JwtProperties;
-import hellgate.common.util.Joiners;
 import static org.springframework.boot.autoconfigure.security.SecurityProperties.BASIC_AUTH_ORDER;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -121,8 +120,7 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
             this.converter = converter;
             this.bookmarkConverter = bookmarkConverter;
             this.userDetailsService = userDetailsService;
-            failureHandler.setDefaultFailureUrl(
-                    Joiners.QUERY.join(securityProperties.getLoginPath(), "error"));
+            failureHandler.setDefaultFailureUrl(securityProperties.getLoginPath() + SecurityProperties.ERROR_SUFFIX);
             this.failureHandler = failureHandler;
             this.successHandler = successHandler;
         }

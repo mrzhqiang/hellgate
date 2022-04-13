@@ -17,7 +17,7 @@
             <div th:replace="components/error::session"></div>
             <p class="alert alert-info text-center my-1 py-1"
                th:if="${param.logout}" th:text="#{login.alert.logout}">您已退出登录！</p>
-            <!--/*@thymesVar id="accountForm" type="hellgate.common.model.account.AccountForm"*/-->
+            <!--/*@thymesVar id="accountForm" type="hellgate.common.account.AccountForm"*/-->
             <form class="form-login" method="post" action="/login"
                   th:action="@{/login}" th:object="${accountForm}">
                 <label for="inputUsername" class="sr-only" th:text="#{login.input.username}">用户名</label>
