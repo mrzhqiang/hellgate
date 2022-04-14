@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: dev
+    include:
+      - common
+  messages:
+    basename: i18n.messages,org.springframework.security.messages
+    fallback-to-system-locale: false
+  cache:
+    redis:
+      key-prefix: "hg"
+      enable-statistics: true
+jwt:
+  public-key: classpath:app.pub
+  expiry: 10h

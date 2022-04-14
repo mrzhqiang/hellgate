@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/fragments::commonHead(~{::title},_)">
+    <!--/*@thymesVar id="website" type="hellgate.core.config.CoreProperties"*/-->
+    <title th:text="|#{stage.title} - ${website.title}|"></title>
+</head>
+<body>
+<div>
+    <br>
+    <img src="#" th:src="@{/images/passport_1.png}" alt="pic"><br>
+    <span th:text="|#{card.username}${username}|"></span><br>
+    <span th:text="|#{card.uid}${uid}|"></span><br>
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <p style="color: red" th:unless="${#strings.isEmpty(message)}" th:text="#{${message}}"></p>
+    <div th:replace="components/fragments::sessionException"></div>
+    <div th:replace="components/fragments::refresh"></div>
+</div>
+</body>
+</html>

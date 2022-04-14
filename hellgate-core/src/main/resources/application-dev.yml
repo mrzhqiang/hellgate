@@ -1,0 +1,45 @@
+server:
+  port: 80
+logging:
+  level:
+    # 通过包名来自定义显示的日志级别，可以是前缀包含
+    # 比如 com.github 包含所有的 com.github.** 包名
+    org.springframework.security: DEBUG
+    hellgate: DEBUG
+  logback:
+    rollingpolicy:
+      # 开发环境下，每次启动清理历史日志
+      clean-history-on-start: true
+# 开启调试模式，则 LoggingApplicationListener 会开启 web、sql 以及 org.springframework.boot 日志的调试模式
+debug: true
+# 开启跟踪模式，则 LoggingApplicationListener 会开启以下日志的跟踪模式：
+# org.springframework
+# org.apache.tomcat
+# org.apache.catalina
+# org.eclipse.jetty
+# org.hibernate.tool.hbm2ddl
+# 由于信息太多，一般情况下不开启跟踪模式，除非遇到疑难杂症无法定位问题
+#trace: true
+spring:
+  codec:
+    # 在 DEBUG 级别记录请求的表单数据；在 TRACE 级别记录请求的 Header 信息
+    log-request-details: true
+  session:
+    timeout: 300s
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+  jpa:
+    show-sql: true
+security:
+  # 记住我功能，即开启 cookie 保存会话
+  remember-me: true
+  hub-url: "http://localhost"
+  script-path: "/script"
+  login-path: "/login"
+  api-path: "/api/**"
+session:
+  # 会话过期重定向地址
+  expired-path: "/login?expired"

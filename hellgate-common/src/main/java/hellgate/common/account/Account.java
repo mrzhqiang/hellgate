@@ -87,7 +87,7 @@ public class Account extends AuditableEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // 用户角色只用于控制访问路径（菜单权限、方法权限）
-        // 所以我们在 api 模块下，不使用 spring-security 的权限控制
+        // 所以我们在 core 模块下，不使用 spring-security 的权限控制
         // 若要开发粒度更细的权限控制（菜单权限、方法权限、数据权限）
         // 则需要考量 spring-security-acl 和 shiro 框架，哪种更容易实现需求
         return AuthorityUtils.NO_AUTHORITIES;

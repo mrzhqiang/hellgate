@@ -9,4 +9,6 @@ public final class Joiners {
 
     public static final Joiner MESSAGE = Joiner.on(" - ").skipNulls();
 
+    public static final Joiner CACHE = Joiner.on(':').skipNulls();
+
 }

@@ -66,7 +66,7 @@
 ├─├─src                                 ——源代码目录
 ├─├─├─main
 ├─├─├─├─java
-├─├─├─├─├─hellgate.api
+├─├─├─├─├─hellgate.core
 ├─├─├─├─├─├─config                      ——系统配置
 ├─├─├─├─├─├─controller                  ——控制器
 ├─├─├─├─├─├─HellGateApiApplication      ——系统启动类
