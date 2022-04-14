@@ -2,7 +2,7 @@ package hellgate.hub.account;
 
 import hellgate.common.account.Account;
 import hellgate.common.account.AccountRepository;
-import hellgate.hub.config.SessionProperties;
+import hellgate.hub.config.AccountProperties;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.core.Authentication;
@@ -15,10 +15,10 @@ import java.time.Instant;
 @Component
 public class LoginFailureListener implements ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
 
-    private final SessionProperties properties;
+    private final AccountProperties properties;
     private final AccountRepository repository;
 
-    public LoginFailureListener(SessionProperties properties, AccountRepository repository) {
+    public LoginFailureListener(AccountProperties properties, AccountRepository repository) {
         this.properties = properties;
         this.repository = repository;
     }

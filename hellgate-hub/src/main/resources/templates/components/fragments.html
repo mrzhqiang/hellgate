@@ -44,4 +44,19 @@
     <th:block th:replace="${links}"/>
 </head>
 
+<!--
+片段模块--时间提示+刷新按钮
+
+使用方式：
+<div th:replace="components/fragments::refresh"></div>
+
+小技巧：
+可以使用 Code >> save as live template 保存到 IDEA 模板，命名为 th-refresh 快捷输入，可以极大提升效率。
+-->
+
+<div th:fragment="refresh">
+    <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
+    <a href="javascript:location.reload();" th:text="#{refresh.label}"></a><br>
+</div>
+
 </html>

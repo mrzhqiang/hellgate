@@ -23,10 +23,6 @@ public class SecurityProperties {
     private static final String DEF_BOOKMARK_TEMPLATE = DEF_BOOKMARK_PATH + "?username=%s&password=%s&timestamp=%s";
 
     /**
-     * 是否开启 cookie 功能。
-     */
-    private Boolean rememberMe = true;
-    /**
      * 可忽略安全策略的路径。
      */
     private String[] ignorePath = DEF_IGNORE_PATH;

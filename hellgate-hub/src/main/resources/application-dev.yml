@@ -27,12 +27,12 @@ spring:
   codec:
     # 在 DEBUG 级别记录请求的表单数据；在 TRACE 级别记录请求的 Header 信息
     log-request-details: true
+  # 账号中心是需要会话的，但不需要 Cookie 自动登录
   session:
+    # 5 minutes
     timeout: 300s
-  redis:
-    database: 1
-    host: 127.0.0.1
-    port: 6379
-    password: 123456
+  # 开发环境下，打印 SQL 细节
   jpa:
     show-sql: true
+  application:
+    name: "Hell Gate Hub Dev"

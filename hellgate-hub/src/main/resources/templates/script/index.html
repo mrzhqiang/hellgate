@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/fragments::commonHead(~{::title},_)">
+    <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
+    <title th:text="|#{script.title} - ${website.title}|"></title>
+</head>
+<body>
+<div>
+    <br>
+    <img src="#" th:src="@{/images/passport_1.png}" alt="pic"><br>
+    <span th:unless="${#strings.isEmpty(password)}" th:text="#{script.bookmark}"></span><br>
+    <span th:text="|#{id-card.username}${username}|"></span><br>
+    <span th:text="|#{id-card.uid}${uid}|"></span><br>
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <p style="color: red" th:unless="${#strings.isEmpty(message)}" th:text="#{${message}}"></p>
+    <!--/*@thymesVar id="data" type="hellgate.hub.script.ScriptData"*/-->
+    <div th:if="${data.history}">
+        <img th:src="@{/images/login.gif}" src="#" alt="pic"/><a th:href="${data.history.url}"
+                                                                 th:text="${data.history.name}"></a><br>
+    </div>
+    <div th:unless="${data.history}">
+        <a th:href="${data.latest.url}"
+           th:text="${data.latest.name}"></a><img th:src="@{/images/new.gif}" src="#" alt="pic"/><br>
+    </div>
+    <img th:src="@{/images/passport_2.png}" alt="pic" src="#"><br>
+    <div th:if="${data.scripts}" th:each="script : ${data.scripts}">
+        <!--/*@thymesVar id="script" type="hellgate.common.script.Script"*/-->
+        <a th:href="${script.url}" th:text="${script.name}"></a><span th:text="${script.desc}"></span><br>
+    </div>
+    ----------------<br>
+    <a th:href="@{/logout?reload=1}"
+       th:text="#{script.reload}"></a>|<a th:href="@{/password}" th:text="#{script.password}"></a><br>
+    <span th:text="${website.hotline}"></span><br>
+    <div th:if="${website.groups}" th:each="group : ${website.groups}">
+        <span th:text="${group}"></span><br>
+    </div>
+    <a th:href="@{/logout}" th:text="#{script.logout}"></a><br>
+    <div th:replace="components/fragments::refresh"></div>
+</div>
+</body>
+</html>

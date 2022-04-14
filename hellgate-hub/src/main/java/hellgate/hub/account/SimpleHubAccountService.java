@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class JpaHubAccountService implements HubAccountService {
+public class SimpleHubAccountService implements HubAccountService {
 
     private static final CharMatcher NUMBER_MATCHER = CharMatcher.inRange('0', '9');
 
@@ -32,17 +32,16 @@ public class JpaHubAccountService implements HubAccountService {
     private static final int UID_INFIX_MOD = 1000;
     private static final int UID_MIN_LENGTH = 7;
     private static final char UID_SUFFIX_PAD_CHAR = '0';
-    private static final int BIND_ID_CARD_MAX = 5;
 
     private final AccountRepository repository;
     private final IdCardRepository cardRepository;
     private final PasswordEncoder passwordEncoder;
     private final SecurityProperties properties;
 
-    public JpaHubAccountService(AccountRepository repository,
-                                IdCardRepository cardRepository,
-                                PasswordEncoder passwordEncoder,
-                                SecurityProperties properties) {
+    public SimpleHubAccountService(AccountRepository repository,
+                                   IdCardRepository cardRepository,
+                                   PasswordEncoder passwordEncoder,
+                                   SecurityProperties properties) {
         this.repository = repository;
         this.cardRepository = cardRepository;
         this.passwordEncoder = passwordEncoder;

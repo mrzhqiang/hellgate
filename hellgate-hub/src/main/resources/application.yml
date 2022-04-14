@@ -6,43 +6,35 @@ spring:
   messages:
     basename: i18n.messages,org.springframework.security.messages
     fallback-to-system-locale: false
-  cache:
-    redis:
-      key-prefix: "hellgate"
-      enable-statistics: true
 website:
   author: "287431404@qq.com"
   favicon: "/favicon.ico"
-  title: "鬼门关"
+  title: "鬼门关通行证"
 security:
-  # 记住我功能，即开启 cookie 保存会话
-  remember-me: true
   public-path:
     - "/"
     - "/index"
     - "/register/help"
     - "/error/**"
-  api-path: "/api/**"
-  api-token-path: "/api/token"
-  default-success-url: "/stage"
-  bookmark-path: "/bookmark"
-  bookmark-template: ${security.bookmark-path}?username=%s&password=%s&timestamp=%s
   login-path: "/login"
   register-path: "/register"
   register-error-path: "/register?error"
-session:
-  # 正常账户在首次登录失败时，将记录一个时间戳
-  # 再次登录失败时，如果位于设定的区间时长内，则累加失败次数
-  # 在账户未锁定时，登录成功将清除首次失败时间戳，并重置失败次数
-  first-failed-duration: 1h
+  default-success-url: "/script"
+  bookmark-path: "/bookmark"
+  bookmark-template: ${security.bookmark-path}?username=%s&password=%s&timestamp=%s
+account:
   # 若超过最大登录失败次数，账户将被锁定一段时间
   max-login-failed: 5
   # 在锁定区间内，无法进行登录操作
   locked-duration: 5m
-  # 会话过期重定向地址
-  expired-path: "/login?expired"
-  cookie-timeout: ${spring.session.timeout}
+  # 正常账户在首次登录失败时，将记录一个时间戳
+  # 再次登录失败时，如果位于设定的区间时长内，则累加失败次数
+  # 在账户未锁定时，登录成功将清除首次失败时间戳，并重置失败次数
+  first-failed-duration: 1h
 jwt:
+  # ubuntu 命令生成私钥：openssl genrsa 2048 | openssl pkcs8 -topk8 -nocrypt -out app.key
   private-key: classpath:app.key
+  # ubuntu 命令根据私钥生成公钥：openssl rsa -in app.key -pubout -outform PEM -out app.pub
   public-key: classpath:app.pub
-  expiry: 10h
+  # 为了安全着想，书签 token 只能持续 30 天，超过 30 天将需要重新登录获取书签 token
+  expiry: 30d

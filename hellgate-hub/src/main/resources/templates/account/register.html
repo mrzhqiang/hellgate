@@ -38,8 +38,7 @@
     <span th:text="#{register.login.tips}"></span><a href="/login" th:href="@{/login}" th:text="#{register.login}"></a>
     <br><span th:text="#{register.tips}"></span><br>
     <a href="#" th:href="@{/register/help}" th:text="#{register.help}"></a><br>
-    <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
-    <a href="javascript:location.reload();" th:text="#{refresh.label}"></a><br>
+    <div th:replace="components/fragments::refresh"></div>
     </p>
 </div>
 </body>

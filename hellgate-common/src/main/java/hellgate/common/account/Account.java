@@ -1,7 +1,7 @@
 package hellgate.common.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import hellgate.common.domain.AuditableEntity;
+import hellgate.common.audit.AuditableEntity;
 import hellgate.common.script.Script;
 import lombok.Getter;
 import lombok.Setter;
@@ -76,11 +76,13 @@ public class Account extends AuditableEntity implements UserDetails {
     @ToString.Exclude
     private IdCard card;
     /**
-     * 最近演绎的剧本。
+     * 历史剧本。
+     * <p>
+     * 只记录最近一次访问过的剧本。
      */
     @ManyToOne
     @ToString.Exclude
-    private Script lastScript;
+    private Script historyScript;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

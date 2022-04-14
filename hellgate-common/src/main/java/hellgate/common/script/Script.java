@@ -1,13 +1,11 @@
 package hellgate.common.script;
 
-import hellgate.common.domain.AuditableEntity;
+import hellgate.common.audit.AuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -18,9 +16,8 @@ import java.util.List;
 public class Script extends AuditableEntity {
 
     private String name;
-    private String path;
-    @Enumerated(EnumType.STRING)
-    private Label label = Label.NEW;
+    private String desc;
+    private String url;
     private boolean active = true;
     /**
      * 推荐指数：1 -- 100，default 1
@@ -34,27 +31,4 @@ public class Script extends AuditableEntity {
     @OneToMany
     @ToString.Exclude
     private List<Role> roles;
-
-    public enum Label {
-        /**
-         * 新区开放
-         */
-        NEW,
-        /**
-         * 流行热门
-         */
-        POPULAR,
-        /**
-         * 长久稳定
-         */
-        STABLE,
-        /**
-         * 即将合并
-         */
-        WILL_MERGE,
-        /**
-         * 已经关闭
-         */
-        HAS_CLOSED,
-    }
 }

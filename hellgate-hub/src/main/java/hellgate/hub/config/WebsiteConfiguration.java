@@ -13,7 +13,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @ConditionalOnClass(ThymeleafViewResolver.class)
 @EnableConfigurationProperties(WebsiteProperties.class)
 @Configuration
-public class ThymeleafConfiguration implements CommandLineRunner {
+public class WebsiteConfiguration implements CommandLineRunner {
 
     private static final String WEBSITE_KEY = "website";
     private static final String KAPTCHA_KEY = "kaptcha";
@@ -22,9 +22,9 @@ public class ThymeleafConfiguration implements CommandLineRunner {
     private final KaptchaProperties kaptchaProperties;
     private final ThymeleafViewResolver resolver;
 
-    public ThymeleafConfiguration(WebsiteProperties websiteProperties,
-                                  KaptchaProperties kaptchaProperties,
-                                  ThymeleafViewResolver resolver) {
+    public WebsiteConfiguration(WebsiteProperties websiteProperties,
+                                KaptchaProperties kaptchaProperties,
+                                ThymeleafViewResolver resolver) {
         this.websiteProperties = websiteProperties;
         this.kaptchaProperties = kaptchaProperties;
         this.resolver = resolver;

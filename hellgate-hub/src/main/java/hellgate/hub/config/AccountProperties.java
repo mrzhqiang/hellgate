@@ -10,11 +10,10 @@ import java.time.Duration;
 @Getter
 @Setter
 @ToString
-@ConfigurationProperties("session")
-public class SessionProperties {
+@ConfigurationProperties("account")
+public class AccountProperties {
 
     private static final int DEF_MAX_LOGIN_FAILED = 5;
-    private static final Duration DEF_COOKIE_TIMEOUT = Duration.ofMinutes(15);
     private static final Duration DEF_LOCKED_DURATION = Duration.ofMinutes(5);
     private static final Duration DEF_FIRST_FAILED_DURATION = Duration.ofHours(1);
 
@@ -24,12 +23,6 @@ public class SessionProperties {
      * 超过失败次数将会被锁定账号一段时间。
      */
     private Integer maxLoginFailed = DEF_MAX_LOGIN_FAILED;
-    /**
-     * Cookie 超时时间。
-     * <p>
-     * Remember-me 即 Cookie 的会话超时时长。
-     */
-    private Duration cookieTimeout = DEF_COOKIE_TIMEOUT;
     /**
      * 锁定持续时长。
      * <p>

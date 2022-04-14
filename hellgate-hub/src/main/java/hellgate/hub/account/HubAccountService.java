@@ -8,6 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 public interface HubAccountService extends AccountService {
 
     /**
+     * 一个身份证号码被绑定的最大次数
+     */
+    int BIND_ID_CARD_MAX = 5;
+    /**
      * 注册账号。
      *
      * @param form 前端传递过来的账号表单。

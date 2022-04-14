@@ -37,7 +37,8 @@ public class IdCardController {
 
         boolean binding = hubAccountService.binding(userDetails, form);
         if (!binding) {
-            result.reject("IdCardController.failed");
+            result.reject("IdCardController.failed",
+                    new Object[]{HubAccountService.BIND_ID_CARD_MAX}, null);
             return "account/id-card";
         }
 

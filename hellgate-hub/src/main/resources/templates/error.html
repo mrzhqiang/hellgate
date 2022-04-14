@@ -7,8 +7,7 @@
 <body>
 <div>
     <p th:text="#{error.tips}"></p>
-    <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
-    <a href="javascript:location.reload();" th:text="#{refresh.label}"></a><br>
+    <div th:replace="components/fragments::refresh"></div>
     <!--suppress ThymeleafVariablesResolveInspection -->
     <p th:unless="${#strings.isEmpty(debug)}">[[${trace}]]</p>
 </div>

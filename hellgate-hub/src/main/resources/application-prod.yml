@@ -24,17 +24,11 @@ spring:
             space: "5"
             length: 4
     parameter: "kaptcha"
+  # 账号中心是需要会话的，但不需要 Cookie 自动登录
   session:
     # 15 minutes
     timeout: 900s
-  redis:
-    database: 1
-    host: 127.0.0.1
-    port: 6379
-    username: redis
-    password: redis
-    connect-timeout: 10s
   application:
-    name: "Hell Gate API"
+    name: "Hell Gate Hub Prod"
     admin:
       enabled: true

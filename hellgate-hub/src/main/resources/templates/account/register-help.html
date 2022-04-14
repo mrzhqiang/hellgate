@@ -14,8 +14,7 @@
         <span th:text="#{register.help.body3}"></span><br>
     </p>
     <a href="#" th:href="@{/register}" th:text="#{register.help.back.register}"></a><br>
-    <span th:text="${#dates.format(#dates.createNow(), 'MM-dd HH:ss')}"></span><br>
-    <a href="javascript:location.reload();" th:text="#{register.help.refresh}"></a><br>
+    <div th:replace="components/fragments::refresh"></div>
 </div>
 </body>
 </html>

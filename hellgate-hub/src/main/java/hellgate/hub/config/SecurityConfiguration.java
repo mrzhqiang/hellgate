@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
-@EnableConfigurationProperties({SecurityProperties.class, SessionProperties.class})
+@EnableConfigurationProperties({SecurityProperties.class, AccountProperties.class})
 @Configuration
 public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
@@ -37,7 +37,6 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
     static class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 
         private final SecurityProperties securityProperties;
-        private final SessionProperties sessionProperties;
         private final KaptchaProperties kaptchaProperties;
         private final KaptchaAuthenticationConverter converter;
         private final BookmarkConverter bookmarkConverter;
@@ -46,7 +45,6 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         private final LoginSuccessHandler successHandler;
 
         public WebSecurityAdapter(SecurityProperties securityProperties,
-                                  SessionProperties sessionProperties,
                                   KaptchaProperties kaptchaProperties,
                                   KaptchaAuthenticationConverter converter,
                                   BookmarkConverter bookmarkConverter,
@@ -54,7 +52,6 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
                                   LoginFailureHandler failureHandler,
                                   LoginSuccessHandler successHandler) {
             this.securityProperties = securityProperties;
-            this.sessionProperties = sessionProperties;
             this.kaptchaProperties = kaptchaProperties;
             this.converter = converter;
             this.bookmarkConverter = bookmarkConverter;
@@ -86,10 +83,6 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
                     .and().formLogin().loginPage(securityProperties.getLoginPath())
                     .failureHandler(failureHandler).successHandler(successHandler).permitAll()
                     .and().logout().permitAll();
-            if (securityProperties.getRememberMe()) {
-                http.rememberMe().alwaysRemember(true)
-                        .tokenValiditySeconds((int) sessionProperties.getCookieTimeout().getSeconds());
-            }
         }
 
         private AuthenticationFilter getKaptchaFilter() throws Exception {
