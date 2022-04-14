@@ -7,13 +7,18 @@ spring:
     basename: i18n.messages,org.springframework.security.messages
     fallback-to-system-locale: false
 website:
-  author: "287431404@qq.com"
+  author: "xxxxxxxxx@qq.com"
   favicon: "/favicon.ico"
   title: "鬼门关通行证"
+  hotline: "客服电话: 150xxxxxxxx"
+  groups:
+    - "官方Q②群: 2xxxxxxxx"
+    - "官方Q①群: 1xxxxxxxx"
 security:
   public-path:
     - "/"
     - "/index"
+    - "/home"
     - "/register/help"
     - "/error/**"
   login-path: "/login"

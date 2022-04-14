@@ -1,4 +1,4 @@
-package hellgate.hub.token;
+package hellgate.hub.account;
 
 import hellgate.hub.config.JwtProperties;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;

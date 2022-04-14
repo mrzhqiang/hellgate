@@ -1,4 +1,4 @@
-package hellgate.hub.token;
+package hellgate.hub.account;
 
 public interface TokenService {
 

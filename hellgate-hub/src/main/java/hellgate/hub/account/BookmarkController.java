@@ -1,9 +1,8 @@
-package hellgate.hub.bookmark;
+package hellgate.hub.account;
 
 import hellgate.common.account.Account;
 import hellgate.common.account.CurrentUser;
 import hellgate.common.account.IdCardForm;
-import hellgate.hub.account.HubAccountService;
 import hellgate.hub.script.ScriptData;
 import hellgate.hub.script.ScriptService;
 import org.springframework.data.repository.query.Param;

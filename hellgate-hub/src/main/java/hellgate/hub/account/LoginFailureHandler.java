@@ -5,7 +5,7 @@ import hellgate.common.account.Account;
 import hellgate.common.account.AccountRepository;
 import hellgate.common.util.DateTimes;
 import hellgate.common.util.Joiners;
-import hellgate.hub.config.AccountProperties;
+import hellgate.hub.config.SecurityProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,11 +23,11 @@ import java.time.Instant;
 @Component
 public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-    private final AccountProperties properties;
+    private final SecurityProperties properties;
     private final AccountRepository repository;
     private final MessageSourceAccessor accessor;
 
-    public LoginFailureHandler(AccountProperties properties,
+    public LoginFailureHandler(SecurityProperties properties,
                                AccountRepository repository,
                                MessageSource messageSource) {
         this.properties = properties;

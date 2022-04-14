@@ -2,9 +2,9 @@ package hellgate.hub.config;
 
 import com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaAuthenticationConverter;
 import com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties;
+import hellgate.hub.account.BookmarkConverter;
 import hellgate.hub.account.LoginFailureHandler;
 import hellgate.hub.account.LoginSuccessHandler;
-import hellgate.hub.bookmark.BookmarkConverter;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
-@EnableConfigurationProperties({SecurityProperties.class, AccountProperties.class})
+@EnableConfigurationProperties({SecurityProperties.class})
 @Configuration
 public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 

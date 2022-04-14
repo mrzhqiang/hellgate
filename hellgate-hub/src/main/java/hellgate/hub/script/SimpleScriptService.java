@@ -4,8 +4,8 @@ import com.google.common.base.Strings;
 import hellgate.common.account.Account;
 import hellgate.common.script.Script;
 import hellgate.common.script.ScriptRepository;
-import hellgate.hub.token.SimpleTokenService;
-import hellgate.hub.token.TokenService;
+import hellgate.hub.account.SimpleTokenService;
+import hellgate.hub.account.TokenService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

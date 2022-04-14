@@ -1,4 +1,4 @@
-package hellgate.hub.bookmark;
+package hellgate.hub.account;
 
 import com.google.common.base.Strings;
 import hellgate.common.account.AccountService;

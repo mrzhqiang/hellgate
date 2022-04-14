@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/fragments::commonHead(~{::title},_)">
-    <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.hub.config.WebsiteProperties"*/-->
     <title th:text="|#{script.title} - ${website.title}|"></title>
 </head>
 <body>
@@ -30,6 +30,7 @@
     ----------------<br>
     <a th:href="@{/logout?reload=1}"
        th:text="#{script.reload}"></a>|<a th:href="@{/password}" th:text="#{script.password}"></a><br>
+    <!--/*@thymesVar id="website" type="hellgate.hub.config.WebsiteProperties"*/-->
     <span th:text="${website.hotline}"></span><br>
     <div th:if="${website.groups}" th:each="group : ${website.groups}">
         <span th:text="${group}"></span><br>

@@ -2,7 +2,6 @@ package hellgate.hub.account;
 
 import com.google.common.base.Strings;
 import hellgate.hub.config.SecurityProperties;
-import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
 
-@Setter
 @Component
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
