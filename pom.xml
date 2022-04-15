@@ -20,7 +20,8 @@
         <module>hellgate-dependencies</module>
         <module>hellgate-parent</module>
         <module>hellgate-common</module>
-        <module>hellgate-api</module>
+        <module>hellgate-hub</module>
+        <module>hellgate-core</module>
         <module>hellgate-admin</module>
     </modules>
 

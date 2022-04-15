@@ -13,7 +13,7 @@
 
     <artifactId>hellgate-core</artifactId>
     <name>Hell Gate Core</name>
-    <description>鬼门关核心模块</description>
+    <description>核心模块</description>
 
     <dependencies>
         <dependency>

@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @Data
 public class IdCardForm {
@@ -17,7 +16,6 @@ public class IdCardForm {
      * 一共 18 位，前面六位是户籍编号，中间八位是出生年月日，后面四位是序列号，但同时包含性别等信息。
      */
     @NotBlank
-    @Size(min = 18, max = 18)
     @Pattern(regexp = "^[0-9]{17}[0-9X]$", message = "{IdCardForm.number}")
     private String number;
     /**

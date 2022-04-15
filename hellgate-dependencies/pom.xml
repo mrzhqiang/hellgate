@@ -13,7 +13,7 @@
     <artifactId>hellgate-dependencies</artifactId>
     <packaging>pom</packaging>
     <name>Hell Gate Dependencies</name>
-    <description>鬼门关依赖模块</description>
+    <description>依赖管理</description>
 
     <properties>
         <spring-boot.version>2.6.2</spring-boot.version>

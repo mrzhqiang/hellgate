@@ -1,4 +1,4 @@
-package hellgate.admin;
+package hellgate.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,9 +10,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("hellgate.**")
 @ComponentScan("hellgate.**")
 @SpringBootApplication
-public class HellGateAdminApplication {
+public class CoreApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HellGateAdminApplication.class, args);
+        SpringApplication.run(CoreApplication.class, args);
     }
 }

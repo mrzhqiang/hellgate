@@ -13,7 +13,7 @@
 
     <artifactId>hellgate-hub</artifactId>
     <name>Hell Gate Hub</name>
-    <description>鬼门关账号中心（为实现一证通行所有游戏而设计）</description>
+    <description>账号中心</description>
 
     <dependencies>
         <dependency>

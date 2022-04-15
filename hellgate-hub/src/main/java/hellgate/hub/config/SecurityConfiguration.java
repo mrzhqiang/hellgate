@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
@@ -72,7 +73,7 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.addFilterAfter(getKaptchaFilter(), AnonymousAuthenticationFilter.class)
-                    .addFilterAfter(getBookmarkFilter(), AnonymousAuthenticationFilter.class)
+                    .addFilterAfter(getBookmarkFilter(), UsernamePasswordAuthenticationFilter.class)
                     .userDetailsService(userDetailsService)
                     .authorizeRequests()
                     .antMatchers(kaptchaProperties.getPath()).permitAll()
@@ -82,7 +83,8 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
                     .anyRequest().authenticated()
                     .and().formLogin().loginPage(securityProperties.getLoginPath())
                     .failureHandler(failureHandler).successHandler(successHandler).permitAll()
-                    .and().logout().permitAll();
+                    .and()
+                    .csrf().disable().logout().permitAll();
         }
 
         private AuthenticationFilter getKaptchaFilter() throws Exception {

@@ -13,7 +13,7 @@
 
     <artifactId>hellgate-common</artifactId>
     <name>Hell Gate Common</name>
-    <description>鬼门关公共模块</description>
+    <description>公共模块</description>
 
     <dependencies>
         <dependency>

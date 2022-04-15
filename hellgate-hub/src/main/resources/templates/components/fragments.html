@@ -13,7 +13,7 @@
 <div th:if="${param.error} and ${#session} and ${session.SPRING_SECURITY_LAST_EXCEPTION}"
      th:fragment="sessionException">
     <span style="color: red" th:unless="${#strings.isEmpty(session.SPRING_SECURITY_LAST_EXCEPTION.message)}"
-          th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
+          th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span><br>
 </div>
 
 <!--
@@ -34,7 +34,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.hub.config.WebsiteProperties"*/-->
     <meta name="author" th:content="${website.author}" th:unless="${#strings.isEmpty(website.author)}">
     <title th:replace="${title}"></title>
     <link rel="shortcut icon" th:href="@{${website.favicon}}">

@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8888
 logging:
   level:
     # 通过包名来自定义显示的日志级别，可以是前缀包含

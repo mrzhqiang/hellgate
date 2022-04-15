@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
@@ -14,5 +15,8 @@ import javax.persistence.Entity;
 public class RoleLabel extends AuditableEntity {
 
     private String name;
-    private Integer require;
+    private Integer level;
+
+    @ManyToOne
+    private Role role;
 }

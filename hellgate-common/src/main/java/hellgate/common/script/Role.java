@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -23,7 +24,10 @@ public class Role extends AuditableEntity {
     private Integer initHp;
     private Integer initMp;
 
-    @OneToMany
+    @ManyToOne
+    private Script script;
+
+    @OneToMany(mappedBy = "role")
     @ToString.Exclude
     private List<RoleLabel> labels;
 

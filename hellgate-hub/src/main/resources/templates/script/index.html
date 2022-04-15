@@ -5,10 +5,12 @@
     <title th:text="|#{script.title} - ${website.title}|"></title>
 </head>
 <body>
+<p>
 <div>
-    <br>
     <img src="#" th:src="@{/images/passport_1.png}" alt="pic"><br>
-    <span th:unless="${#strings.isEmpty(password)}" th:text="#{script.bookmark}"></span><br>
+    <div th:unless="${#strings.isEmpty(password)}">
+        <span th:text="#{script.bookmark}"></span><br>
+    </div>
     <span th:text="|#{id-card.username}${username}|"></span><br>
     <span th:text="|#{id-card.uid}${uid}|"></span><br>
     <!--/*@thymesVar id="message" type="java.lang.String"*/-->
@@ -18,7 +20,7 @@
         <img th:src="@{/images/login.gif}" src="#" alt="pic"/><a th:href="${data.history.url}"
                                                                  th:text="${data.history.name}"></a><br>
     </div>
-    <div th:unless="${data.history}">
+    <div th:if="${data.latest}">
         <a th:href="${data.latest.url}"
            th:text="${data.latest.name}"></a><img th:src="@{/images/new.gif}" src="#" alt="pic"/><br>
     </div>
@@ -28,7 +30,7 @@
         <a th:href="${script.url}" th:text="${script.name}"></a><span th:text="${script.desc}"></span><br>
     </div>
     ----------------<br>
-    <a th:href="@{/logout?reload=1}"
+    <a th:href="@{/logout}"
        th:text="#{script.reload}"></a>|<a th:href="@{/password}" th:text="#{script.password}"></a><br>
     <!--/*@thymesVar id="website" type="hellgate.hub.config.WebsiteProperties"*/-->
     <span th:text="${website.hotline}"></span><br>
@@ -38,5 +40,6 @@
     <a th:href="@{/logout}" th:text="#{script.logout}"></a><br>
     <div th:replace="components/fragments::refresh"></div>
 </div>
+</p>
 </body>
 </html>

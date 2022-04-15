@@ -13,7 +13,7 @@
 
     <artifactId>hellgate-admin</artifactId>
     <name>Hell Gate Admin</name>
-    <description>鬼门关管理模块</description>
+    <description>管理模块</description>
 
     <dependencies>
         <dependency>

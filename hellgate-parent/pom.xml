@@ -17,7 +17,7 @@
     <artifactId>hellgate-parent</artifactId>
     <packaging>pom</packaging>
     <name>Hell Gate Parent</name>
-    <description>鬼门关父模块</description>
+    <description>统一父模块</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

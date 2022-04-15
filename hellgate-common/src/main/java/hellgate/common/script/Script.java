@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -16,7 +18,9 @@ import java.util.List;
 public class Script extends AuditableEntity {
 
     private String name;
-    private String desc;
+    @Enumerated(EnumType.STRING)
+    private Type type = Type.NEW;
+    private String label;
     private String url;
     private boolean active = true;
     /**
@@ -28,7 +32,37 @@ public class Script extends AuditableEntity {
      */
     private Integer popularity = 0;
 
-    @OneToMany
+    @OneToMany(mappedBy = "script")
     @ToString.Exclude
     private List<Role> roles;
+
+    public enum Type {
+        /**
+         * 新区，刚开一秒。
+         */
+        NEW("Script.Type.NEW"),
+        /**
+         * 热门，人气火爆。
+         */
+        POPULAR("Script.Type.POPULAR"),
+        /**
+         * 老区，长久稳定。
+         */
+        PERPETUAL("Script.Type.PERPETUAL"),
+        /**
+         * 冷门，即将合区。
+         */
+        MERGE_SOON("Script.Type.MERGE_SOON"),
+        ;
+
+        final String messageCode;
+
+        Type(String messageCode) {
+            this.messageCode = messageCode;
+        }
+
+        public String getMessageCode() {
+            return messageCode;
+        }
+    }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/fragments::commonHead(~{::title},_)">
-    <!--/*@thymesVar id="website" type="hellgate.api.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.hub.config.WebsiteProperties"*/-->
     <title th:text="|#{id-card.title} - ${website.title}|"></title>
 </head>
 <body>
@@ -17,11 +17,16 @@
     <div th:replace="components/fragments::sessionException"></div>
     <!--/*@thymesVar id="idCardForm" type="hellgate.common.account.IdCardForm"*/-->
     <form method="post" action="#" th:action="@{/id-card}" th:object="${idCardForm}">
+        <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}">
+            <p style="color: red" th:unless="${#strings.isEmpty(err)}" th:text="${err}"></p>
+        </div>
         <span th:text="#{id-card.input.number}"></span><br>
         <input type="text" name="number" th:value="*{number}" required autofocus>
+        <div style="color: red" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></div>
         <br>
         <span th:text="#{id-card.input.fullName}"></span><br>
         <input type="text" name="fullName" th:value="*{fullName}" required>
+        <div style="color: red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
         <br>
         <input type="submit" th:value="#{id-card.submit}"/>
     </form>

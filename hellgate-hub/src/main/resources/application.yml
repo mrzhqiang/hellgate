@@ -9,7 +9,7 @@ spring:
 website:
   author: "xxxxxxxxx@qq.com"
   favicon: "/favicon.ico"
-  title: "鬼门关通行证"
+  title: "鬼门关"
   hotline: "客服电话: 150xxxxxxxx"
   groups:
     - "官方Q②群: 2xxxxxxxx"
