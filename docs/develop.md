@@ -46,74 +46,27 @@
 
 ```
 ├─docs                                  ——文档目录
-├─hellgate-admin                        ——后台管理模块
+├─hellgate-admin                        ——后台管理
 ├─├─src                                 ——源代码目录
 ├─├─├─main
 ├─├─├─├─java
 ├─├─├─├─├─hellgate.admin
-├─├─├─├─├─├─config                      ——系统配置
-├─├─├─├─├─├─controller                  ——控制器
-├─├─├─├─├─├─HellGateAdminApplication    ——系统启动类
+├─├─├─├─├─├─config                      ——配置
+├─├─├─├─├─├─[...]                       ——其他功能包
+├─├─├─├─├─├─AdminApplication            ——启动类
 ├─├─├─├─resources
-├─├─├─├─├─i18n                          ——国际化资源目录
-├─├─├─├─├─static                        ——前端静态资源目录
-├─├─├─├─├─templates                     ——前端模板代码目录
-├─├─├─├─├─application.yml               ——基础的配置文件
-├─├─├─├─├─application-dev.yml           ——开发环境配置文件
-├─├─├─├─├─application-prod.yml          ——生产环境配置文件
-├─├─├─test                              ——单元测试目录
-├─hellgate-api                          ——游戏接口模块
-├─├─src                                 ——源代码目录
-├─├─├─main
-├─├─├─├─java
-├─├─├─├─├─hellgate.core
-├─├─├─├─├─├─config                      ——系统配置
-├─├─├─├─├─├─controller                  ——控制器
-├─├─├─├─├─├─HellGateApiApplication      ——系统启动类
-├─├─├─├─resources
-├─├─├─├─├─i18n                          ——国际化资源目录
-├─├─├─├─├─static                        ——前端静态资源目录
-├─├─├─├─├─templates                     ——前端模板代码目录
-├─├─├─├─├─app.key                       ——JWT RSA 私钥文件
-├─├─├─├─├─app.pub                       ——JWT RSA 公钥文件
-├─├─├─├─├─application.yml               ——基础的配置文件
-├─├─├─├─├─application-dev.yml           ——开发环境配置文件
-├─├─├─├─├─application-prod.yml          ——生产环境配置文件
-├─├─├─test                              ——单元测试目录
+├─├─├─├─├─i18n                          ——国际化资源
+├─├─├─├─├─static                        ——前端静态资源
+├─├─├─├─├─templates                     ——前端模板
+├─├─├─├─├─application.yml               ——基础配置
+├─├─├─├─├─application-dev.yml           ——开发环境配置
+├─├─├─├─├─application-prod.yml          ——生产环境配置
+├─├─├─test                              ——单元测试
 ├─hellgate-common                       ——公共模块
-├─├─src                                 ——源代码目录
-├─├─├─main
-├─├─├─├─java
-├─├─├─├─├─hellgate.common
-├─├─├─├─├─├─annotation                  ——自定义注解
-├─├─├─├─├─├─config                      ——系统配置
-├─├─├─├─├─├─domain                      ——数据库领域
-├─├─├─├─├─├─exception                   ——异常处理
-├─├─├─├─├─├─session                     ——会话
-├─├─├─├─├─├─third                       ——第三方 API
-├─├─├─├─├─├─util                        ——工具集合
-├─├─├─├─resources
-├─├─├─├─├─application.yml               ——基础的配置文件
-├─├─├─├─├─GeoLite2-City.mmdb            ——IP 映射的城市数据库文件
-├─hellgate-dependencies                 ——依赖管理模块
-├─hellgate-hub                          ——账号中心模块
-├─├─src                                 ——源代码目录
-├─├─├─main
-├─├─├─├─java
-├─├─├─├─├─hellgate.hub
-├─├─├─├─├─├─account                     ——账号
-├─├─├─├─├─├─bookmark                    ——书签
-├─├─├─├─├─├─config                      ——配置项
-├─├─├─├─├─├─HellGateHubApplication      ——系统启动类
-├─├─├─├─resources
-├─├─├─├─├─i18n                          ——国际化资源目录
-├─├─├─├─├─static                        ——前端静态资源目录
-├─├─├─├─├─templates                     ——前端模板代码目录
-├─├─├─├─├─application.yml               ——基础的配置文件
-├─├─├─├─├─application-dev.yml           ——开发环境配置文件
-├─├─├─├─├─application-prod.yml          ——生产环境配置文件
-├─├─├─test                              ——单元测试目录
-├─hellgate-parent                       ——父模块
+├─hellgate-core                         —-核心模块
+├─hellgate-dependencies                 ——依赖管理
+├─hellgate-hub                          ——账号中心
+├─hellgate-parent                       ——统一父模块
 ├─.gitignore
 └─pom.xml
 ```
@@ -126,14 +79,14 @@
 
 ## 2.1 基础功能
 
-- Admin 模块
+- 后台管理
   - [ ] 初始化：管理后台的管理员账号
   - [ ] 管理后台（持续完善）
-- Hub 模块
+- 账号中心
   - [x] 门户：背景图轮播
   - [x] 账号：注册、登录
-  - [ ] 剧本：不同的剧本属于不同的游戏内容，当然也可以是同一个剧本两个舞台演绎
-- Api 模块
+  - [ ] 剧本：不同的剧本属于不同的游戏内容，当然也可以是同一个剧本多个舞台演绎（游戏多区）
+- 核心模块
   - [ ] 舞台：展示剧本包含的内容
   - [ ] 职业：一转（战士、魔法师、弓箭手），二转（未完待续）
   - [ ] 地图：世界地图、副本地图、活动地图等等
@@ -141,7 +94,7 @@
   - [ ] 玩家：创建游戏角色、选择职业、进入地图、开始剧情
   - [ ] 道具：除装备之外的各种消耗品或任务用品
   - [ ] 装备：装饰、服饰、武器、防具等等
-  - [ ] 放置挂机：解放双手、按期签到即可免费享用
+  - [ ] 放置：解放双手、按期签到即可免费享用
 
 ### 2.1.1 初始化
 
