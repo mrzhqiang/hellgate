@@ -1,4 +1,4 @@
-package hellgate.admin.controller.action;
+package hellgate.admin.action;
 
 import hellgate.common.domain.BaseEntity;
 import lombok.Getter;

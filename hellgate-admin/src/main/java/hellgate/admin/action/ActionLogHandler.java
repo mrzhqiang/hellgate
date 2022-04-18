@@ -1,14 +1,14 @@
-package hellgate.admin.controller.action;
+package hellgate.admin.action;
 
 import com.github.mrzhqiang.helper.StackTraces;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import hellgate.common.session.SessionDetails;
+import hellgate.common.session.SessionDetailsService;
+import hellgate.common.session.Sessions;
 import hellgate.common.util.Authentications;
 import hellgate.common.util.Jsons;
-import hellgate.common.session.SessionDetails;
-import hellgate.common.session.Sessions;
-import hellgate.common.session.SessionDetailsService;
 import io.reactivex.observers.DefaultObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -43,7 +43,7 @@ public class ActionLogHandler {
         this.sessionDetailsService = sessionDetailsService;
     }
 
-    @Pointcut("@annotation(hellgate.admin.controller.action.Action)")
+    @Pointcut("@annotation(hellgate.admin.action.Action)")
     public void actionPoint() {
     }
 

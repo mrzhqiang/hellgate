@@ -7,7 +7,7 @@ spring:
     basename: i18n.messages,org.springframework.security.messages
     fallback-to-system-locale: false
 website:
-  author: "xxxxxxxxx@qq.com"
+  author: "287431404@qq.com"
   favicon: "/favicon.ico"
   title: "鬼门关"
   hotline: "客服电话: 150xxxxxxxx"
@@ -27,7 +27,6 @@ security:
   default-success-url: "/script"
   bookmark-path: "/bookmark"
   bookmark-template: ${security.bookmark-path}?username=%s&password=%s&timestamp=%s
-account:
   # 若超过最大登录失败次数，账户将被锁定一段时间
   max-login-failed: 5
   # 在锁定区间内，无法进行登录操作

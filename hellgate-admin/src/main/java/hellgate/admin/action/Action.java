@@ -1,4 +1,4 @@
-package hellgate.admin.controller.action;
+package hellgate.admin.action;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

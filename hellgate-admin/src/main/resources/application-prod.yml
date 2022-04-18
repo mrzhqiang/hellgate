@@ -4,14 +4,11 @@ logging:
   level:
     ROOT: INFO
     web: INFO
-    org.springframework.web: INFO
-    org.springframework.security: INFO
   file:
     name: application.log
     path: ./logs
 spring:
   kaptcha:
-    # 开发环境下屏蔽，线上建议打开
     enabled: true
     config:
       kaptcha:
@@ -38,5 +35,10 @@ spring:
     username: redis
     password: redis
     connect-timeout: 10s
-security:
-  remember-me: true
+  session:
+    # 1 hours
+    timeout: 3600s
+  application:
+    name: "Hell Gate Admin Prod"
+    admin:
+      enabled: true

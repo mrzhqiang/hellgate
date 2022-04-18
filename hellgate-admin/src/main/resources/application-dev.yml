@@ -2,21 +2,19 @@ server:
   port: 8080
 logging:
   level:
-    ROOT: INFO
-    web: DEBUG
-    org.springframework.web: DEBUG
     org.springframework.security: DEBUG
-    # See http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints
-    org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration: DEBUG
-    # always log high-level information about application startup
     hellgate: DEBUG
+  logback:
+    rollingpolicy:
+      clean-history-on-start: true
 debug: true
+#trace: true
 spring:
   kaptcha:
     # 开发环境下屏蔽，线上建议打开
     enabled: false
   codec:
-    log-request-details: ${debug}
+    log-request-details: true
   mvc:
     hiddenmethod:
       filter:
@@ -29,6 +27,5 @@ spring:
     port: 6379
     # username:
     password: 123456
-security:
-  # true 表示开启记住我功能，则可以在浏览器中保存 Cookie 用于一段时间内的免登录策略
-  remember-me: false
+  application:
+    name: "Hell Gate Admin Dev"

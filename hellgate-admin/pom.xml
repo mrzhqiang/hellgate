@@ -29,10 +29,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>com.github.mxab.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-data-attribute</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-java8time</artifactId>
@@ -62,6 +58,18 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery-easing</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery-backstretch</artifactId>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
@@ -102,14 +110,6 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swiper</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery-easing</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery-backstretch</artifactId>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>

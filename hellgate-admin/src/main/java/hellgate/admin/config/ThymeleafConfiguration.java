@@ -1,5 +1,6 @@
 package hellgate.admin.config;
 
+import com.github.mrzhqiang.helper.Environments;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -26,6 +27,9 @@ public class ThymeleafConfiguration implements CommandLineRunner {
     @Override
     public void run(String... args) {
         log.info("add website properties to thymeleaf view resolver static variable.");
+        if (Environments.debug()) {
+            resolver.addStaticVariable("debug", Boolean.TRUE.toString());
+        }
         resolver.addStaticVariable(WEBSITE_KEY, websiteProperties);
     }
 }

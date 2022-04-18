@@ -1,4 +1,4 @@
-package hellgate.admin.controller.account;
+package hellgate.admin.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hellgate.common.audit.AuditableEntity;
