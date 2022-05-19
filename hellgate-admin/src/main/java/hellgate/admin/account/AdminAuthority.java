@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 @Setter
 @ToString(callSuper = true)
 @Entity
-public class AdminPermission extends AuditableEntity {
+public class AdminAuthority extends AuditableEntity {
 
     private String name;
 
