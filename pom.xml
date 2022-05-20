@@ -14,15 +14,12 @@
 
     <properties>
         <revision>0.0.1-SNAPSHOT</revision>
+        <main.basedir>${basedir}</main.basedir>
     </properties>
 
     <modules>
         <module>hellgate-dependencies</module>
-        <module>hellgate-parent</module>
-        <module>hellgate-common</module>
-        <module>hellgate-hub</module>
-        <module>hellgate-core</module>
-        <module>hellgate-admin</module>
+        <module>hellgate-project</module>
     </modules>
 
 </project>
