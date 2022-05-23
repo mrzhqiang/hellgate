@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.mrzhqiang</groupId>
-    <artifactId>hellgate-server</artifactId>
+    <artifactId>hellgate</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
 
     <name>Hell Gate Server</name>
-    <description>鬼门关服务</description>
+    <description>暗黑之门（结合暗黑破坏神3以及地狱之门的网页文字游戏）</description>
 
     <properties>
         <revision>0.0.1-SNAPSHOT</revision>

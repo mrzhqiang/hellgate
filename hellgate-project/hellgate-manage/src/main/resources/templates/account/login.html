@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/header::style(~{::title}, ~{::link})">
-    <!--/*@thymesVar id="website" type="hellgate.admin.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.manage.config.WebsiteProperties"*/-->
     <title th:text="|#{login.title} - ${website.title}|">标题</title>
     <link href="/webjars/bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"
           th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
@@ -10,7 +10,7 @@
 <body>
 <div class="container">
     <div class="card card-login mx-auto my-4">
-        <!--/*@thymesVar id="website" type="hellgate.admin.config.WebsiteProperties"*/-->
+        <!--/*@thymesVar id="website" type="hellgate.manage.config.WebsiteProperties"*/-->
         <div class="card-header text-center h3" th:text="|#{login.welcome}${website.title}|">欢迎来到后台管理系统</div>
         <div class="card-body">
             <div th:replace="components/alert::show"></div>
@@ -30,7 +30,7 @@
                        name="password" type="password" maxlength="15"
                        th:value="*{password}" th:placeholder="#{login.input.password}"
                        th:errorclass="is-invalid" required>
-                <!--/*@thymesVar id="website" type="hellgate.admin.config.WebsiteProperties"*/-->
+                <!--/*@thymesVar id="website" type="hellgate.manage.config.WebsiteProperties"*/-->
                 <div class="form-check checkbox my-3" th:if="${website.rememberMe}">
                     <input id="rememberMe" type="checkbox" class="form-check-input" value="remember-me">
                     <label class="form-check-label user-select-none" for="rememberMe"
