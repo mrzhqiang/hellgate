@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.mrzhqiang</groupId>
-        <artifactId>hellgate-server</artifactId>
+        <artifactId>hellgate</artifactId>
         <version>${revision}</version>
     </parent>
 

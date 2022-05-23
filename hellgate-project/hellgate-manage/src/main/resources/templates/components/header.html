@@ -17,7 +17,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--/*@thymesVar id="website" type="hellgate.admin.config.WebsiteProperties"*/-->
+    <!--/*@thymesVar id="website" type="hellgate.manage.config.WebsiteProperties"*/-->
     <meta name="author" th:content="${website.author}" th:unless="${#strings.isEmpty(website.author)}">
     <title th:replace="${title}"></title>
     <link rel="shortcut icon" th:href="@{${website.favicon}}">
