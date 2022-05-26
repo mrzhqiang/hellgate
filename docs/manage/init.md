@@ -7,11 +7,11 @@
 
 ## 数据字典表
 
-参考：[数据字典文档](../common/data-dict.md)
+参考：[数据字典文档](../common/dict.md)
 
 ## 系统参数表
 
-参考：[系统设置文档](../common/system-setting.md)
+参考：[系统设置文档](../common/setting.md)
 
 ## 初始化表
 
