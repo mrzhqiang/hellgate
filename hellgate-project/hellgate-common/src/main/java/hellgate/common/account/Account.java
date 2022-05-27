@@ -16,55 +16,74 @@ import javax.persistence.ManyToOne;
 import java.time.Instant;
 import java.util.Collection;
 
+/**
+ * 账号。
+ * <p>
+ * 参考地狱之门的账号设计，即一个账号可以通行所有游戏。
+ * <p>
+ * 从开发角度来看，这实际上是类似单点登录的解决方案：
+ * <p>
+ * 1. 用户首先登录账号中心，获得指定游戏的跳转链接
+ * <p>
+ * 2. 随后携带账号认证信息访问跳转链接，此时指定游戏自动调用认证接口
+ * <p>
+ * 3. 认证成功则创建会话，认证失败则回退到账号中心
+ * <p>
+ * 目前有两种实现方案：
+ * <p>
+ * 1. 共享 Redis 会话，优点：会话管理方便，缺点：需要维护 Redis 中间件。
+ * <p>
+ * 2. JWT 无状态认证，优点：不需要额外的存储中间件，缺点：基本告别会话管理。
+ * <p>
+ * 鉴于以上优缺点，最终选择共享 Redis 会话方案，同时将 GameSession 设计为 GameContext 以避免混淆概念。
+ */
 @Getter
 @Setter
 @ToString(callSuper = true)
 @Entity
 public class Account extends AuditableEntity implements UserDetails {
 
+    /**
+     * 用户名，创建时指定，唯一
+     */
     @Column(updatable = false, unique = true, nullable = false)
     private String username;
     /**
-     * 用于替代用户名的纯数字编号。
+     * 纯数字的唯一编号，创建时随机生成，可用于替代用户名进行登录
      */
     @Column(updatable = false, unique = true, nullable = false)
     private String uid;
     /**
-     * 存储已编码的密码。
+     * 密码，创建时指定，加密存储
      * <p>
-     * 密码绝对不允许明文存储，通过 Spring Security 可以做到自动随机盐加密。
+     * 密码绝对不允许明文存储，通过 Spring Security Crypto 的 PasswordEncoder 可以进行随机盐编码处理。
      */
     @JsonIgnore
     @ToString.Exclude
     @Column(nullable = false)
     private String password;
     /**
-     * 首次认证失败的时间。
+     * 指定时间区间（管理后台设定）内的首次登录失败时间戳
      * <p>
      * 记录首次失败时间，可以在一定持续时间内，统计认证失败的次数，在达到最大次数时，锁定账号一段时间，避免被暴力破解。
      */
     private Instant firstFailed;
     /**
-     * 失败次数。
-     * <p>
-     * 简单的统计失败次数，失败次数的上限阈值一般从程序配置中获取。
+     * 指定时间区间（管理后台设定）内的失败次数统计
      */
     private int failedCount = 0;
     /**
-     * 锁定时间。
+     * 锁定时间戳
      * <p>
-     * 第一次登录时，锁定时间不存在；触发锁定账户之后，只要不早于当前时间，则不属于锁定状态。
-     * <p>
-     * 这种逻辑可以避免锁定状态的循环检测。
+     * 此时间戳如果不存在，或处于未来时间点，则说明账号被锁定。
      */
     private Instant locked;
     /**
-     * 是否禁用。
+     * 是否禁用
      * <p>
-     * 禁用账户比锁定账户更严重，因为这意味着，如果不手动启用，账户将始终无法使用。
+     * 禁用比锁定更严重，因为这意味着，如果不手动启用，账户将始终无法使用。
      */
     private boolean disabled;
-
     /**
      * 身份证。
      * <p>
@@ -84,12 +103,21 @@ public class Account extends AuditableEntity implements UserDetails {
     @ToString.Exclude
     private Script historyScript;
 
+    /**
+     * 获取授予权限列表。
+     * <p>
+     * 授予权限在 Spring Security 中指的是角色。
+     * <p>
+     * 角色可以用来控制访问 URL 路径，即菜单权限。
+     * <p>
+     * 角色也可以用来控制访问服务层方法，即按钮权限。
+     * <p>
+     * 更细粒度的权限也可以交由 Spring Security acl 框架来实现，它包含对数据权限的控制。
+     * <p>
+     * 当然，有经验的开发者也可以设计一套 AccessDecisionVoter 投票决策，它是上面所有内容的底层接口。
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // 用户角色只用于控制访问路径（菜单权限、方法权限）
-        // 所以我们在 core 模块下，不使用 spring-security 的权限控制
-        // 若要开发粒度更细的权限控制（菜单权限、方法权限、数据权限）
-        // 则需要考量 spring-security-acl 和 shiro 框架，哪种更容易实现需求
         return AuthorityUtils.NO_AUTHORITIES;
     }
 
