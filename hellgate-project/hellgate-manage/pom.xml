@@ -58,6 +58,11 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!-- 前端资源加载器（免版本号） -->
         <dependency>
@@ -153,6 +158,10 @@
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                        </exclude>
+                        <exclude>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct</artifactId>
                         </exclude>
                     </excludes>
                 </configuration>

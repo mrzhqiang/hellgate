@@ -15,7 +15,7 @@
     <!--/*@thymesVar id="message" type="java.lang.String"*/-->
     <p style="color: red" th:unless="${#strings.isEmpty(message)}" th:text="#{${message}}"></p>
     <div th:replace="components/fragments::sessionException"></div>
-    <!--/*@thymesVar id="idCardForm" type="hellgate.common.account.IdCardForm"*/-->
+    <!--/*@thymesVar id="idCardForm" type="hellgate.common.idcard.IdCardForm"*/-->
     <form method="post" action="#" th:action="@{/id-card}" th:object="${idCardForm}">
         <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}">
             <p style="color: red" th:unless="${#strings.isEmpty(err)}" th:text="${err}"></p>

@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * 当前用户。
  * <p>
- * 这是一个可以从当前会话中得到用户实例的注解。
+ * 这是一个可以从当前会话中得到 {@link UserDetails} 的注解。
  * <p>
  * 主要利用：{@link Authentication#getPrincipal()} 来获得实例。
  * <p>

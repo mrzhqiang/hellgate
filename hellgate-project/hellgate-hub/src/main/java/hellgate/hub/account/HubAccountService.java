@@ -1,8 +1,8 @@
 package hellgate.hub.account;
 
-import hellgate.common.account.AccountForm;
 import hellgate.common.account.AccountService;
-import hellgate.common.account.IdCardForm;
+import hellgate.common.account.RegisterForm;
+import hellgate.common.idcard.IdCardForm;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface HubAccountService extends AccountService {
@@ -17,7 +17,7 @@ public interface HubAccountService extends AccountService {
      * @param form 前端传递过来的账号表单。
      * @return 如果注册成功，返回一个重定向地址；否则返回 null 值。
      */
-    String register(AccountForm form);
+    String register(RegisterForm form);
 
     /**
      * 绑定身份证。

@@ -5,8 +5,8 @@
 
 从开发角度来看，这实际上是类似单点登录的解决方案：
 1. 用户首先登录账号中心，获得指定游戏的跳转链接
-2. 随后携带账号认证信息访问跳转链接，此时指定游戏自动调用认证接口
-3. 认证成功则创建会话，认证失败则回退到账号中心
+2. 随后携带账号认证信息访问此链接，此时该服务将自动调用认证接口
+3. 认证成功则创建会话，认证失败则重定向到账号中心
 
 目前有两种实现方案：
 1. 共享 Redis 会话
@@ -24,8 +24,9 @@
 
 ```mermaid
 erDiagram
-    Account }o--|| IdCard : ManyToOne
-    Account {
+    account }o--|| id_card : ManyToOne
+    account }o--|| script : ManyToOne
+    account {
         varchar username
         varchar uid
         varchar password
@@ -35,6 +36,19 @@ erDiagram
         bit disabled
         bigint card_id
         bigint history_script_id
+    }
+    id_card {
+        varchar number
+        varchar full_name
+    }
+    script {
+        varchar name
+        varchar type
+        varchar label
+        varchar url
+        bit active
+        int recommend
+        int popularity
     }
 ```
 

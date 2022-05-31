@@ -8,7 +8,7 @@
 <div>
     <p>
     <div th:replace="components/fragments::sessionException"></div>
-    <!--/*@thymesVar id="accountForm" type="hellgate.common.account.AccountForm"*/-->
+    <!--/*@thymesVar id="accountForm" type="hellgate.common.account.RegisterForm"*/-->
     <form method="post" action="#" th:action="@{/register}" th:object="${accountForm}">
         <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}">
             <p style="color: red" th:unless="${#strings.isEmpty(err)}" th:text="${err}"></p>

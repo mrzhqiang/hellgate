@@ -2,7 +2,7 @@ package hellgate.hub.account;
 
 import hellgate.common.account.Account;
 import hellgate.common.account.CurrentUser;
-import hellgate.common.account.IdCardForm;
+import hellgate.common.idcard.IdCardForm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

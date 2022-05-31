@@ -2,7 +2,7 @@ package hellgate.hub.account;
 
 import hellgate.common.account.Account;
 import hellgate.common.account.CurrentUser;
-import hellgate.common.account.IdCardForm;
+import hellgate.common.idcard.IdCardForm;
 import hellgate.hub.script.ScriptData;
 import hellgate.hub.script.ScriptService;
 import org.springframework.data.repository.query.Param;

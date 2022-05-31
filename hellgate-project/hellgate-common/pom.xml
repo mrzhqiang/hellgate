@@ -16,17 +16,18 @@
     <description>公共模块</description>
 
     <dependencies>
+        <!-- 支持 Java8 Date/Time (JSR 310) API -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-java8</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- 注意：Sqlite 目前无法建立唯一索引，导致 save 数据会出现重复数据，因此我们不使用 Sqlite 作为轻量级数据库 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- 注意：Sqlite 目前无法建立唯一索引，导致 save 数据会出现重复数据，因此我们不使用 Sqlite 作为轻量级数据库 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -93,6 +94,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
             <optional>true</optional>
         </dependency>
 

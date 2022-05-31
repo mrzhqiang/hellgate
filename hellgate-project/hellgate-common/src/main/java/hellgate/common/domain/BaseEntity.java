@@ -20,9 +20,9 @@ import java.util.Objects;
  * <p>
  * 很多系统都不再使用自增长的 ID 作为主键，原因是他们认为不利于数据库迁移和高并发使用。
  * <p>
- * 我们之所以无视这些所谓的缺点，是因为基于 JPA 的数据库框架不需要迁移，它可以无缝对接主流数据库。
+ * 本系统之所以无视这些所谓的缺点，是因为基于 JPA 的数据库框架不需要迁移，它可以无缝对接主流数据库。
  * <p>
- * 并且我们的业务数据相对电商领域来说，非常渺小，请求的并发密集度不高。
+ * 并且本系统的业务数据相对电商领域来说，非常渺小，请求的并发密集度不高。
  * <p>
  * 一个典型的例子就是，冒险岛服务端使用 MySQL 数据库，也是采用自增长 ID 作为主键，完全经受住了考验。
  * <p>
@@ -33,11 +33,18 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class BaseEntity {
 
+    /**
+     * 编号。
+     * <p>
+     * 主键、非空、自增长。
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     /**
      * 版本号。
+     * <p>
+     * 自动赋值、自增长，作为乐观锁防止脏数据产生。
      */
     @Version
     private Long version;

@@ -20,8 +20,8 @@ public class SimpleAccountService implements AccountService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByUsername(username)
+    public UserDetails loadUserByUsername(String usernameOrUid) throws UsernameNotFoundException {
+        return repository.findByUsername(usernameOrUid)
                 .orElseThrow(() -> new UsernameNotFoundException("AccountService.usernameNotFound"));
     }
 
