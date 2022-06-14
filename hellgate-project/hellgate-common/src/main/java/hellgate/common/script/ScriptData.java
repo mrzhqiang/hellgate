@@ -2,15 +2,23 @@ package hellgate.common.script;
 
 import lombok.Data;
 
-import java.util.List;
-
+/**
+ * 剧本数据。
+ */
 @Data
 public class ScriptData {
 
-    private String name;
-    private String type;
-    private String label;
-    private String url;
+    /**
+     * 剧本标签的格式化模板。
+     */
+    public static final String LABEL_TEMPLATE = "%s[%s]";
 
-    private List<RoleData> roles;
+    /**
+     * 名称。
+     */
+    private String name;
+    /**
+     * 访问链接。
+     */
+    private String url;
 }

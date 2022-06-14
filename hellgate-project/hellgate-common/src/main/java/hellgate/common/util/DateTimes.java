@@ -14,31 +14,81 @@ import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * 日期时间工具。
+ */
 public final class DateTimes {
     private DateTimes() {
         // no instances
     }
 
-    public static final String SIMPLE_DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-
+    /**
+     * 基础的日期时间格式化模式。
+     */
+    public static final String BASIC_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    /**
+     * 基础的日期时间格式化器。
+     */
+    public static final DateTimeFormatter BASIC_FORMATTER
+            = DateTimeFormatter.ofPattern(BASIC_PATTERN);
+    /**
+     * 简化的日期格式化模式。
+     */
+    public static final String SIMPLE_DATE_PATTERN = "MM-dd";
+    /**
+     * 简化的日期格式化器。
+     */
+    public static final DateTimeFormatter SIMPLE_DATE_FORMATTER
+            = DateTimeFormatter.ofPattern(SIMPLE_DATE_PATTERN);
+    /**
+     * 简化的时间格式化模式。
+     */
+    public static final String SIMPLE_TIME_PATTERN = "HH:mm";
+    /**
+     * 简化的时间格式化器。
+     */
+    public static final DateTimeFormatter SIMPLE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern(SIMPLE_TIME_PATTERN);
+    /**
+     * 还有多少秒的 KEY 值。
+     */
     public static final String KEY_HAVE_SECONDS = "have_seconds";
+    /**
+     * 还有多少分钟的 KEY 值。
+     */
     public static final String KEY_HAVE_MINUTES = "have_minutes";
+    /**
+     * 还有多少小时的 KEY 值。
+     */
     public static final String KEY_HAVE_HOURS = "have_hours";
+    /**
+     * 还有多少天的 KEY 值。
+     */
     public static final String KEY_HAVE_DAYS = "have_days";
+    /**
+     * 未知的 KEY 值。
+     */
     public static final String KEY_UNKNOWN = "unknown";
+    /**
+     * 刚刚的 KEY 值。
+     */
     public static final String KEY_JUST_NOW = "just_now";
+    /**
+     * 一分钟前的 KEY 值。
+     */
     public static final String KEY_MINUTES_AGO = "minutes_ago";
+    /**
+     * 一小时前的 KEY 值。
+     */
     public static final String KEY_HOURS_AGO = "hours_ago";
+    /**
+     * 今天的 KEY 值。
+     */
     public static final String KEY_TODAY = "today";
+    /**
+     * 昨天的 KEY 值。
+     */
     public static final String KEY_YESTERDAY = "yesterday";
-
-    @SuppressWarnings("unused")
-    public static final DateTimeFormatter SIMPLE_DATE_TIME
-            = DateTimeFormatter.ofPattern(SIMPLE_DATE_TIME_PATTERN);
-    public static final DateTimeFormatter SIMPLE_UNTIL_DATE
-            = DateTimeFormatter.ofPattern("MM-dd");
-    public static final DateTimeFormatter SIMPLE_UNTIL_TIME
-            = DateTimeFormatter.ofPattern("HH:mm");
 
     /* for test */static final String DEF_HAVE_TIME_SECONDS = "还有 %s 秒";
     /* for test */static final String DEF_HAVE_TIME_MINUTES = "还有 %s 分钟";
@@ -64,6 +114,17 @@ public final class DateTimes {
         DEF_MESSAGE_CACHED.put(KEY_HOURS_AGO, DEF_HOURS_AGO);
         DEF_MESSAGE_CACHED.put(KEY_TODAY, DEF_TODAY);
         DEF_MESSAGE_CACHED.put(KEY_YESTERDAY, DEF_YESTERDAY);
+    }
+
+    /**
+     * 通过瞬间转为本地时间再格式化为基础的时间字符串格式。
+     *
+     * @param instant 瞬间。
+     * @return 基础的时间字符串格式。
+     */
+    public static String localFormat(Instant instant) {
+        Preconditions.checkNotNull(instant, "instant == null");
+        return BASIC_FORMATTER.format(LocalDateTime.ofInstant(instant, ZoneId.systemDefault()));
     }
 
     /**
@@ -189,8 +250,8 @@ public final class DateTimes {
         Preconditions.checkNotNull(target, "target == null");
         Preconditions.checkNotNull(messageApply, "messageApply == null");
 
+        // baseline < target == past --> baseline --> target --> future
         if (baseline.isBefore(target)) {
-            // baseline > target == unknown
             return messageApply.apply(KEY_UNKNOWN);
         }
 
@@ -219,7 +280,7 @@ public final class DateTimes {
             }
 
             String todayTemplate = messageApply.apply(KEY_TODAY);
-            String timeOfDays = SIMPLE_UNTIL_TIME.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault()));
+            String timeOfDays = SIMPLE_TIME_FORMATTER.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault()));
             return Strings.lenientFormat(todayTemplate, timeOfDays);
         }
 
@@ -229,7 +290,7 @@ public final class DateTimes {
         // baseline - 1 day midnight <= target < baseline midnight == yesterday
         if (baselineMinusDayMidnight.isBefore(target) || baselineMinusDayMidnight.equals(target)) {
             String yesterdayTemplate = messageApply.apply(KEY_YESTERDAY);
-            String timeOfDays = SIMPLE_UNTIL_TIME.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault()));
+            String timeOfDays = SIMPLE_TIME_FORMATTER.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault()));
             return Strings.lenientFormat(yesterdayTemplate, timeOfDays);
         }
 
@@ -240,7 +301,7 @@ public final class DateTimes {
                 .toInstant(ZoneOffset.UTC);
         // this year <= target <= yesterday midnight == this year
         if (thisYear.isBefore(target) || thisYear.equals(target)) {
-            return SIMPLE_UNTIL_DATE.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault()));
+            return SIMPLE_DATE_FORMATTER.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault()));
         }
 
         return DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault()));

@@ -4,11 +4,11 @@ import com.github.mrzhqiang.helper.random.RandomStrings;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import hellgate.common.account.Account;
+import hellgate.common.account.AccountForm;
 import hellgate.common.account.AccountRepository;
-import hellgate.common.account.RegisterForm;
-import hellgate.common.idcard.IdCard;
-import hellgate.common.idcard.IdCardForm;
-import hellgate.common.idcard.IdCardRepository;
+import hellgate.common.account.IdCard;
+import hellgate.common.account.IdCardForm;
+import hellgate.common.account.IdCardRepository;
 import hellgate.hub.config.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.User;
@@ -83,7 +83,7 @@ public class SimpleHubAccountService implements HubAccountService {
     }
 
     @Override
-    public String register(RegisterForm form) {
+    public String register(AccountForm form) {
         String username = form.getUsername();
         if (repository.findByUsername(username).isPresent()) {
             return null;

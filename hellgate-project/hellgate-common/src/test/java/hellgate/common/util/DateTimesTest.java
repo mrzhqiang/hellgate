@@ -139,24 +139,24 @@ public final class DateTimesTest {
             target = baseline.minus(days, ChronoUnit.HALF_DAYS);
             actual = DateTimes.howLong(baseline, target);
             expected = Strings.lenientFormat(DateTimes.DEF_TODAY,
-                    DateTimes.SIMPLE_UNTIL_TIME.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault())));
+                    DateTimes.SIMPLE_TIME_FORMATTER.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault())));
             assertEquals(expected, actual);
 
             String timeAgoMessage = DateTimes.howLong(baseline, target,
                     key -> Maps.newHashMap(DateTimes.KEY_TODAY, "today %s").get(key));
-            String today = DateTimes.SIMPLE_UNTIL_TIME.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault()));
+            String today = DateTimes.SIMPLE_TIME_FORMATTER.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault()));
             assertEquals("today " + today, timeAgoMessage);
         }
 
         target = baseline.minus(days, ChronoUnit.DAYS);
         actual = DateTimes.howLong(baseline, target);
         expected = Strings.lenientFormat(DateTimes.DEF_YESTERDAY,
-                DateTimes.SIMPLE_UNTIL_TIME.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault())));
+                DateTimes.SIMPLE_TIME_FORMATTER.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault())));
         assertEquals(expected, actual);
 
         String timeAgoMessage = DateTimes.howLong(baseline, target,
                 key -> Maps.newHashMap(DateTimes.KEY_YESTERDAY, "yesterday %s").get(key));
-        String yesterday = DateTimes.SIMPLE_UNTIL_TIME.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault()));
+        String yesterday = DateTimes.SIMPLE_TIME_FORMATTER.format(LocalDateTime.ofInstant(target, ZoneId.systemDefault()));
         assertEquals("yesterday " + yesterday, timeAgoMessage);
     }
 
@@ -170,7 +170,7 @@ public final class DateTimesTest {
         // skipped today and yesterday
         if (thisYearMidNight.until(baseline, ChronoUnit.DAYS) > 2) {
             String actual = DateTimes.howLong(baseline, thisYearMidNight);
-            String expected = DateTimes.SIMPLE_UNTIL_DATE.format(
+            String expected = DateTimes.SIMPLE_DATE_FORMATTER.format(
                     LocalDateTime.ofInstant(thisYearMidNight, ZoneId.systemDefault()));
             assertEquals(expected, actual);
         }

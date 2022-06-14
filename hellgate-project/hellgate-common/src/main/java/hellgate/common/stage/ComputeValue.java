@@ -7,6 +7,9 @@ import lombok.ToString;
 
 import javax.persistence.Entity;
 
+/**
+ * 计算值。
+ */
 @Getter
 @Setter
 @ToString(callSuper = true)

@@ -1,5 +1,6 @@
 package hellgate.common.util;
 
+import hellgate.common.account.CurrentAccount;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.core.Authentication;
@@ -9,6 +10,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import java.util.Optional;
 
+/**
+ * 身份验证工具。
+ */
 public final class Authentications {
     private Authentications() {
         // no instances
@@ -17,11 +21,16 @@ public final class Authentications {
     public static final String UNKNOWN_USERNAME = "(unknown-user)";
     public static final String UNKNOWN_HOST = "(unknown-host)";
 
+    /**
+     * 用来判断当前 Authentication 属于匿名用户还是记住用户。
+     */
     private static final AuthenticationTrustResolver TRUST_RESOLVER =
             new AuthenticationTrustResolverImpl();
 
     /**
      * 当前安全上下文的认证信息。
+     * <p>
+     * 这个方法可以被 {@link CurrentAccount} 替代，用于 Controller 层的方法参数。
      */
     public static Optional<Authentication> ofCurrent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

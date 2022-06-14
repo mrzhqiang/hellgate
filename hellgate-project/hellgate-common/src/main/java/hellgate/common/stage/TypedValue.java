@@ -8,9 +8,87 @@ import lombok.ToString;
 import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+/**
+ * 类型值。
+ * <p>
+ * 类型值一般用来计算不同类型伤害的最终结果。
+ * <p>
+ * 参考 Diablo Ⅲ 的伤害计算方式：
+ * <p>
+ * 1. 相同类型的伤害，以加法计算——收益递减
+ * <p>
+ * 2. 不同类型的伤害，以乘法计算——比较稳定
+ * <p>
+ * 3. 面板伤害：
+ * <p>
+ * (武器最小攻击 + 武器最大攻击) / 2 * 主属性收益 * A 类伤害增益（作用于面板：使你的伤害提升）
+ * <p>
+ * 4. 回合伤害：
+ * <p>
+ * 面板伤害 *
+ * 主动技能伤害（造成武器伤害百分比） *
+ * A 类技伤增益（作用于技能：人物某类、某个技能的伤害提升——宠物技伤属于独立伤害增益；作用于敌人：使其受到的某类或全部伤害提高） *
+ * B 类元素增益（作用于元素伤害面板，类似 A 伤算法，即互相之间加法计算） *
+ * C 类 buff 增益（作用于某类敌人：对XX怪的伤害提高，同类型为加法计算，不同类型为乘法计算，类似精英、人类、恶魔属于不同类型） *
+ * 独立伤害增益^N（独一无二的伤害类型，通常带有唯一名称，类似 LOL 中的唯一被动，比如：套装、宝石、特殊 buff 和技能等）
+ * <p>
+ * 5. 最终伤害：回合伤害 * 敌人总体减伤 - 敌方面板防御
+ * <p>
+ * 注：可能存在不可防御的伤害，比如灵魂一击（切割伤害）、月蚀（真实伤害）、装备附带元素伤害（抵消对应的元素抗性后造成伤害，如果是负数则表示回血）等等
+ * <p>
+ * 在人物非无敌状态下，强制性伤害为 1 点，优先扣除护盾数值，护盾不能作为 HP 的替代，一旦 HP 数值为 0 即使护盾无限大也将导致人物死亡。
+ * <p>
+ * 关于速度：
+ * <p>
+ * 由于文字游戏无法呈现攻速，因此以速度替代攻速。
+ * <p>
+ * 首先要明白回合机制，即相同速度的情况下，从第一次出手开始，到下一次出手前的这段时间，即表示为一个回合，在游戏中称之为一轮。
+ * <p>
+ * 因此，部分技能可能以 N 轮作为持续时间，而不是常用的秒、分、时等等，这样只要不消耗轮数，则技能效果将一直存在。
+ * <p>
+ * 然后要知道的是，玩家之间的速度可能不同，在伤害相同的情况下，速度越大，等待一轮所消耗的时间越少，且出手时机比敌人靠前，则出手轮数相对敌人增多。
+ * <p>
+ * 除被动技能和一些特殊情况外，剩下的所有操作都将占用轮数，比如喝药、施法、逃跑等。
+ * <p>
+ * 初步设计，0 速度情况下，等待一轮所消耗的时长为 2000 ms，速度最大可减免 1000 ms 时长，以每 1000 点速度为一个档位，减免 100 ms 时长。
+ * <p>
+ * 因此我们设定，程序以 100 ms 为一帧，这个数值可能受服务器配置、在线人数、操作频率、网络 IO 等情况影响，需要不断修正以达到一个适合值。
+ * <p>
+ * 关于一帧的实现，可以用定时器或调度任务，每 100 ms 触发一次，如果是在计算状态，则忽略此次触发，否则将重新开始计算。
+ * <p>
+ * 仅仅是 100 ms 的计算损失我们可以接受，但如果损失接近甚至达到 1000 ms，那么就要考虑采用异步解耦的方式，比如并行流 or RxJava or 消息队列。
+ * <p>
+ * 当速度达到 10000 点时，我们认为是速度的最大值，与速度有关的收益将被完全忽略。
+ * <p>
+ * 但如果某些收益针对的是轮数，比如在接下来 N 轮中每轮可出手 N 次，或进行时光穿梭跳过 N 轮（主要是消除对方的杀招），那么不受速度峰值的忽略限制。
+ * <p>
+ * 关于面板防御与总体减伤：
+ * <p>
+ * 面板防御主要来自护甲和抗性：
+ * <p>
+ * 1 护甲 = 10 点防御
+ * <p>
+ * 1 抗性 = 1 点防御
+ * <p>
+ * 以及其他针对防御的增益，可提升面板防御值——此类加成属于加法运算。
+ * <p>
+ * 总体减伤主要来自各种独立减伤增益：
+ * <p>
+ * [1 - (1 - 独立减伤增益)^N]
+ * <p>
+ * 由上述公式可知，总体减伤无法达到 100% 数值，因此可以保证游戏平衡性。
+ * <p>
+ * 关于闪避：实际上是一种感应机制，可以躲开敌人的一次攻击，对已生效的持续性技能无效，且无法闪避状态技能。
+ * <p>
+ * 关于格挡：实际上只能对武器攻击和战士的无锁定目标技能生效，算是一种自身耐力抵抗伤害的机制。
+ * <p>
+ * 关于命中：实际上是一种运气机制，即使是锁定目标的单体技能，也可能因为自身运气不好而丢失目标，因此需要消耗运气来增强命中。
+ */
 @Getter
 @Setter
 @ToString(callSuper = true)
@@ -18,62 +96,185 @@ import java.math.RoundingMode;
 public class TypedValue extends AuditableEntity {
 
     /**
-     * 固定值。
-     *
-     * <p>
-     * return value
+     * 用于计算百分比的基数。
      */
-    public static final int TYPE_FIXED_NUMBER = 1;
+    public static final BigDecimal BASE_PERCENT = BigDecimal.valueOf(100);
     /**
-     * 因数。
-     *
-     * <p>
-     * return var * (1 + value)
+     * 默认的因子数值。
      */
-    public static final int TYPE_FACTOR_NUMBER = 2;
-    /**
-     * 固定百分比。
-     *
-     * <p>
-     * return (value / 100)
-     */
-    public static final int TYPE_FIXED_PERCENTAGE = 3;
-    /**
-     * 因数百分比。
-     *
-     * <p>
-     * return var * (1 + value / 100)
-     */
-    public static final int TYPE_FACTOR_PERCENTAGE = 4;
+    public static final BigDecimal DEF_FACTORY_NUMBER = BigDecimal.valueOf(100);
 
-    public static final BigDecimal PERCENT = BigDecimal.valueOf(100);
-
+    /**
+     * 类型名称。
+     */
+    @Column(unique = true, nullable = false)
     private String name;
-
+    /**
+     * 类型分类。
+     */
+    @Enumerated(EnumType.STRING)
+    private Type type;
+    /**
+     * 类型数值。
+     */
     @Column(nullable = false)
-    private Integer type;
+    private BigDecimal value;
 
-    @Column(nullable = false)
-    private BigDecimal value = BigDecimal.ZERO;
-
-    public BigDecimal count(@Nullable BigDecimal var) {
+    /**
+     * 通过变量计算类型值。
+     *
+     * @param var 变量可为空。可能是变量还没拿到，无法参与当前计算。
+     * @return 根据类型计算后的相关值。可能是变量、百分比、因子等等。
+     */
+    public BigDecimal compute(@Nullable BigDecimal var) {
         if (var == null) {
             var = BigDecimal.ZERO;
         }
 
         switch (type) {
-            case TYPE_FIXED_NUMBER:
-                return value;
-            case TYPE_FACTOR_NUMBER:
-                return var.multiply(BigDecimal.ONE.add(value));
-            case TYPE_FIXED_PERCENTAGE:
-                // HALF_EVEN 的表现为：< 0.5 舍弃，> 0.5 进位，= 0.5 看左边的数是否为奇数，奇数进位，偶数舍弃。
-                // 据说这种方式可以最大限度保留计算精度，避免累积误差。
-                return value.divide(PERCENT, RoundingMode.HALF_EVEN);
-            case TYPE_FACTOR_PERCENTAGE:
-                return var.multiply(BigDecimal.ONE.add(value.divide(PERCENT, RoundingMode.HALF_EVEN)));
+            case NUMBER:
+                // 变量直接增加对应的数值，符合预期
+                return var.add(value);
+            case ALONE_PERCENTAGE:
+                // HALF_EVEN 的表现为：< 0.5 舍弃，> 0.5 进位，= 0.5 看左边的数是否为奇数，奇数进位，偶数舍弃
+                // 据说这种方式可以最大限度保留计算精度，避免累积误差
+                // var * (1 + value / 100)
+                return var.multiply(BigDecimal.ONE.add(value.divide(BASE_PERCENT, RoundingMode.HALF_EVEN)));
+            case PERCENTAGE:
+                // 注意，这里返回的数值将进行叠加运算，然后与变量进行最终运算，因此变量不参与本次运算
+                // 1 + value / 100
+                return value.divide(BASE_PERCENT, RoundingMode.HALF_EVEN);
+            case FACTOR:
+                // value / (var + value)
+                return value.divide(var.add(value), RoundingMode.HALF_EVEN);
             default:
                 return var;
         }
+    }
+
+    /**
+     * 类型值的类型。
+     */
+    public enum Type {
+        /**
+         * 数值类型。
+         * <p>
+         * 当变量遇到此类型值时，将直接进行加减法运算：变量 + 数值。
+         */
+        NUMBER,
+        /**
+         * 独立百分比类型。
+         * <p>
+         * 当变量遇到此类型值时，将在变量的基础上进行百分比运算：变量 * (1 + 百分比) ^ N。
+         * <p>
+         * 一般意义上的百分比类型有两种计算方式：
+         * <p>
+         * 1. 独立运算，即对变量单独做百分比运算，运算的结果可用于下次独立运算
+         * <p>
+         * 2. 叠加运算，即先做百分比加法，最后做变量乘法
+         * <p>
+         * 两种运算方式的区别：
+         * <p>
+         * 当变量为 100，且百分比分别为 10% 10% 10% 时的结果：
+         * <p>
+         * 1. 100 * (1 + 10%) * (1 + 10%) * (1 + 10%) = 133.1
+         * <p>
+         * 2. 100 * (1 + 10% + 10% + 10%) = 130
+         * <p>
+         * 当变量为 100，且百分比分别为 100% 100% 100% 时的结果：
+         * <p>
+         * 1. 100 * (1 + 100%) * (1 + 100%) * (1 + 100%) = 800
+         * <p>
+         * 2. 100 * (1 + 100% + 100% + 100%) = 400
+         * <p>
+         * 由此可知，当加成数值较低，且加成次数较少时，两种方式的区别不大；反之则独立运算收益最大。
+         */
+        ALONE_PERCENTAGE,
+        /**
+         * 叠加百分比类型。
+         * <p>
+         * 当变量遇到此类型值时，首先计算所有同类型的总百分比加成，最后再与变量进行计算：变量 * (1 + 百分比 * N)
+         */
+        PERCENTAGE,
+        /**
+         * 因子类型。
+         * <p>
+         * 当变量遇到此类型值时，将在变量的基础上进行具备衰减性质的因子运算：因子 / (变量 + 因子) 。
+         * <p>
+         * 实际上是将变量从数值转为 (0, 1) 之间的浮点数（即百分比）。
+         * <p>
+         * 当因子为 100 时，不同变量的计算结果为：
+         * <p>
+         * 0. 100 / 100 = 1
+         * <p>
+         * 1. 100 / (10 + 100) ≈ 0.9090909090909091
+         * <p>
+         * 2. 100 / (20 + 100) ≈ 0.8333333333333333
+         * <p>
+         * 3. 100 / (30 + 100) ≈ 0.7692307692307692
+         * <p>
+         * 4. 100 / (40 + 100) ≈ 0.7142857142857143
+         * <p>
+         * 5. 100 / (50 + 100) ≈ 0.6666666666666666
+         * <p>
+         * 6. 100 / (100 + 100) = 0.5
+         * <p>
+         * 7. 100 / (150 + 100) = 0.4
+         * <p>
+         * 8. 100 / (200 + 100) ≈ 0.3333333333333333
+         * <p>
+         * 9. 100 / (300 + 100) = 0.25
+         * <p>
+         * 10. 100 / (400 + 100) = 0.2
+         * <p>
+         * 【衰减性质】
+         * <p>
+         * 每提升 10 变量的转换收益：
+         * <p>
+         * 0 - 1 ≈ 9.1%
+         * <p>
+         * 1 - 2 ≈ 7.6% -- 1.5%
+         * <p>
+         * 2 - 3 ≈ 6.4% -- 1.2%
+         * <p>
+         * 3 - 4 ≈ 5.5% -- 0.9%
+         * <p>
+         * 4 - 5 ≈ 4.8% -- 0.7%
+         * <p>
+         * 每提升 50 变量的转换收益：
+         * <p>
+         * 0 - 5 ≈ 33.4%
+         * <p>
+         * 5 - 6 ≈ 16.6% -- 16.8%
+         * <p>
+         * 6 - 7 ≈ 10.0% -- 6.6%
+         * <p>
+         * 7 - 8 ≈ 07.7% -- 2.3%
+         * <p>
+         * 每提升 100 变量：
+         * <p>
+         * 0 - 6 ≈ 50%
+         * <p>
+         * 6 - 8 ≈ 16.7% -- 33.3%
+         * <p>
+         * 8 - 9 ≈ 8.3% -- 8.4%
+         * <p>
+         * 9 - 10 ≈ 5.0% -- 3.3%
+         * <p>
+         * 由此可知，当变量递增时，转换收益持续递减，在相同的递增幅度下，转换收益的递减速度呈下降趋势。
+         * <p>
+         * 转换收益结论：
+         * <p>
+         * 当变量从 0 到与因子相等时，收益最大。
+         * <p>
+         * 当变量达到两倍因子数值时，收益缩减为前面的三分之一。
+         * <p>
+         * 当变量达到三倍因子数值时，收益缩减为前面的十二分之一。
+         * <p>
+         * 当变量达到四倍因子数值时，收益缩减为前面的三十分之一。
+         * <p>
+         * 因此，变量转换收益的最佳区间为不超过两倍因子数。
+         */
+        FACTOR,
     }
 }

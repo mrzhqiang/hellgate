@@ -74,7 +74,6 @@ public abstract class AuditableEntity extends BaseEntity {
      *
      * @return UTC 瞬间时刻。
      */
-    @SuppressWarnings("unused")
     protected Instant created() {
         return created;
     }
@@ -82,13 +81,12 @@ public abstract class AuditableEntity extends BaseEntity {
     /**
      * 最后修改时间。
      * <p>
-     * 这是一个 UTC 时间戳，通常应该转为本地时间，所以请调用 {@link #getLastModified()} 方法。
+     * 这是一个 UTC 时间戳，通常应该转为本地时间，所以请调用 {@link #getLocalLastModified()} 方法。
      * <p>
      * 本方法为受保护的访问级别，可以避免造成误解。
      *
      * @return UTC 瞬间时刻。
      */
-    @SuppressWarnings("unused")
     protected Instant lastModified() {
         return lastModified;
     }

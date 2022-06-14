@@ -1,5 +1,8 @@
 package hellgate.common.util;
 
+/**
+ * 角色常量。
+ */
 public final class Roles {
     private Roles() {
         // no instances

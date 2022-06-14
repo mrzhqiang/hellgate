@@ -4,7 +4,7 @@ package hellgate.common.exception;
  * 资源未找到异常。
  *
  * <p>
- * 主要用于抛出异常给 GlobalExceptionHandler 进行 404 处理。
+ * 主要用于抛出异常给 {@link GlobalExceptionHandler} 进行 404 处理。
  */
 public class ResourceNotFoundException extends RuntimeException {
 

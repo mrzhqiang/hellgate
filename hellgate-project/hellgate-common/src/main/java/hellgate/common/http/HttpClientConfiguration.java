@@ -1,7 +1,8 @@
-package hellgate.common.third;
+package hellgate.common.http;
 
 import com.github.mrzhqiang.helper.Environments;
 import io.reactivex.schedulers.Schedulers;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -20,8 +21,9 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.time.Duration;
 
-@EnableConfigurationProperties(HttpClientProperties.class)
+@Slf4j
 @Configuration
+@EnableConfigurationProperties(HttpClientProperties.class)
 public class HttpClientConfiguration {
 
     /**
@@ -30,7 +32,6 @@ public class HttpClientConfiguration {
      * {@link retrofit2.http.Url @Url} 注解可以重新定义访问网址，所以这里只是占位符，不具备实际意义。
      */
     private static final String BASE_URL_HOLDER = "http://localhost";
-    private static final int CONNECT_TIMEOUT = 3;
     private static final int CALL_TIMEOUT = 5;
 
     private final HttpClientProperties properties;
@@ -42,7 +43,7 @@ public class HttpClientConfiguration {
     @Bean
     public OkHttpClient okHttpClient() {
         return new OkHttpClient.Builder()
-                .connectTimeout(Duration.ofSeconds(CONNECT_TIMEOUT))
+                // 调用超时跨越整个调用：解析 DNS、连接、写入请求正文、服务器处理和读取响应正文。
                 .callTimeout(Duration.ofSeconds(CALL_TIMEOUT))
                 .cache(localCache())
                 .followSslRedirects(false)
@@ -52,7 +53,7 @@ public class HttpClientConfiguration {
     }
 
     private Interceptor loggingInterceptor() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(log::info);
         // IDEA 调试模式，打印细节
         loggingInterceptor.setLevel(Environments.debug() ? BODY : NONE);
         return loggingInterceptor;

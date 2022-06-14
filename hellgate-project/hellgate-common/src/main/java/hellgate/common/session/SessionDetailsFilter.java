@@ -1,11 +1,12 @@
 package hellgate.common.session;
 
-import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.net.HttpHeaders;
 import eu.bitwalker.useragentutils.UserAgent;
 import hellgate.common.util.Authentications;
+import hellgate.common.util.Splitters;
 import io.reactivex.observers.DefaultObserver;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -27,18 +28,24 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE + 101)
 public class SessionDetailsFilter extends OncePerRequestFilter {
 
-    public static final String SESSION_DETAILS = "SESSION_DETAILS";
+    /**
+     * 未知的 IP 对应地址。
+     */
     private static final String UNKNOWN = "(unknown-address)";
-    private static final String ACCESS_TYPE_FORMAT = "%s -- %s";
+    /**
+     * 访问类型模板。
+     */
+    private static final String ACCESS_TYPE_TEMPLATE = "%s -- %s";
+    /**
+     * 逗号分隔符。
+     */
+    private static final String COMMA = ",";
 
     private final SessionDetailsService service;
-
-    public SessionDetailsFilter(SessionDetailsService service) {
-        this.service = service;
-    }
 
     @Override
     public void doFilterInternal(@Nonnull HttpServletRequest request,
@@ -49,7 +56,7 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
         HttpSession session = request.getSession(false);
         // 如果存在会话并且已经登录
         if (session != null && Authentications.ofLogin().isPresent()) {
-            Object sessionDetails = session.getAttribute(SESSION_DETAILS);
+            Object sessionDetails = session.getAttribute(Sessions.SESSION_DETAILS_KEY);
             // 基于会话的特性，不用每次访问都寻找会话详情
             if (sessionDetails == null) {
                 findSessionDetail(request, session);
@@ -63,7 +70,7 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
         UserAgent userAgent = UserAgent.parseUserAgentString(userAgentText);
         String osName = userAgent.getOperatingSystem().getName();
         String browserName = userAgent.getBrowser().getName();
-        String accessType = Strings.lenientFormat(ACCESS_TYPE_FORMAT, osName, browserName);
+        String accessType = Strings.lenientFormat(ACCESS_TYPE_TEMPLATE, osName, browserName);
 
         String remoteAddress = this.findRemoteAddress(request);
         service.observeApi(remoteAddress)
@@ -73,7 +80,7 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
                     @Override
                     public void onNext(@Nonnull SessionDetails details) {
                         details.setAccessType(accessType);
-                        session.setAttribute(SESSION_DETAILS, details);
+                        session.setAttribute(Sessions.SESSION_DETAILS_KEY, details);
                     }
 
                     @Override
@@ -84,7 +91,7 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
                         details.setIp(remoteAddress);
                         details.setLocation(UNKNOWN);
                         details.setAccessType(accessType);
-                        session.setAttribute(SESSION_DETAILS, details);
+                        session.setAttribute(Sessions.SESSION_DETAILS_KEY, details);
                     }
 
                     @Override
@@ -98,8 +105,8 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
         String remoteAddr = request.getHeader(HttpHeaders.X_FORWARDED_FOR);
         if (remoteAddr == null) {
             remoteAddr = request.getRemoteAddr();
-        } else if (remoteAddr.contains(",")) {
-            remoteAddr = Splitter.on(',').split(remoteAddr).iterator().next();
+        } else if (remoteAddr.contains(COMMA)) {
+            remoteAddr = Splitters.COMMA.split(remoteAddr).iterator().next();
         }
         return remoteAddr;
     }

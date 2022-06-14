@@ -1,4 +1,4 @@
-package hellgate.common.idcard;
+package hellgate.common.account;
 
 import lombok.Data;
 

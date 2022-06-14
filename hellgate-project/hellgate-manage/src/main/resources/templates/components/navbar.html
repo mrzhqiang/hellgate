@@ -15,7 +15,7 @@
     </button>
     <ul class="navbar-nav ml-auto ml-md-0">
         <li class="nav-item dropdown no-arrow">
-            <a id="userDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+            <a id="userDropdown" class="nav-link dropdown-toggle" href="#" scriptRole="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:inline="text">
                 <i class="fas fa-user-circle fa-fw mr-1"></i><span sec:authentication="name"></span>
             </a>
@@ -29,9 +29,9 @@
         </li>
     </ul>
 
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+    <div class="modal fade" id="logoutModal" tabindex="-1" scriptRole="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" scriptRole="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel" th:text="#{admin.navbar.logout.confirm}"></h5>

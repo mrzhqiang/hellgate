@@ -1,4 +1,4 @@
-package hellgate.common.third;
+package hellgate.common.http;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -11,5 +11,5 @@ public interface PublicApi {
     String WHOIS_IP_URL = "http://whois.pconline.com.cn/ipJson.jsp";
 
     @GET
-    Observable<WhoisIpData> whoisIp(@Url String url, @Query("ip") String ip, @Query("json") boolean json);
+    Observable<WhoIsIpData> whoisIp(@Url String url, @Query("ip") String ip, @Query("json") boolean json);
 }

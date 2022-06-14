@@ -10,13 +10,13 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 /**
- * 确认密码表单。
+ * 密码确认表单。
  * <p>
  * 此表单一般用于修改密码时的二次确认。
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ConfirmPasswordForm extends RegisterForm {
+public class PasswordConfirmForm extends AccountForm {
 
     /**
      * 确认密码。

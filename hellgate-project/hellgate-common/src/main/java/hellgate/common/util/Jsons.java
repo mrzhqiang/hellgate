@@ -18,6 +18,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * JSON 工具。
+ * <p>
+ * 以 Spring Boot 默认采用的 Jackson 框架为主。
+ */
 public final class Jsons {
     private Jsons() {
         // no instances

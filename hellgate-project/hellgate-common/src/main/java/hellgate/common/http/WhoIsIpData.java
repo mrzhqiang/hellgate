@@ -1,9 +1,12 @@
-package hellgate.common.third;
+package hellgate.common.http;
 
 import lombok.Data;
 
+/**
+ * IP 相关数据。
+ */
 @Data
-public class WhoisIpData {
+public class WhoIsIpData {
 
     /**
      * 当前 IP 地址。
@@ -38,7 +41,7 @@ public class WhoisIpData {
      */
     private String addr;
     /**
-     * 县区名称？
+     * 区域名称汇总？
      */
     private String regionNames;
     /**

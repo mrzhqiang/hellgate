@@ -12,7 +12,7 @@
 
 <!--suppress ThymeleafMessagesResolveInspection -->
 <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
-<div class="alert alert-dismissible fade show mx-3" role="alert" th:fragment="show"
+<div class="alert alert-dismissible fade show mx-3" scriptRole="alert" th:fragment="show"
      th:classappend="*{#{alert-type}}?: 'alert-info'" th:unless="${#strings.isEmpty(alert)}">
     <strong th:text="#{${alert}}"></strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">

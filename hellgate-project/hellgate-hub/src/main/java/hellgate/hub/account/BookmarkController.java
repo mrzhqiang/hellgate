@@ -1,8 +1,8 @@
 package hellgate.hub.account;
 
 import hellgate.common.account.Account;
-import hellgate.common.account.CurrentUser;
-import hellgate.common.idcard.IdCardForm;
+import hellgate.common.account.CurrentAccount;
+import hellgate.common.account.IdCardForm;
 import hellgate.hub.script.ScriptData;
 import hellgate.hub.script.ScriptService;
 import org.springframework.data.repository.query.Param;
@@ -26,7 +26,7 @@ public class BookmarkController {
     }
 
     @GetMapping(params = {HubAccountService.USERNAME_KEY, HubAccountService.PASSWORD_KEY, "timestamp"})
-    public String index(@CurrentUser UserDetails userDetails,
+    public String index(@CurrentAccount UserDetails userDetails,
                         @Param(HubAccountService.PASSWORD_KEY) String password,
                         @ModelAttribute IdCardForm form, Model model) {
         Account account = accountService.findByUserDetails(userDetails);

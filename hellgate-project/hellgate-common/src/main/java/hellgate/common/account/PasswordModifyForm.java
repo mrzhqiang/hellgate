@@ -9,13 +9,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
- * 修改密码表单。
+ * 密码修改表单。
  * <p>
  * 此表单用于修改密码，需要提供旧密码验证是否具备修改权限。
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ModifyPasswordForm extends ConfirmPasswordForm {
+public class PasswordModifyForm extends PasswordConfirmForm {
 
     /**
      * 旧密码。

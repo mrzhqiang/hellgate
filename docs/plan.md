@@ -41,7 +41,7 @@ gantt
     admin account : s4, after s3, 3d
     init process : s5, after s4, 10d
     select script : s6, after s5, 1d
-    select role : s7, after s6, 1d
+    select scriptRole : s7, after s6, 1d
     create actor : s8, after s7, 3d
     into stage : s9, after s8, 3d
     section 2019 - 2022 Finished

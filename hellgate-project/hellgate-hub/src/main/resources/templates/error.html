@@ -10,14 +10,12 @@
     <div th:replace="components/fragments::refresh"></div>
     <!--suppress ThymeleafVariablesResolveInspection -->
     <div th:unless="${#strings.isEmpty(debug)}">
-        <h3 style="color: red">[[${status}]] - [[${error}]]</h3>
-        <!--/*@thymesVar id="path" type="java.lang.String"*/-->
-        <!--/*@thymesVar id="timestamp" type="java.lang.String"*/-->
-        <p th:text="${timestamp}"></p>
-        <!--/*@thymesVar id="message" type="String"*/-->
-        <p th:text="${message}"></p>
-        <!--/*@thymesVar id="trace" type="java.lang.String"*/-->
-        <p th:unless="${#strings.isEmpty(trace)}" th:text="${trace}"></p>
+        <h3 style="color: red">[[${data.status}]] - [[${data.error}]]</h3>
+        <!--/*@thymesVar id="data" type="hellgate.common.exception.ExceptionLogData"*/-->
+        <p th:text="|${data.method} ${data.url}?${data.query}|"></p>
+        <p th:text="|${data.remoteAddress} - ${data.sessionId}|"></p>
+        <p th:text="|${data.timestamp} - ${data.message}|"></p>
+        <p th:unless="${#strings.isEmpty(data.trace)}" th:text="${data.trace}"></p>
     </div>
 </div>
 </body>

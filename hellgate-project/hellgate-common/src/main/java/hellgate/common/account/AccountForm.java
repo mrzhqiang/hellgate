@@ -9,12 +9,12 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * 注册表单。
+ * 账号表单。
  * <p>
- * 此表单用于注册账号。
+ * 此表单用于注册、登录。
  */
 @Data
-public class RegisterForm {
+public class AccountForm {
 
     /**
      * 用户名。

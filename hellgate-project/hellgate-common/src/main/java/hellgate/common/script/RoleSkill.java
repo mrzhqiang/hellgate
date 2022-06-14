@@ -5,17 +5,18 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import java.math.BigDecimal;
 
+/**
+ * 角色技能。
+ */
 @Getter
 @Setter
 @ToString(callSuper = true)
 @Entity
-public class Skill extends AuditableEntity {
+public class RoleSkill extends AuditableEntity {
 
     /**
      * 技能名称。
@@ -60,31 +61,44 @@ public class Skill extends AuditableEntity {
      */
     private Integer maxLevel;
     /**
-     * 消耗
+     * 最小消耗
      */
-    private BigDecimal consume;
-
-    private BigDecimal maxConsume;
-    private BigDecimal power;
-    private BigDecimal maxPower;
-
+    private Integer minConsume;
     /**
-     * 描述模板。
+     * 最大消耗。
      */
-    @Column(length = 2000)
+    private Integer maxConsume;
+    /**
+     * 最小伤害。
+     */
+    private Integer minPower;
+    /**
+     * 最大伤害。
+     */
+    private Integer maxPower;
+    /**
+     * 简介。
+     */
+    private String description;
+    /**
+     * 消息模板。
+     */
     private String template;
 
+    /**
+     * 技能类型。
+     */
     public enum Type {
         /**
-         * 攻击技能。
+         * 攻击。
          */
         ATTACK,
         /**
-         * 被动技能。
+         * 被动。
          */
         PASSIVE,
         /**
-         * 状态技能。
+         * 状态。
          */
         STATUS,
     }

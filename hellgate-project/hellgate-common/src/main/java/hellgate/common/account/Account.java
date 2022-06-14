@@ -2,7 +2,6 @@ package hellgate.common.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hellgate.common.audit.AuditableEntity;
-import hellgate.common.idcard.IdCard;
 import hellgate.common.script.Script;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,11 +23,13 @@ import java.util.Collection;
  * <p>
  * 从开发角度来看，这实际上是类似单点登录的解决方案：
  * <p>
- * 1. 用户首先登录账号中心，获得指定游戏的跳转链接
+ * 1. 用户首先登录账号中心，获得注册的游戏列表
  * <p>
- * 2. 随后携带账号认证信息访问跳转链接，此时指定游戏自动调用认证接口
+ * 2. 访问列表中的某一个游戏，携带账号认证信息跳转链接
  * <p>
- * 3. 认证成功则创建会话，认证失败则回退到账号中心
+ * 3. 指定游戏开始解析认证信息，并向账号中心进行认证
+ * <p>
+ * 4. 认证成功则创建会话，认证失败则重定向到账号中心
  * <p>
  * 目前有两种实现方案：
  * <p>
@@ -43,6 +44,8 @@ import java.util.Collection;
 @ToString(callSuper = true)
 @Entity
 public class Account extends AuditableEntity implements UserDetails {
+
+    private static final long serialVersionUID = 5162282743335524644L;
 
     /**
      * 用户名。
@@ -63,7 +66,7 @@ public class Account extends AuditableEntity implements UserDetails {
      * <p>
      * 创建时指定，加密存储。
      * <p>
-     * 密码绝对不允许明文存储，通过 Spring Security Crypto 的 PasswordEncoder 可以进行随机盐编码处理。
+     * 密码绝对不允许明文存储，通过 Spring Security Crypto 的 PasswordEncoder 类进行随机盐编码处理。
      */
     @JsonIgnore
     @ToString.Exclude
@@ -86,7 +89,7 @@ public class Account extends AuditableEntity implements UserDetails {
     /**
      * 锁定时间戳。
      * <p>
-     * 此时间戳如果不存在，或处于未来时间点，则说明账号被锁定。
+     * 如果时间戳存在且处于未来的时间点，则说明账号被锁定。
      */
     private Instant locked;
     /**
@@ -101,18 +104,18 @@ public class Account extends AuditableEntity implements UserDetails {
      * 用于未成年人防沉迷验证，同时控制账号数量。
      * <p>
      * 由于网页文字游戏很难去支撑一个面部识别系统，因此单纯的身份证绑定账号，并不能真正实现未成年人防沉迷功能。
+     * <p>
+     * 但国家政策必须响应。
      */
     @ManyToOne
     @ToString.Exclude
     private IdCard card;
     /**
-     * 历史剧本。
-     * <p>
-     * 只记录最近一次访问过的剧本。
+     * 最近一次访问的剧本。
      */
     @ManyToOne
     @ToString.Exclude
-    private Script historyScript;
+    private Script lastScript;
 
     /**
      * 获取授予权限列表。

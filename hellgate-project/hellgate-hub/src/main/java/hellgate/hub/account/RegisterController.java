@@ -1,7 +1,7 @@
 package hellgate.hub.account;
 
 import com.google.common.base.Strings;
-import hellgate.common.account.RegisterForm;
+import hellgate.common.account.AccountForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -21,12 +21,12 @@ public class RegisterController {
     }
 
     @GetMapping
-    public String index(@ModelAttribute RegisterForm form) {
+    public String index(@ModelAttribute AccountForm form) {
         return "account/register";
     }
 
     @PostMapping
-    public String register(@Validated @ModelAttribute RegisterForm form, BindingResult result) {
+    public String register(@Validated @ModelAttribute AccountForm form, BindingResult result) {
         if (result.hasErrors()) {
             return "account/register";
         }

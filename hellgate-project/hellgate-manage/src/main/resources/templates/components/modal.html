@@ -9,9 +9,9 @@
 一般来说，复杂的对话框通常复制这里的代码去自定义。
 -->
 
-<div class="modal fade" id="dialogModal" tabindex="-1" role="dialog" aria-labelledby="dialogModalTitle"
+<div class="modal fade" id="dialogModal" tabindex="-1" scriptRole="dialog" aria-labelledby="dialogModalTitle"
      aria-hidden="true" th:fragment="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" scriptRole="document">
         <div class="modal-content">
             <div class="modal-header">
                 <!--/*@thymesVar id="title" type=""*/-->
@@ -39,9 +39,9 @@
         th:data-name="${auth.userId}">删除
 </button>
 -->
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle"
+<div class="modal fade" id="deleteModal" tabindex="-1" scriptRole="dialog" aria-labelledby="deleteModalTitle"
      aria-hidden="true" th:fragment="delete">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered" scriptRole="document">
         <div class="modal-content">
             <div class="modal-header">
                 <!--/*@thymesVar id="name" type=""*/-->

@@ -1,6 +1,5 @@
-package hellgate.common.idcard;
+package hellgate.common.account;
 
-import hellgate.common.account.Account;
 import hellgate.common.audit.AuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +29,7 @@ public class IdCard extends AuditableEntity {
     @Column(nullable = false, unique = true)
     private String number;
     /**
-     * 姓名。
+     * 身份证姓名。
      */
     @Column(nullable = false)
     private String fullName;

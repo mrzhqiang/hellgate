@@ -8,23 +8,28 @@
 <div>
     <br>
     <img src="#" th:src="@{/images/passport_1.png}" alt="pic"><br>
+    <!--/*@thymesVar id="password" type="java.lang.String"*/-->
     <span th:unless="${#strings.isEmpty(password)}" th:text="#{id-card.bookmark}"></span><br>
+    <!--/*@thymesVar id="username" type="java.lang.String"*/-->
     <span th:text="|#{id-card.username}${username}|"></span><br>
+    <!--/*@thymesVar id="uid" type="java.lang.String"*/-->
     <span th:text="|#{id-card.uid}${uid}|"></span><br>
     <span th:text="#{id-card.tips}"></span><br>
     <!--/*@thymesVar id="message" type="java.lang.String"*/-->
     <p style="color: red" th:unless="${#strings.isEmpty(message)}" th:text="#{${message}}"></p>
     <div th:replace="components/fragments::sessionException"></div>
-    <!--/*@thymesVar id="idCardForm" type="hellgate.common.idcard.IdCardForm"*/-->
+    <!--/*@thymesVar id="idCardForm" type="hellgate.common.account.IdCardForm"*/-->
     <form method="post" action="#" th:action="@{/id-card}" th:object="${idCardForm}">
         <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}">
             <p style="color: red" th:unless="${#strings.isEmpty(err)}" th:text="${err}"></p>
         </div>
         <span th:text="#{id-card.input.number}"></span><br>
+        <!--suppress HtmlFormInputWithoutLabel -->
         <input type="text" name="number" th:value="*{number}" required autofocus>
         <div style="color: red" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></div>
         <br>
         <span th:text="#{id-card.input.fullName}"></span><br>
+        <!--suppress HtmlFormInputWithoutLabel -->
         <input type="text" name="fullName" th:value="*{fullName}" required>
         <div style="color: red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
         <br>

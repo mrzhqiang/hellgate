@@ -1,8 +1,8 @@
 package hellgate.hub.account;
 
 import hellgate.common.account.Account;
-import hellgate.common.account.CurrentUser;
-import hellgate.common.idcard.IdCardForm;
+import hellgate.common.account.CurrentAccount;
+import hellgate.common.account.IdCardForm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ public class IdCardController {
     @PostMapping
     public String bind(@Validated @ModelAttribute IdCardForm form,
                        BindingResult result, Model model,
-                       @CurrentUser UserDetails userDetails) {
+                       @CurrentAccount UserDetails userDetails) {
         Account account = hubAccountService.findByUserDetails(userDetails);
         model.addAttribute(HubAccountService.USERNAME_KEY, account.getUsername());
         model.addAttribute(HubAccountService.UID_KEY, account.getUid());

@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * 当前用户。
+ * 当前账号。
  * <p>
  * 这是一个可以从当前会话中得到 {@link UserDetails} 的注解。
  * <p>
@@ -21,5 +21,6 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @AuthenticationPrincipal
-public @interface CurrentUser {
+public @interface CurrentAccount {
+    // nothing here
 }

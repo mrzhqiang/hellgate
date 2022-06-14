@@ -9,6 +9,8 @@ import static org.springframework.security.web.authentication.UsernamePasswordAu
 
 /**
  * 账号服务。
+ * <p>
+ * 作为基础服务，被具体模块的账号服务继承，提供通用的接口方法。
  */
 public interface AccountService extends UserDetailsService, UserDetailsPasswordService {
 

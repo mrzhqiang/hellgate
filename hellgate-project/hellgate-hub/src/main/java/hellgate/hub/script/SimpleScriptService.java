@@ -38,7 +38,7 @@ public class SimpleScriptService implements ScriptService {
 
     @Override
     public ScriptData loadBy(Account account) {
-        Script historyScript = account.getHistoryScript();
+        Script historyScript = account.getLastScript();
         Script latestScript = repository.findTopByActiveTrueAndTypeOrderByCreatedDesc(Script.Type.NEW)
                 .map(it -> this.handleUrl(it, account))
                 .orElse(null);
@@ -56,7 +56,7 @@ public class SimpleScriptService implements ScriptService {
             String name = Strings.lenientFormat(NAME_TEMPLATE, properties.getTitle(), script.getName());
             script.setName(name);
             if (Strings.isNullOrEmpty(script.getLabel())) {
-                String messageCode = script.getType().getMessageCode();
+                String messageCode = script.getType().getDescription();
                 script.setLabel(Strings.lenientFormat(LABEL_TEMPLATE, accessor.getMessage(messageCode)));
             }
         }

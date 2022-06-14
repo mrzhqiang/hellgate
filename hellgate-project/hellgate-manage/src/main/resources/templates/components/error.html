@@ -11,7 +11,7 @@
 -->
 
 <div th:if="${#fields.hasGlobalErrors()}" th:fragment="global">
-    <div class="alert alert-danger alert-dismissible fade show" role="alert"
+    <div class="alert alert-danger alert-dismissible fade show" scriptRole="alert"
          th:each="err : ${#fields.globalErrors()}" th:unless="${#strings.isEmpty(err)}">
         <!--/*@thymesVar id="alert" type="java.lang.String"*/-->
         <small th:text="${err}"></small>
