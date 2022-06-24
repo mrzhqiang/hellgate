@@ -12,9 +12,6 @@ public class LoginController {
 
     @GetMapping
     public String index(@ModelAttribute AccountForm form) {
-        if (true) {
-            throw new RuntimeException("1111");
-        }
         return "account/login";
     }
 }

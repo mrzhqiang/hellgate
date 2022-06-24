@@ -3,7 +3,6 @@ package hellgate.common.exception;
 import com.github.mrzhqiang.helper.Environments;
 import com.google.common.base.VerifyException;
 import hellgate.common.util.Views;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,13 +24,17 @@ import java.util.Optional;
  */
 @Slf4j
 @RestControllerAdvice
-@AllArgsConstructor
 public class GlobalExceptionHandler {
 
     private static final String DEF_TRACE_ON_PRODUCTION = "请联系您的系统管理员";
 
     private final ExceptionLogMapper logMapper;
     private final ExceptionLogRepository logRepository;
+
+    public GlobalExceptionHandler(ExceptionLogMapper logMapper, ExceptionLogRepository logRepository) {
+        this.logMapper = logMapper;
+        this.logRepository = logRepository;
+    }
 
     /**
      * 处理客户端错误请求的异常。

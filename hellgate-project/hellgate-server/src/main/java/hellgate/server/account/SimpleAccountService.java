@@ -20,21 +20,21 @@ public class SimpleAccountService implements AccountService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String usernameOrUid) throws UsernameNotFoundException {
-        return repository.findByUsername(usernameOrUid)
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("AccountService.usernameNotFound"));
     }
 
     @Override
-    public Account findByUserDetails(UserDetails userDetails) {
-        return repository.findByUsername(userDetails.getUsername())
+    public Account findByUser(UserDetails user) {
+        return repository.findByUsername(user.getUsername())
                 // 基本上不可能出现，除非数据库无法访问，或者已删除对应 username 的 account 表数据
                 .orElseThrow(() -> new RuntimeException("当前会话无法找到对应的账户信息"));
     }
 
     @Override
     public UserDetails updatePassword(UserDetails user, String newPassword) {
-        Account account = this.findByUserDetails(user);
+        Account account = this.findByUser(user);
         if (log.isDebugEnabled()) {
             log.debug("update password: {} to {}", account.getPassword(), newPassword);
         }

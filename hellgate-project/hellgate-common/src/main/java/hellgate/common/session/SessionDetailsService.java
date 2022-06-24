@@ -4,7 +4,6 @@ import com.maxmind.geoip2.DatabaseReader;
 import hellgate.common.http.PublicApi;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +16,17 @@ import java.net.InetAddress;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
 public class SessionDetailsService {
 
     private final PublicApi api;
     private final DatabaseReader reader;
     private final SessionDetailsMapper mapper;
+
+    public SessionDetailsService(PublicApi api, DatabaseReader reader, SessionDetailsMapper mapper) {
+        this.api = api;
+        this.reader = reader;
+        this.mapper = mapper;
+    }
 
     /**
      * 通过第三方 API 将 IP 转换为包含地理位置的会话详情。

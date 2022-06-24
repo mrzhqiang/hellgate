@@ -3,6 +3,7 @@ package hellgate.hub.config;
 import com.github.mrzhqiang.helper.Environments;
 import com.github.mrzhqiang.kaptcha.autoconfigure.KaptchaProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,7 +25,7 @@ public class WebsiteConfiguration implements CommandLineRunner {
 
     public WebsiteConfiguration(WebsiteProperties websiteProperties,
                                 KaptchaProperties kaptchaProperties,
-                                ThymeleafViewResolver resolver) {
+                                @Qualifier("thymeleafViewResolver") ThymeleafViewResolver resolver) {
         this.websiteProperties = websiteProperties;
         this.kaptchaProperties = kaptchaProperties;
         this.resolver = resolver;

@@ -1,8 +1,7 @@
 package hellgate.hub.script;
 
 import hellgate.common.account.Account;
-import hellgate.common.account.AccountService;
-import hellgate.common.account.CurrentAccount;
+import hellgate.common.account.CurrentUser;
 import hellgate.hub.account.HubAccountService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -24,10 +23,10 @@ public class ScriptController {
     }
 
     @GetMapping
-    public String index(@CurrentAccount UserDetails userDetails, Model model) {
-        Account account = accountService.findByUserDetails(userDetails);
-        model.addAttribute(AccountService.USERNAME_KEY, account.getUsername());
-        model.addAttribute(AccountService.UID_KEY, account.getUid());
+    public String index(@CurrentUser UserDetails userDetails, Model model) {
+        Account account = accountService.findByUser(userDetails);
+        model.addAttribute(HubAccountService.USERNAME_KEY, account.getUsername());
+        model.addAttribute(HubAccountService.UID_KEY, account.getUid());
 
         ScriptData data = scriptService.loadBy(account);
         model.addAttribute("data", data);

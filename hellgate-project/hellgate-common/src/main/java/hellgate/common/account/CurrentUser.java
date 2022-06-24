@@ -9,18 +9,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * 当前账号。
+ * 当前用户。
  * <p>
- * 这是一个可以从当前会话中得到 {@link UserDetails} 的注解。
+ * 通过此注解，可以从当前会话中得到 {@link UserDetails} 实例。
  * <p>
- * 主要利用：{@link Authentication#getPrincipal()} 来获得实例。
+ * 主要利用：{@link Authentication#getPrincipal()} 来获得实例对象。
  * <p>
- * 类型必须与 {@link UserDetails} 接口的实现类保持一致，否则将得到 Null 值。
+ * 所标记的类必须是 {@link UserDetails} 接口，或其实现类，否则将得到 Null 值。
  *
  * @see AuthenticationPrincipalArgumentResolver
  */
 @Retention(RetentionPolicy.RUNTIME)
 @AuthenticationPrincipal
-public @interface CurrentAccount {
+public @interface CurrentUser {
     // nothing here
 }

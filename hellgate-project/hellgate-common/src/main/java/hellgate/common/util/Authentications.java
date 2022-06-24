@@ -1,6 +1,6 @@
 package hellgate.common.util;
 
-import hellgate.common.account.CurrentAccount;
+import hellgate.common.account.CurrentUser;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.core.Authentication;
@@ -30,7 +30,7 @@ public final class Authentications {
     /**
      * 当前安全上下文的认证信息。
      * <p>
-     * 这个方法可以被 {@link CurrentAccount} 替代，用于 Controller 层的方法参数。
+     * 这个方法可以被 {@link CurrentUser} 替代，用于 Controller 层的方法参数。
      */
     public static Optional<Authentication> ofCurrent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

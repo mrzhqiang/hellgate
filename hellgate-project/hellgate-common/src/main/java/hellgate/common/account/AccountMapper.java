@@ -1,5 +1,6 @@
 package hellgate.common.account;
 
+import hellgate.common.script.ScriptMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -33,7 +34,7 @@ import org.mapstruct.MappingTarget;
  * <p>
  * 所谓数据化处理，一个鲜明的例子就是，先通过 Service 拿到对应的 Data 类，之后的映射就变得简单了。
  */
-@Mapper(componentModel = "spring", uses = {IdCardMapper.class})
+@Mapper(componentModel = "spring", uses = {ScriptMapper.class})
 public interface AccountMapper {
 
     AccountData toData(Account entity);

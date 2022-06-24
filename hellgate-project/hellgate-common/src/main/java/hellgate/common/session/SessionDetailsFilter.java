@@ -6,7 +6,6 @@ import eu.bitwalker.useragentutils.UserAgent;
 import hellgate.common.util.Authentications;
 import hellgate.common.util.Splitters;
 import io.reactivex.observers.DefaultObserver;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -28,7 +27,6 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
-@AllArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE + 101)
 public class SessionDetailsFilter extends OncePerRequestFilter {
 
@@ -46,6 +44,10 @@ public class SessionDetailsFilter extends OncePerRequestFilter {
     private static final String COMMA = ",";
 
     private final SessionDetailsService service;
+
+    public SessionDetailsFilter(SessionDetailsService service) {
+        this.service = service;
+    }
 
     @Override
     public void doFilterInternal(@Nonnull HttpServletRequest request,

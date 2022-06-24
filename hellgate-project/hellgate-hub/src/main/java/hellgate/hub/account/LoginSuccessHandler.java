@@ -1,7 +1,9 @@
 package hellgate.hub.account;
 
 import com.google.common.base.Strings;
+import hellgate.common.account.AccountService;
 import hellgate.hub.config.SecurityProperties;
+import okhttp3.HttpUrl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -15,12 +17,12 @@ import java.time.Instant;
 @Component
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    private final SecurityProperties properties;
+    private final SecurityProperties securityProperties;
 
-    public LoginSuccessHandler(SecurityProperties properties) {
-        this.properties = properties;
+    public LoginSuccessHandler(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
         setAlwaysUseDefaultTargetUrl(true);
-        setDefaultTargetUrl(properties.getDefaultSuccessUrl());
+        setDefaultTargetUrl(securityProperties.getDefaultSuccessUrl());
     }
 
     @Override
@@ -30,11 +32,15 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         String username = request.getParameter(HubAccountService.USERNAME_KEY);
         String password = request.getParameter(HubAccountService.PASSWORD_KEY);
         if (!Strings.isNullOrEmpty(username) && !Strings.isNullOrEmpty(password)) {
-            String url = Strings.lenientFormat(properties.getBookmarkTemplate(),
-                    username, password, Instant.now().getEpochSecond());
+            String bookmarkPath = securityProperties.getBookmarkPath();
+            String url = HttpUrl.get(bookmarkPath).newBuilder()
+                    .addQueryParameter(AccountService.USERNAME_KEY, username)
+                    .addQueryParameter(AccountService.PASSWORD_KEY, password)
+                    .addQueryParameter("timestamp", String.valueOf(Instant.now().getEpochSecond()))
+                    .toString();
             setDefaultTargetUrl(url);
         } else {
-            setDefaultTargetUrl(properties.getDefaultSuccessUrl());
+            setDefaultTargetUrl(securityProperties.getDefaultSuccessUrl());
         }
         super.onAuthenticationSuccess(request, response, authentication);
     }

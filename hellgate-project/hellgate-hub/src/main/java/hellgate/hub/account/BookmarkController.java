@@ -1,7 +1,7 @@
 package hellgate.hub.account;
 
 import hellgate.common.account.Account;
-import hellgate.common.account.CurrentAccount;
+import hellgate.common.account.CurrentUser;
 import hellgate.common.account.IdCardForm;
 import hellgate.hub.script.ScriptData;
 import hellgate.hub.script.ScriptService;
@@ -20,17 +20,19 @@ public class BookmarkController {
     private final HubAccountService accountService;
     private final ScriptService scriptService;
 
-    public BookmarkController(HubAccountService accountService, ScriptService scriptService) {
+    public BookmarkController(HubAccountService accountService,
+                              ScriptService scriptService) {
         this.accountService = accountService;
         this.scriptService = scriptService;
     }
 
     @GetMapping(params = {HubAccountService.USERNAME_KEY, HubAccountService.PASSWORD_KEY, "timestamp"})
-    public String index(@CurrentAccount UserDetails userDetails,
+    public String index(@CurrentUser UserDetails user,
+                        @Param(HubAccountService.USERNAME_KEY) String username,
                         @Param(HubAccountService.PASSWORD_KEY) String password,
                         @ModelAttribute IdCardForm form, Model model) {
-        Account account = accountService.findByUserDetails(userDetails);
-        model.addAttribute(HubAccountService.USERNAME_KEY, account.getUsername());
+        Account account = accountService.findByUser(user);
+        model.addAttribute(HubAccountService.USERNAME_KEY, username);
         model.addAttribute(HubAccountService.UID_KEY, account.getUid());
         model.addAttribute(HubAccountService.PASSWORD_KEY, password);
         if (account.getCard() == null) {

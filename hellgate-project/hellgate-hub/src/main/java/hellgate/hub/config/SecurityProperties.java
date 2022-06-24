@@ -13,33 +13,28 @@ import java.time.Duration;
 @ConfigurationProperties("security")
 public class SecurityProperties {
 
-    public static final String ERROR_SUFFIX = "?error";
-
     private static final String DEF_HOME_PATH = "/";
+    private static final String DEF_INDEX_PATH = "/index";
     private static final String DEF_LOGIN_PATH = "/login";
+    private static final String ERROR_SUFFIX = "?error";
+    private static final String DEF_LOGIN_FAILED_PATH = DEF_LOGIN_PATH + ERROR_SUFFIX;
     private static final String DEF_REGISTER_PATH = "/register";
-    private static final String DEF_REGISTER_ERROR_PATH = DEF_REGISTER_PATH + ERROR_SUFFIX;
-    private static final String[] DEF_IGNORE_PATH = {};
-    private static final String[] DEF_PUBLIC_PATH = {DEF_HOME_PATH, "/index", DEF_LOGIN_PATH, DEF_REGISTER_PATH};
+    private static final String DEF_REGISTER_FAILED_PATH = DEF_REGISTER_PATH + ERROR_SUFFIX;
     private static final String DEF_BOOKMARK_PATH = "/bookmark";
-    private static final String DEF_BOOKMARK_TEMPLATE = DEF_BOOKMARK_PATH + "?username=%s&password=%s&timestamp=%s";
-
+    private static final String[] DEF_IGNORE_PATH = {};
+    private static final String[] DEF_PUBLIC_PATH = {DEF_HOME_PATH, DEF_INDEX_PATH, DEF_LOGIN_PATH, DEF_REGISTER_PATH};
     private static final int DEF_MAX_LOGIN_FAILED = 5;
     private static final Duration DEF_LOCKED_DURATION = Duration.ofMinutes(5);
     private static final Duration DEF_FIRST_FAILED_DURATION = Duration.ofHours(1);
 
     /**
-     * 可忽略安全策略的路径。
-     */
-    private String[] ignorePath = DEF_IGNORE_PATH;
-    /**
-     * 无需认证的公开路径。
-     */
-    private String[] publicPath = DEF_PUBLIC_PATH;
-    /**
      * 登录路径。
      */
     private String loginPath = DEF_LOGIN_PATH;
+    /**
+     * 登录失败跳转路径。
+     */
+    private String loginFailedPath = DEF_LOGIN_FAILED_PATH;
     /**
      * 注册路径。
      */
@@ -47,7 +42,7 @@ public class SecurityProperties {
     /**
      * 注册失败跳转路径。
      */
-    private String registerErrorPath = DEF_REGISTER_ERROR_PATH;
+    private String registerFailedPath = DEF_REGISTER_FAILED_PATH;
     /**
      * 认证成功默认跳转的地址。
      */
@@ -57,9 +52,15 @@ public class SecurityProperties {
      */
     private String bookmarkPath = DEF_BOOKMARK_PATH;
     /**
-     * 书签模板
+     * 可忽略安全策略的路径。
+     * <p>
+     * 追加到 {@link org.springframework.boot.autoconfigure.security.StaticResourceLocation 静态资源地址} 之后。
      */
-    private String bookmarkTemplate = DEF_BOOKMARK_TEMPLATE;
+    private String[] ignorePath = DEF_IGNORE_PATH;
+    /**
+     * 无需认证的公开路径。
+     */
+    private String[] publicPath = DEF_PUBLIC_PATH;
     /**
      * 最大登录失败次数。
      * <p>

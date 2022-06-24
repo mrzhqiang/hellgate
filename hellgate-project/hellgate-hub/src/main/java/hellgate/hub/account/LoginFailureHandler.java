@@ -33,6 +33,8 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
         this.properties = properties;
         this.repository = repository;
         this.accessor = new MessageSourceAccessor(messageSource);
+        // 自定义失败处理器，我们需要固定失败的重定向地址
+        setDefaultFailureUrl(properties.getLoginFailedPath());
     }
 
     @Override
