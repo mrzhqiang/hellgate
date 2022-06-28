@@ -1,6 +1,6 @@
 package hellgate.common.stage;
 
-import hellgate.common.audit.AuditableEntity;
+import hellgate.common.domain.AuditableEntity;
 import hellgate.common.script.RoleSkill;
 import lombok.Getter;
 import lombok.Setter;

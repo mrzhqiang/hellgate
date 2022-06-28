@@ -1,7 +1,7 @@
 package hellgate.common.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import hellgate.common.audit.AuditableEntity;
+import hellgate.common.domain.AuditableEntity;
 import hellgate.common.script.Script;
 import lombok.Getter;
 import lombok.Setter;

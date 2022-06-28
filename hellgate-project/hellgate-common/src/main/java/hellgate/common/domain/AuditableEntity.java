@@ -1,4 +1,4 @@
-package hellgate.common.audit;
+package hellgate.common.domain;
 
 import hellgate.common.domain.BaseEntity;
 import lombok.Getter;
