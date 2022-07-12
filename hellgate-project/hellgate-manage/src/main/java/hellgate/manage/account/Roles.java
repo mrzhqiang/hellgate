@@ -1,4 +1,4 @@
-package hellgate.common.util;
+package hellgate.manage.account;
 
 /**
  * 角色常量。

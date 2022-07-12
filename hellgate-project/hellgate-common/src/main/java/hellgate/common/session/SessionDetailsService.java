@@ -1,7 +1,7 @@
 package hellgate.common.session;
 
 import com.maxmind.geoip2.DatabaseReader;
-import hellgate.common.http.PublicApi;
+import hellgate.common.api.WhoisApi;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +18,11 @@ import java.net.InetAddress;
 @Service
 public class SessionDetailsService {
 
-    private final PublicApi api;
+    private final WhoisApi api;
     private final DatabaseReader reader;
     private final SessionDetailsMapper mapper;
 
-    public SessionDetailsService(PublicApi api, DatabaseReader reader, SessionDetailsMapper mapper) {
+    public SessionDetailsService(WhoisApi api, DatabaseReader reader, SessionDetailsMapper mapper) {
         this.api = api;
         this.reader = reader;
         this.mapper = mapper;
@@ -32,7 +32,7 @@ public class SessionDetailsService {
      * 通过第三方 API 将 IP 转换为包含地理位置的会话详情。
      */
     public Observable<SessionDetails> observeApi(String ip) {
-        return api.whoisIp(PublicApi.WHOIS_IP_URL, ip, true)
+        return api.ipJson(ip, true)
                 .subscribeOn(Schedulers.io())
                 .map(mapper::toDetails);
     }

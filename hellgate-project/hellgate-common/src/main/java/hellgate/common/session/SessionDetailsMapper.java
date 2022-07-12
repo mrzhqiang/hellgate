@@ -2,7 +2,7 @@ package hellgate.common.session;
 
 import com.google.common.base.Strings;
 import com.maxmind.geoip2.model.CityResponse;
-import hellgate.common.http.WhoIsIpData;
+import hellgate.common.api.WhoIsIpData;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

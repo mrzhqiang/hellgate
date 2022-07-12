@@ -1,4 +1,4 @@
-package hellgate.common.http;
+package hellgate.common.api;
 
 import com.google.common.collect.Lists;
 import com.maxmind.db.CHMCache;
@@ -6,6 +6,7 @@ import com.maxmind.geoip2.DatabaseReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import retrofit2.Retrofit;
 
 import java.io.InputStream;
 
@@ -15,7 +16,7 @@ import java.io.InputStream;
  * 在系统中，主要是将 IP 地址转换地理空间位置，需要用到本地数据库和第三方 API 请求。
  */
 @Configuration
-public class LocationConfiguration {
+public class IpLocationConfiguration {
 
     @Bean
     public DatabaseReader geoDatabaseReader(@Value("classpath:GeoLite2-City.mmdb")
@@ -31,5 +32,13 @@ public class LocationConfiguration {
                 // 或重写缓存节点的实现，改为中间件缓存，比如 Redis 内存数据库
                 .withCache(new CHMCache())
                 .build();
+    }
+
+    @Bean
+    public WhoisApi whoisApi(Retrofit retrofit) {
+        return retrofit.newBuilder()
+                .baseUrl(WhoisApi.BASE_URL)
+                .build()
+                .create(WhoisApi.class);
     }
 }

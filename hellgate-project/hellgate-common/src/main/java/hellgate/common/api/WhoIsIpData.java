@@ -1,4 +1,4 @@
-package hellgate.common.http;
+package hellgate.common.api;
 
 import lombok.Data;
 

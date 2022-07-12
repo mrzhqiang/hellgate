@@ -1,6 +1,6 @@
-package hellgate.common.system;
+package hellgate.common.dict;
 
-import hellgate.common.domain.AuditableEntity;
+import hellgate.common.AuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -41,7 +41,7 @@ public class DictGroup extends AuditableEntity {
      * 分组类型。
      */
     @Enumerated(EnumType.STRING)
-    private Type type = Type.DB;
+    private Type type;
     /**
      * 字典来源。
      * <p>

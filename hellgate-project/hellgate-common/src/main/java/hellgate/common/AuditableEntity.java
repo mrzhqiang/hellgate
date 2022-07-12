@@ -1,6 +1,5 @@
-package hellgate.common.domain;
+package hellgate.common;
 
-import hellgate.common.domain.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

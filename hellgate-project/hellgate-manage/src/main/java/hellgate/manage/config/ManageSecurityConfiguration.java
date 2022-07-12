@@ -1,6 +1,6 @@
 package hellgate.manage.config;
 
-import hellgate.common.util.Roles;
+import hellgate.manage.account.Roles;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableConfigurationProperties(SecurityProperties.class)
 @EnableWebSecurity
 @Configuration
-public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+public class ManageSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
     private static final String ADMIN_PATH = "/admin/**";
     private static final String USER_PATH = "/user/**";

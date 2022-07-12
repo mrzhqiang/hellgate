@@ -1,4 +1,4 @@
-package hellgate.common.http;
+package hellgate.common.api;
 
 import com.github.mrzhqiang.helper.Environments;
 import io.reactivex.schedulers.Schedulers;
@@ -8,7 +8,6 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
-import static okhttp3.logging.HttpLoggingInterceptor.Level.NONE;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,24 +18,24 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.time.Duration;
 
 @Slf4j
 @Configuration
-@EnableConfigurationProperties(HttpClientProperties.class)
-public class HttpClientConfiguration {
+@EnableConfigurationProperties(ApiProperties.class)
+public class ApiConfiguration {
 
     /**
      * BaseUrl 占位符。
      * <p>
      * {@link retrofit2.http.Url @Url} 注解可以重新定义访问网址，所以这里只是占位符，不具备实际意义。
+     * <p>
+     * 另外，也可以通过 newBuilder 重新构建 Retrofit 实例，但底层依然共享 OkHttp 相关配置。
      */
     private static final String BASE_URL_HOLDER = "http://localhost";
-    private static final int CALL_TIMEOUT = 5;
 
-    private final HttpClientProperties properties;
+    private final ApiProperties properties;
 
-    public HttpClientConfiguration(HttpClientProperties properties) {
+    public ApiConfiguration(ApiProperties properties) {
         this.properties = properties;
     }
 
@@ -44,7 +43,7 @@ public class HttpClientConfiguration {
     public OkHttpClient okHttpClient() {
         return new OkHttpClient.Builder()
                 // 调用超时跨越整个调用：解析 DNS、连接、写入请求正文、服务器处理和读取响应正文。
-                .callTimeout(Duration.ofSeconds(CALL_TIMEOUT))
+                .callTimeout(properties.getCallTimeout())
                 .cache(localCache())
                 .followSslRedirects(false)
                 .followRedirects(false)
@@ -52,21 +51,8 @@ public class HttpClientConfiguration {
                 .build();
     }
 
-    private Interceptor loggingInterceptor() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(log::info);
-        // IDEA 调试模式，打印细节
-        loggingInterceptor.setLevel(Environments.debug() ? BODY : NONE);
-        return loggingInterceptor;
-    }
-
-    private Cache localCache() {
-        File directory = Paths.get(properties.getCachePath()).toFile();
-        long maxSize = properties.getCacheMaxSize().toBytes();
-        return new Cache(directory, maxSize);
-    }
-
     @Bean
-    public Retrofit ipLocationRetrofit(OkHttpClient client) {
+    public Retrofit retrofit(OkHttpClient client) {
         return new Retrofit.Builder()
                 .client(client)
                 .baseUrl(BASE_URL_HOLDER)
@@ -76,8 +62,16 @@ public class HttpClientConfiguration {
                 .build();
     }
 
-    @Bean
-    public PublicApi ipLocationAPi(Retrofit retrofit) {
-        return retrofit.create(PublicApi.class);
+    private Cache localCache() {
+        File directory = Paths.get(properties.getCachePath()).toFile();
+        long maxSize = properties.getCacheMaxSize().toBytes();
+        return new Cache(directory, maxSize);
+    }
+
+    private Interceptor loggingInterceptor() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(log::info);
+        // IDEA 调试模式，打印细节；否则由配置决定
+        loggingInterceptor.setLevel(Environments.debug() ? BODY : properties.getLoggingLevel());
+        return loggingInterceptor;
     }
 }

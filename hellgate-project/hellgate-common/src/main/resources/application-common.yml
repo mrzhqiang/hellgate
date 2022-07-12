@@ -1,7 +1,3 @@
-http:
-  client:
-    cache-path: ${user.dir}/.cache
-    cache-max-size: 1GB
 spring:
   jpa:
     hibernate:
@@ -23,3 +19,8 @@ spring:
       max-lifetime: 30000
       connection-timeout: 30000
       connection-test-query: SELECT 1
+api:
+  cache-path: ${user.dir}/.cache
+  cache-max-size: 1GB
+  call-timeout: 5s
+  logging-level: BASIC
