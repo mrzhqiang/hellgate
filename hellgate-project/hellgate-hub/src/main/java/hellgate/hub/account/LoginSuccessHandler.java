@@ -2,7 +2,7 @@ package hellgate.hub.account;
 
 import com.google.common.base.Strings;
 import hellgate.common.account.AccountService;
-import hellgate.hub.config.SecurityProperties;
+import hellgate.hub.config.HubSecurityProperties;
 import okhttp3.HttpUrl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -17,12 +17,12 @@ import java.time.Instant;
 @Component
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    private final SecurityProperties securityProperties;
+    private final HubSecurityProperties hubSecurityProperties;
 
-    public LoginSuccessHandler(SecurityProperties securityProperties) {
-        this.securityProperties = securityProperties;
+    public LoginSuccessHandler(HubSecurityProperties hubSecurityProperties) {
+        this.hubSecurityProperties = hubSecurityProperties;
         setAlwaysUseDefaultTargetUrl(true);
-        setDefaultTargetUrl(securityProperties.getDefaultSuccessUrl());
+        setDefaultTargetUrl(hubSecurityProperties.getDefaultSuccessUrl());
     }
 
     @Override
@@ -32,7 +32,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         String username = request.getParameter(HubAccountService.USERNAME_KEY);
         String password = request.getParameter(HubAccountService.PASSWORD_KEY);
         if (!Strings.isNullOrEmpty(username) && !Strings.isNullOrEmpty(password)) {
-            String bookmarkPath = securityProperties.getBookmarkPath();
+            String bookmarkPath = hubSecurityProperties.getBookmarkPath();
             String url = HttpUrl.get(bookmarkPath).newBuilder()
                     .addQueryParameter(AccountService.USERNAME_KEY, username)
                     .addQueryParameter(AccountService.PASSWORD_KEY, password)
@@ -40,7 +40,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
                     .toString();
             setDefaultTargetUrl(url);
         } else {
-            setDefaultTargetUrl(securityProperties.getDefaultSuccessUrl());
+            setDefaultTargetUrl(hubSecurityProperties.getDefaultSuccessUrl());
         }
         super.onAuthenticationSuccess(request, response, authentication);
     }

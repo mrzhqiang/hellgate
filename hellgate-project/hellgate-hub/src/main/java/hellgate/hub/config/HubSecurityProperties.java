@@ -11,7 +11,7 @@ import java.time.Duration;
 @Setter
 @ToString
 @ConfigurationProperties("security")
-public class SecurityProperties {
+public class HubSecurityProperties {
 
     private static final String DEF_HOME_PATH = "/";
     private static final String DEF_INDEX_PATH = "/index";

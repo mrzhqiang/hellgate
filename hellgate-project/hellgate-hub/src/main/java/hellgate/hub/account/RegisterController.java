@@ -2,9 +2,7 @@ package hellgate.hub.account;
 
 import com.google.common.base.Strings;
 import hellgate.common.account.AccountForm;
-import hellgate.common.account.AccountService;
-import hellgate.hub.config.SecurityProperties;
-import okhttp3.HttpUrl;
+import hellgate.hub.config.HubSecurityProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -23,12 +21,12 @@ public class RegisterController {
             + "=%s&" + HubAccountService.PASSWORD_KEY + "=%s&timestamp=%s";
 
     private final HubAccountService hubAccountService;
-    private final SecurityProperties securityProperties;
+    private final HubSecurityProperties hubSecurityProperties;
 
     public RegisterController(HubAccountService hubAccountService,
-                              SecurityProperties securityProperties) {
+                              HubSecurityProperties hubSecurityProperties) {
         this.hubAccountService = hubAccountService;
-        this.securityProperties = securityProperties;
+        this.hubSecurityProperties = hubSecurityProperties;
     }
 
     @GetMapping
@@ -48,7 +46,7 @@ public class RegisterController {
             return "account/register";
         }
 
-        String bookmarkPath = securityProperties.getBookmarkPath();
+        String bookmarkPath = hubSecurityProperties.getBookmarkPath();
         String successUrl = Strings.lenientFormat(BOOKMARK_TEMPLATE,
                 bookmarkPath, form.getUsername(), form.getPassword(), Instant.now().getEpochSecond());
         return "redirect:" + successUrl;

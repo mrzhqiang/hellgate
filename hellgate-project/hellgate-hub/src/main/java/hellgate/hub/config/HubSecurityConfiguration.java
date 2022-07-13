@@ -23,15 +23,15 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@EnableConfigurationProperties({SecurityProperties.class})
+@EnableConfigurationProperties({HubSecurityProperties.class})
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class HubSecurityConfiguration {
 
-    private final SecurityProperties properties;
+    private final HubSecurityProperties properties;
     private final KaptchaProperties kaptchaProperties;
 
-    public SecurityConfiguration(SecurityProperties properties,
-                                 KaptchaProperties kaptchaProperties) {
+    public HubSecurityConfiguration(HubSecurityProperties properties,
+                                    KaptchaProperties kaptchaProperties) {
         this.properties = properties;
         this.kaptchaProperties = kaptchaProperties;
     }
