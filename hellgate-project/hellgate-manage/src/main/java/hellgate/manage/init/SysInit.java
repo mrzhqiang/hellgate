@@ -1,6 +1,6 @@
 package hellgate.manage.init;
 
-import hellgate.common.BaseEntity;
+import hellgate.common.domain.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

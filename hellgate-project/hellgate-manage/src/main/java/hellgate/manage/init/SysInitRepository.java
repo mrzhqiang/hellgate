@@ -9,5 +9,4 @@ public interface SysInitRepository extends JpaRepository<SysInit, Long> {
     boolean existsByName(String name);
 
     Optional<SysInit> findByName(String name);
-
 }

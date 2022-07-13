@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * 自动初始化器。
  * <p>
- * 注意：必须将此接口的实现类标记为 {@link Component} 组件。并在 {@link AutoInitializerOrderRegistration} 中进行顺序注册，否则将无法保证初始化顺序。
+ * 注意：必须将此接口的实现类标记为 {@link Component} 组件。并在 {@link AutoInitializationOrderRegistration} 中进行顺序注册，否则将无法保证初始化顺序。
  * <p>
  * 关于 CommandLineRunner 接口：用于在系统启动时，自动调用当前接口的实现类。
  * <p>
@@ -63,6 +63,6 @@ public interface AutoInitializer extends CommandLineRunner, Ordered {
 
     @Override
     default int getOrder() {
-        return AutoInitializerOrderRegistration.find(this);
+        return AutoInitializationOrderRegistration.find(this);
     }
 }

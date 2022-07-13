@@ -9,8 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @Setter
 @ToString
-@ConfigurationProperties("security")
-public class SecurityProperties {
+@ConfigurationProperties("manage.security")
+public class ManageSecurityProperties {
 
     private static final boolean DEF_REMEMBER_ME = !Environments.debug();
     private static final String DEF_HOME_PATH = "/";

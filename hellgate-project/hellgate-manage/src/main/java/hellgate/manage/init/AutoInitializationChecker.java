@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 @Order(1)
 @Component
-public final class SysInitChecker implements ApplicationRunner {
+public final class AutoInitializationChecker implements ApplicationRunner {
 
     private final SysInitMapper mapper;
     private final SysInitRepository repository;
@@ -37,9 +37,9 @@ public final class SysInitChecker implements ApplicationRunner {
      */
     private final List<AutoInitializer> autoInitializers;
 
-    public SysInitChecker(SysInitMapper mapper,
-                          SysInitRepository repository,
-                          List<AutoInitializer> autoInitializers) {
+    public AutoInitializationChecker(SysInitMapper mapper,
+                                     SysInitRepository repository,
+                                     List<AutoInitializer> autoInitializers) {
         this.mapper = mapper;
         this.repository = repository;
         this.autoInitializers = autoInitializers;

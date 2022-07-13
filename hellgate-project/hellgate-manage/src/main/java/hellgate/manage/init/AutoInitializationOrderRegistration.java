@@ -1,6 +1,6 @@
 package hellgate.manage.init;
 
-import hellgate.common.OrderStep;
+import hellgate.common.system.OrderStep;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.Optional;
  * @see org.springframework.security.config.annotation.web.builders.FilterOrderRegistration
  */
 @SuppressWarnings("JavadocReference")
-final class AutoInitializerOrderRegistration {
+final class AutoInitializationOrderRegistration {
 
     /**
      * 起始顺序。
@@ -30,7 +30,7 @@ final class AutoInitializerOrderRegistration {
 
     static {
         OrderStep order = new OrderStep(INITIAL_ORDER, ORDER_STEP);
-        put(DictAutoInitializer.class, order.next());
+        put(DataDictAutoInitializer.class, order.next());
         put(SysSettingAutoInitializer.class, order.next());
     }
 

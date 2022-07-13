@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@EnableConfigurationProperties(SecurityProperties.class)
+@EnableConfigurationProperties(ManageSecurityProperties.class)
 @EnableWebSecurity
 @Configuration
 public class ManageSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
@@ -40,12 +40,12 @@ public class ManageSecurityConfiguration extends GlobalAuthenticationConfigurerA
     @Configuration
     static class WebsiteSecurityAdapter extends WebSecurityConfigurerAdapter {
 
-        private final SecurityProperties securityProperties;
+        private final ManageSecurityProperties manageSecurityProperties;
         private final UserDetailsService userDetailsService;
 
-        public WebsiteSecurityAdapter(SecurityProperties securityProperties,
+        public WebsiteSecurityAdapter(ManageSecurityProperties manageSecurityProperties,
                                       UserDetailsService userDetailsService) {
-            this.securityProperties = securityProperties;
+            this.manageSecurityProperties = manageSecurityProperties;
             this.userDetailsService = userDetailsService;
         }
 
@@ -53,21 +53,21 @@ public class ManageSecurityConfiguration extends GlobalAuthenticationConfigurerA
         public void configure(WebSecurity web) {
             web.ignoring()
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                    .antMatchers(securityProperties.getIgnorePath());
+                    .antMatchers(manageSecurityProperties.getIgnorePath());
         }
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.userDetailsService(userDetailsService)
                     .authorizeRequests()
-                    .antMatchers(securityProperties.getPublicPath()).permitAll()
+                    .antMatchers(manageSecurityProperties.getPublicPath()).permitAll()
                     .antMatchers(USER_PATH).hasRole(Roles.RAW_USER)
                     .antMatchers(ADMIN_PATH).hasRole(Roles.RAW_ADMIN)
                     .anyRequest().authenticated()
-                    .and().formLogin().loginPage(securityProperties.getLoginPath()).permitAll()
-                    .defaultSuccessUrl(securityProperties.getDefaultSuccessUrl())
+                    .and().formLogin().loginPage(manageSecurityProperties.getLoginPath()).permitAll()
+                    .defaultSuccessUrl(manageSecurityProperties.getDefaultSuccessUrl())
                     .and().logout().permitAll();
-            if (securityProperties.getRememberMe()) {
+            if (manageSecurityProperties.getRememberMe()) {
                 http.rememberMe();
             }
         }

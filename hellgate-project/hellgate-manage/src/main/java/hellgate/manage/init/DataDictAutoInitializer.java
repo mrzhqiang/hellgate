@@ -1,13 +1,13 @@
 package hellgate.manage.init;
 
 import com.google.common.base.Stopwatch;
-import hellgate.common.dict.DictGroup;
-import hellgate.common.dict.DictGroupData;
-import hellgate.common.dict.DictGroupMapper;
-import hellgate.common.dict.DictGroupRepository;
-import hellgate.common.dict.DictItem;
-import hellgate.common.dict.DictItemMapper;
-import hellgate.common.dict.DictItemRepository;
+import hellgate.common.system.DataDictGroup;
+import hellgate.common.system.DataDictGroupData;
+import hellgate.common.system.DataDictGroupMapper;
+import hellgate.common.system.DataDictGroupRepository;
+import hellgate.common.system.DataDictItem;
+import hellgate.common.system.DataDictItemMapper;
+import hellgate.common.system.DataDictItemRepository;
 import hellgate.common.util.Jsons;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,20 +23,20 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class DictAutoInitializer extends BaseAutoInitializer {
+public class DataDictAutoInitializer extends BaseAutoInitializer {
 
-    private final DictGroupRepository groupRepository;
-    private final DictGroupMapper groupMapper;
-    private final DictItemRepository itemRepository;
-    private final DictItemMapper itemMapper;
+    private final DataDictGroupRepository groupRepository;
+    private final DataDictGroupMapper groupMapper;
+    private final DataDictItemRepository itemRepository;
+    private final DataDictItemMapper itemMapper;
 
-    @Value(ResourceUtils.CLASSPATH_URL_PREFIX + "data/dict.json")
+    @Value(ResourceUtils.CLASSPATH_URL_PREFIX + "data/data-dict.json")
     private Resource resource;
 
-    public DictAutoInitializer(DictGroupRepository groupRepository,
-                               DictGroupMapper groupMapper,
-                               DictItemRepository itemRepository,
-                               DictItemMapper itemMapper) {
+    public DataDictAutoInitializer(DataDictGroupRepository groupRepository,
+                                   DataDictGroupMapper groupMapper,
+                                   DataDictItemRepository itemRepository,
+                                   DataDictItemMapper itemMapper) {
         this.groupRepository = groupRepository;
         this.groupMapper = groupMapper;
         this.itemRepository = itemRepository;
@@ -55,28 +55,28 @@ public class DictAutoInitializer extends BaseAutoInitializer {
         }
 
         File dataFile = resource.getFile();
-        List<DictGroupData> groups = Jsons.listFromFile(dataFile, DictGroupData.class);
+        List<DataDictGroupData> groups = Jsons.listFromFile(dataFile, DataDictGroupData.class);
         if (CollectionUtils.isEmpty(groups)) {
             log.warn("数据字典 json 文件没有解析到数据，跳过初始化过程，耗时：{}", stopwatch.stop());
             return false;
         }
 
-        for (DictGroupData group : groups) {
+        for (DataDictGroupData group : groups) {
             log.debug("保存数据字典数据 {}", group);
 
-            DictGroup groupEntity = groupMapper.toEntity(group);
-            groupEntity.setType(DictGroup.Type.DB);
+            DataDictGroup groupEntity = groupMapper.toEntity(group);
+            groupEntity.setType(DataDictGroup.Type.DB);
             log.debug("保存数据字典分组 {}", groupEntity);
-            DictGroup dictGroup = groupRepository.save(groupEntity);
+            DataDictGroup dataDictGroup = groupRepository.save(groupEntity);
 
             if (CollectionUtils.isEmpty(group.getItems())) {
                 log.warn("数据字典分组 {} 的字典项为空", groupEntity.getName());
                 continue;
             }
 
-            List<DictItem> itemList = group.getItems().stream()
+            List<DataDictItem> itemList = group.getItems().stream()
                     .map(itemMapper::toEntity)
-                    .peek(it -> it.setGroup(dictGroup))
+                    .peek(it -> it.setGroup(dataDictGroup))
                     .collect(Collectors.toList());
             log.debug("保存字典项 {} 到字典分组 {}", itemList, groupEntity.getName());
             itemRepository.saveAll(itemList);

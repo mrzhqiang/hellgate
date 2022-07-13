@@ -1,10 +1,10 @@
 package hellgate.manage.init;
 
 import com.google.common.base.Stopwatch;
-import hellgate.common.setting.SysSetting;
-import hellgate.common.setting.SysSettingData;
-import hellgate.common.setting.SysSettingMapper;
-import hellgate.common.setting.SysSettingRepository;
+import hellgate.common.system.SysSetting;
+import hellgate.common.system.SysSettingData;
+import hellgate.common.system.SysSettingMapper;
+import hellgate.common.system.SysSettingRepository;
 import hellgate.common.util.Jsons;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +25,7 @@ public class SysSettingAutoInitializer extends BaseAutoInitializer {
     private final SysSettingMapper mapper;
     private final SysSettingRepository repository;
 
-    @Value(ResourceUtils.CLASSPATH_URL_PREFIX + "data/setting.json")
+    @Value(ResourceUtils.CLASSPATH_URL_PREFIX + "data/sys-setting.json")
     private Resource resource;
 
     public SysSettingAutoInitializer(SysSettingMapper mapper,
