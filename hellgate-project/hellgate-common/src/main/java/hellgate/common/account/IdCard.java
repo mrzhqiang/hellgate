@@ -1,6 +1,6 @@
 package hellgate.common.account;
 
-import hellgate.common.AuditableEntity;
+import hellgate.common.domain.AuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -1,4 +1,4 @@
-package hellgate.common;
+package hellgate.common.config;
 
 import hellgate.common.util.Authentications;
 import org.springframework.context.annotation.Bean;

@@ -1,11 +1,11 @@
-package hellgate.common.dict;
+package hellgate.common.system;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class DictItemData {
+public class DataDictItemData {
 
     @NotBlank
     private String label;

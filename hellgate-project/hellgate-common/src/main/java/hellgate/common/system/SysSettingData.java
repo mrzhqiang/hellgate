@@ -1,4 +1,4 @@
-package hellgate.common.setting;
+package hellgate.common.system;
 
 import lombok.Data;
 

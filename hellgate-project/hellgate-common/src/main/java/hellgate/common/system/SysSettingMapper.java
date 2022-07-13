@@ -1,19 +1,20 @@
-package hellgate.common.dict;
+package hellgate.common.system;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface DictItemMapper {
+public interface SysSettingMapper {
 
-    DictItemData toData(DictItem entity);
+    SysSettingData toData(SysSetting entity);
 
     @Mapping(target = "version", ignore = true)
+    @Mapping(target = "parent", ignore = true)
+    @Mapping(target = "children", ignore = true)
     @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "lastModified", ignore = true)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "group", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "created", ignore = true)
-    DictItem toEntity(DictItemData data);
+    SysSetting toEntity(SysSettingData data);
 }

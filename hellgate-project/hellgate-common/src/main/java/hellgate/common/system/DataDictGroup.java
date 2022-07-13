@@ -1,6 +1,6 @@
-package hellgate.common.dict;
+package hellgate.common.system;
 
-import hellgate.common.AuditableEntity;
+import hellgate.common.domain.AuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,7 +21,7 @@ import java.util.List;
 @Setter
 @ToString(callSuper = true)
 @Entity
-public class DictGroup extends AuditableEntity {
+public class DataDictGroup extends AuditableEntity {
 
     /**
      * 分组名称。
@@ -56,7 +56,7 @@ public class DictGroup extends AuditableEntity {
      */
     @ToString.Exclude
     @OneToMany(mappedBy = "group")
-    private List<DictItem> items;
+    private List<DataDictItem> items;
 
     /**
      * 字典分组类型。

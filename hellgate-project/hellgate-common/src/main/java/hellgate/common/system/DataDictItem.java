@@ -1,6 +1,6 @@
-package hellgate.common.dict;
+package hellgate.common.system;
 
-import hellgate.common.AuditableEntity;
+import hellgate.common.domain.AuditableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
 @Setter
 @ToString(callSuper = true)
 @Entity
-public class DictItem extends AuditableEntity {
+public class DataDictItem extends AuditableEntity {
 
     /**
      * 标签。
@@ -38,5 +38,5 @@ public class DictItem extends AuditableEntity {
      * 当前字典项所在分组。
      */
     @ManyToOne
-    private DictGroup group;
+    private DataDictGroup group;
 }

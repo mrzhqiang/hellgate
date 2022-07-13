@@ -1,20 +1,20 @@
-package hellgate.common.setting;
+package hellgate.common.system;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
-public interface SysSettingMapper {
+@Mapper(componentModel = "spring", uses = DataDictItemMapper.class)
+public interface DataDictGroupMapper {
 
-    SysSettingData toData(SysSetting entity);
+    DataDictGroupData toData(DataDictGroup entity);
 
+    @Mapping(target = "items", ignore = true)
     @Mapping(target = "version", ignore = true)
-    @Mapping(target = "parent", ignore = true)
-    @Mapping(target = "children", ignore = true)
+    @Mapping(target = "source", ignore = true)
     @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "lastModified", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "created", ignore = true)
-    SysSetting toEntity(SysSettingData data);
+    DataDictGroup toEntity(DataDictGroupData data);
 }

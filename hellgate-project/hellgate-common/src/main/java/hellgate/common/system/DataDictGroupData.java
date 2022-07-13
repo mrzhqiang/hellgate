@@ -1,4 +1,4 @@
-package hellgate.common.dict;
+package hellgate.common.system;
 
 import lombok.Data;
 
@@ -7,14 +7,14 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
-public class DictGroupData {
+public class DataDictGroupData {
 
     @NotBlank
     private String name;
     @NotBlank
     private String code;
     @NotNull
-    private DictGroup.Type type;
+    private DataDictGroup.Type type;
 
-    private List<DictItemData> items;
+    private List<DataDictItemData> items;
 }

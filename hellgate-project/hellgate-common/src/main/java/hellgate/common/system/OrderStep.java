@@ -1,4 +1,4 @@
-package hellgate.common;
+package hellgate.common.system;
 
 /**
  * 排序步骤。

@@ -1,4 +1,4 @@
-package hellgate.common;
+package hellgate.common.domain;
 
 import lombok.Getter;
 import lombok.Setter;
