@@ -27,6 +27,8 @@ import java.util.stream.Stream;
 @Entity
 public class AdminAccount extends AuditableEntity implements UserDetails {
 
+    private static final long serialVersionUID = -7254232105405627617L;
+
     @Column(updatable = false, unique = true, nullable = false)
     private String username;
     @JsonIgnore
